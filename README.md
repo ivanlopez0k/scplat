@@ -71,7 +71,7 @@ The system is based on a relational database structure using MySQL.
 - Real-time messaging (WebSockets)  
 - Notifications system  
 - Authentication with JWT  
-- Frontend dashboard (React / Angular)  
+- Frontend dashboard (Angular)  
 - Admin panel  
 - Report generation  
 
@@ -90,7 +90,7 @@ This project was built to practice:
 
 ## 📌 Author
 
-**Your Name**
+**d.ail**
 
 ---
 
