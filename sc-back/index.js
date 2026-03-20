@@ -8,6 +8,9 @@ const cors = require('cors');
 const config = require('./config/config');
 const validateEnv = require('./middlewares/validateEnv');
 
+// routes
+const userRoutes = require('./routes/user.routes');
+
 const app = express();
 
 validateEnv.validate();
@@ -52,5 +55,7 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log('sc-plat back working at ', PORT)
 });
+
+app.use('/user', userRoutes);
 
 module.exports = app;
