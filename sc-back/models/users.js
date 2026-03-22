@@ -12,7 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
+      User.hasMany(models.Ps, {foreignKey: 'parent_id'});
+      User.hasMany(models.Ps, {foreignKey: 'student_id'});
+      User.hasMany(models.Message, {foreignKey: 'sender', as: 'SentMessages'});
+      User.hasMany(models.Message, {foreignKey: 'receiver', as: 'ReceivedMessages'});
+      User.hasMany(models.Grade, {foreignKey: 'student_id'});
+      User.hasMany(models.Exam, { foreignKey: 'teacher_id'});
+      User.hasMany(models.Enrollment, { foreignKey: 'student_id' });
+      User.hasMany(models.Tc, { foreignKey: 'teacher_id'});
     }
   }
   User.init({
