@@ -10,6 +10,11 @@ const validateEnv = require('./middlewares/validateEnv');
 
 // routes
 const userRoutes = require('./routes/user.routes');
+const subjectRoutes = require('./routes/subject.routes');
+
+
+
+//app
 
 const app = express();
 
@@ -57,5 +62,6 @@ app.listen(PORT, () => {
 });
 
 app.use('/user', userRoutes);
+app.use('/subjects', subjectRoutes);
 
 module.exports = app;
