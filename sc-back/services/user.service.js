@@ -1,10 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { User } = require('../models')
+const { User } = require('../models');
 
 async function register(name, lastname, dni, email, password, role) {
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const exUser = await User.findOne({ where: { email: email } });
+
+    if(exUser){
+        throw new Error('This email is already used')
+    }
 
     const user = await User.create({
         name,
@@ -18,4 +24,23 @@ async function register(name, lastname, dni, email, password, role) {
     return user;
 }
 
-module.exports = {register}
+async function login(email, password){
+    const user = await User.findOne({where:{email: email}});
+
+    if(!user){
+        throw new Error('User not found')
+    };
+    const encryptedPass = await bcrypt.compare(password, user.password);
+
+    if(!encryptedPass){
+        throw new Error('Incorrect Password')
+    };
+
+    const token = jwt.sign({
+        id:user.id, name: user.name, lastname: user.lastname, dni: user.dni, email: user.email, role: user.role
+    }, process.env.JWTSECRET)
+    console.log(token);
+    return token
+}
+
+module.exports = {register, login}

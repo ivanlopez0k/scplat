@@ -12,4 +12,16 @@ async function regUser(req, res){
     }
 }
 
-module.exports = { regUser }
+async function login(req, res){
+    const { email, password } = req.body;
+
+    try{
+        const login = await userService.login(email,password)
+        res.status(200).send('Bienvenido', login)
+    }catch(error){
+        res.status(400).json('User not found')
+        console.log(error);
+    }
+}
+
+module.exports = { regUser, login }
