@@ -13,6 +13,7 @@ const userRoutes = require('./routes/user.routes');
 const subjectRoutes = require('./routes/subject.routes');
 const coursesRoutes = require('./routes/course.routes');
 const courseSubjectRoutes = require('./routes/course_subject.routes');
+const teacherCoursesRoutes = require('./routes/teacher_courses.routes');
 
 
 //app
@@ -66,5 +67,6 @@ app.use('/user', userRoutes);
 app.use('/subjects', subjectRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/cs', courseSubjectRoutes);
+app.use('/tc', teacherCoursesRoutes);
 
 module.exports = app;
