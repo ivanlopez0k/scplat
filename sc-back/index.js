@@ -9,12 +9,15 @@ const config = require('./config/config');
 const validateEnv = require('./middlewares/validateEnv');
 
 // routes
+
 const userRoutes = require('./routes/user.routes');
 const subjectRoutes = require('./routes/subject.routes');
 const coursesRoutes = require('./routes/course.routes');
 const courseSubjectRoutes = require('./routes/course_subject.routes');
 const teacherCoursesRoutes = require('./routes/teacher_courses.routes');
 const enrollmentRoutes = require('./routes/enrollment.routes');
+const examRoutes = require('./routes/exam.routes');
+
 
 
 //app
@@ -70,5 +73,6 @@ app.use('/courses', coursesRoutes);
 app.use('/cs', courseSubjectRoutes);
 app.use('/tc', teacherCoursesRoutes);
 app.use('/enrollment', enrollmentRoutes);
+app.use('/exam', examRoutes);
 
 module.exports = app;
