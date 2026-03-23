@@ -12,6 +12,7 @@ const validateEnv = require('./middlewares/validateEnv');
 const userRoutes = require('./routes/user.routes');
 const subjectRoutes = require('./routes/subject.routes');
 const coursesRoutes = require('./routes/course.routes');
+const courseSubjectRoutes = require('./routes/course_subject.routes');
 
 
 //app
@@ -64,5 +65,6 @@ app.listen(PORT, () => {
 app.use('/user', userRoutes);
 app.use('/subjects', subjectRoutes);
 app.use('/courses', coursesRoutes);
+app.use('/cs', courseSubjectRoutes);
 
 module.exports = app;
