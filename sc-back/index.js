@@ -18,6 +18,8 @@ const teacherCoursesRoutes = require('./routes/teacher_courses.routes');
 const enrollmentRoutes = require('./routes/enrollment.routes');
 const examRoutes = require('./routes/exam.routes');
 const gradeRoutes = require('./routes/grade.routes');
+const messageRoutes = require('./routes/message.routes');
+const parentStudentsRoutes = require('./routes/parent_student.routes');
 
 
 //app
@@ -75,5 +77,7 @@ app.use('/tc', teacherCoursesRoutes);
 app.use('/enrollment', enrollmentRoutes);
 app.use('/exam', examRoutes);
 app.use('/grade', gradeRoutes);
+app.use('/message', messageRoutes);
+app.use('/ps', parentStudentsRoutes);
 
 module.exports = app;

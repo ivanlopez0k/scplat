@@ -17,7 +17,7 @@ async function login(req, res){
 
     try{
         const login = await userService.login(email,password)
-        res.status(200).send('Bienvenido', login)
+        res.status(200).json({ message: 'Bienvenido', token: login })
     }catch(error){
         res.status(400).json('User not found')
         console.log(error);

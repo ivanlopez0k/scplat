@@ -38,7 +38,7 @@ async function login(email, password){
 
     const token = jwt.sign({
         id:user.id, name: user.name, lastname: user.lastname, dni: user.dni, email: user.email, role: user.role
-    }, process.env.JWTSECRET)
+    }, process.env.JWTSECRET, {expiresIn: '8h'})
     console.log(token);
     return token
 }
