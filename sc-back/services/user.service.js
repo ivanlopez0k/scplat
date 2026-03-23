@@ -43,4 +43,10 @@ async function login(email, password){
     return token
 }
 
-module.exports = {register, login}
+async function getUsers() {
+    const user = await User.findAll();
+    return user;
+}
+
+
+module.exports = {register, login, getUsers}

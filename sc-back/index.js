@@ -17,7 +17,7 @@ const courseSubjectRoutes = require('./routes/course_subject.routes');
 const teacherCoursesRoutes = require('./routes/teacher_courses.routes');
 const enrollmentRoutes = require('./routes/enrollment.routes');
 const examRoutes = require('./routes/exam.routes');
-
+const gradeRoutes = require('./routes/grade.routes');
 
 
 //app
@@ -74,5 +74,6 @@ app.use('/cs', courseSubjectRoutes);
 app.use('/tc', teacherCoursesRoutes);
 app.use('/enrollment', enrollmentRoutes);
 app.use('/exam', examRoutes);
+app.use('/grade', gradeRoutes);
 
 module.exports = app;
