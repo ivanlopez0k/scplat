@@ -1,7 +1,83 @@
+require('dotenv').config();
+const models = require('./models')
+const logger = require('./utils/winston.logger');
 const express = require('express');
+const helmet = require('helmet');
+const session = require('express-session');
+const cors = require('cors');
+const config = require('./config/config');
+const validateEnv = require('./middlewares/validateEnv');
+
+// routes
+
+const userRoutes = require('./routes/user.routes');
+const subjectRoutes = require('./routes/subject.routes');
+const coursesRoutes = require('./routes/course.routes');
+const courseSubjectRoutes = require('./routes/course_subject.routes');
+const teacherCoursesRoutes = require('./routes/teacher_courses.routes');
+const enrollmentRoutes = require('./routes/enrollment.routes');
+const examRoutes = require('./routes/exam.routes');
+const gradeRoutes = require('./routes/grade.routes');
+const messageRoutes = require('./routes/message.routes');
+const parentStudentsRoutes = require('./routes/parent_student.routes');
+
+
+//app
 
 const app = express();
-const PORT = 3000;
-app.listen(PORT, ()=>{
-    console.log('sc-plat back working at ', PORT)
+
+validateEnv.validate();
+
+// Body parsers
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Security
+app.use(helmet());
+
+// CORS
+app.use(cors({ credentials: true, origin: true }));
+
+// Sessions
+if (config.environment === 'production') {
+  app.set('trust proxy', 1);
+}
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    sameSite: 'strict',
+    secure: config.environment === 'production',
+  },
+}));
+
+// DB connection
+models.sequelize.authenticate()
+  .then(() => {
+    logger.api.debug('Conexión con la Base de Datos: EXITOSA');
+  })
+  .catch((err) => {
+    logger.api.error('Conexión con la Base de Datos: FALLIDA');
+    logger.api.error(err);
 });
+
+// Server
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log('sc-plat back working at ', PORT)
+});
+
+app.use('/user', userRoutes);
+app.use('/subjects', subjectRoutes);
+app.use('/courses', coursesRoutes);
+app.use('/cs', courseSubjectRoutes);
+app.use('/tc', teacherCoursesRoutes);
+app.use('/enrollment', enrollmentRoutes);
+app.use('/exam', examRoutes);
+app.use('/grade', gradeRoutes);
+app.use('/message', messageRoutes);
+app.use('/ps', parentStudentsRoutes);
+
+module.exports = app;
