@@ -1,0 +1,38 @@
+/* ── Exam Row ── */
+.exam-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.exam-row + .exam-row {
+  border-top: 1px solid #eee;
+}
+
+.exam-row__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exam-row__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.exam-row__detail {
+  font-size: 13px;
+  color: #888;
+}
+
+.exam-row__date {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a8a3c;
+  background: #e8f5e0;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}

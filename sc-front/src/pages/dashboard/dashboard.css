@@ -1,0 +1,562 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
+
+/* ═══════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════ */
+.dash {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f3ee;
+  position: relative;
+}
+
+.dash-grid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════ */
+.dash-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #fff;
+  border-radius: 0 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.04);
+}
+
+.dash-sidebar__logo {
+  height: 44px;
+  width: auto;
+  margin-bottom: 44px;
+}
+
+.dash-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.dash-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dash-sidebar__link:hover {
+  background: #f0ece5;
+  color: #1a1a2e;
+}
+
+.dash-sidebar__link--active {
+  background: #1e3a6e;
+  color: #fff;
+  font-weight: 600;
+}
+
+.dash-sidebar__link--active:hover {
+  background: #17305d;
+  color: #fff;
+}
+
+.dash-sidebar__link-icon {
+  font-size: 18px;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.dash-sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dash-sidebar__logout:hover {
+  background: #fce8e8;
+  color: #c0392b;
+}
+
+/* ═══════════════════════════════════════
+   MAIN AREA  (fills 100% after sidebar)
+   ═══════════════════════════════════════ */
+.dash-main {
+  margin-left: 240px;
+  flex: 1;
+  z-index: 10;
+  position: relative;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ── */
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.dash-header__greeting {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.dash-header__info {
+  font-size: 15px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.dash-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-header__icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  color: #555;
+}
+
+.dash-header__icon-btn:hover {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+  transform: translateY(-1px);
+}
+
+.dash-header__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #555;
+}
+
+/* ── Section titles ── */
+.dash-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 20px;
+}
+
+/* ═══════════════════════════════════════
+   TOP ROW: Rendimiento + Comunicados
+   ═══════════════════════════════════════ */
+.dash-top-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* ── Subject cards ── */
+.dash-subjects {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-subjects__scroll {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.dash-subjects__cards {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.4s ease;
+}
+
+.dash-subjects__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dash-subjects__arrow:hover {
+  background: #1e3a6e;
+  border-color: #1e3a6e;
+  color: #fff;
+}
+
+.dash-subjects__link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #1e3a6e;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.dash-subjects__link:hover {
+  opacity: 0.7;
+}
+
+/* ── Comunicados (right side, same height as rendimiento) ── */
+.dash-comunicados {
+  width: 300px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-comunicados__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.dash-comunicados__list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.dash-com-item {
+  padding: 10px 0;
+}
+
+.dash-com-item + .dash-com-item {
+  border-top: 1px solid #f0ece5;
+}
+
+.dash-com-item__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.dash-com-item__name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.dash-com-item__badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #1e3a6e;
+  background: #dce6f5;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.dash-com-item__date {
+  font-size: 11px;
+  color: #aaa;
+  margin-left: auto;
+}
+
+.dash-com-item__desc {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dash-comunicados__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.dash-comunicados__more-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.dash-comunicados__more-btn:hover {
+  color: #1e3a6e;
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM ROW: Evaluaciones + Calendar + Dudas
+   ═══════════════════════════════════════ */
+.dash-bottom-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* ── Exams + Calendar card combined ── */
+.dash-exams-cal {
+  flex: 1;
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  gap: 32px;
+  min-width: 0;
+}
+
+.dash-exams {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Calendar ── */
+.dash-calendar {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.dash-cal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.dash-cal__month {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.dash-cal__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.dash-cal__nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dash-cal__nav-btn:hover {
+  background: #1e3a6e;
+  border-color: #1e3a6e;
+  color: #fff;
+}
+
+.dash-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.dash-cal__day-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaa;
+  padding: 4px 0;
+}
+
+.dash-cal__day {
+  font-size: 13px;
+  padding: 6px 0;
+  border-radius: 8px;
+  color: #1a1a2e;
+  cursor: default;
+}
+
+.dash-cal__day--other {
+  color: #ccc;
+}
+
+.dash-cal__day--today {
+  background: #1e3a6e;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+/* ── Dudas widget (bottom right) ── */
+.dash-dudas {
+  width: 300px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dash-dudas__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px;
+}
+
+.dash-dudas__desc {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.dash-dudas__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  border: 2px solid #1e3a6e;
+  border-radius: 30px;
+  background: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e3a6e;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  justify-content: center;
+}
+
+.dash-dudas__btn:hover {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .dash-comunicados,
+  .dash-dudas {
+    width: 260px;
+  }
+
+  .dash-calendar {
+    width: 220px;
+  }
+}
+
+@media (max-width: 900px) {
+  .dash-sidebar {
+    width: 72px;
+    padding: 24px 10px;
+    align-items: center;
+    border-radius: 0 18px 18px 0;
+  }
+
+  .dash-sidebar__logo {
+    height: 28px;
+    margin-bottom: 28px;
+  }
+
+  .dash-sidebar__link span:not(.dash-sidebar__link-icon) {
+    display: none;
+  }
+
+  .dash-sidebar__logout span:last-child {
+    display: none;
+  }
+
+  .dash-main {
+    margin-left: 72px;
+    padding: 24px 20px;
+  }
+
+  .dash-top-row,
+  .dash-bottom-row {
+    flex-direction: column;
+  }
+
+  .dash-comunicados,
+  .dash-dudas {
+    width: 100%;
+  }
+
+  .dash-exams-cal {
+    flex-direction: column;
+  }
+
+  .dash-calendar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .dash-sidebar {
+    display: none;
+  }
+
+  .dash-main {
+    margin-left: 0;
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import logo from "/Group_17.png";
 
@@ -16,6 +17,7 @@ const GridBackground = (): ReactElement => (
 
 export default function Home(): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
@@ -43,7 +45,7 @@ export default function Home(): ReactElement {
             Notas, evaluaciones y comunicados en un solo lugar.
           </p>
 
-          <button className="home-btn">
+          <button className="home-btn" onClick={() => navigate("/login")}>
             Ingresar a la plataforma
           </button>
         </div>
