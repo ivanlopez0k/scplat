@@ -91,6 +91,32 @@
   margin-bottom: 32px;
 }
 
+/* ── Error message ── */
+.login-error {
+  background: rgba(255, 87, 87, 0.2);
+  border: 1px solid rgba(255, 87, 87, 0.5);
+  color: #ff8a8a;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* ── Input validation error ── */
+.login-input-error {
+  color: #ff8a8a;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ── Input with error ── */
+.login-input-error + .login-input,
+.login-input:has(+ .login-input-error) {
+  box-shadow: 0 0 0 2px rgba(255, 87, 87, 0.4);
+}
+
 /* ── Form ── */
 .login-form {
   display: flex;

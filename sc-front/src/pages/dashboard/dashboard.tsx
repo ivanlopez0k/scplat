@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth.service";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import ExamRow from "../../components/ExamRow/ExamRow";
 import logo from "/Group_17.png";
@@ -111,6 +112,11 @@ export default function Dashboard(): ReactElement {
     setCardOffset(next >= maxOffset ? 0 : next);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className={`dash ${visible ? "" : ""}`}>
       <GridBackground />
@@ -132,7 +138,7 @@ export default function Dashboard(): ReactElement {
           ))}
         </nav>
 
-        <button className="dash-sidebar__logout" onClick={() => navigate("/login")}>
+        <button className="dash-sidebar__logout" onClick={handleLogout}>
           <span>↪</span>
           <span>Cerrar Sesión</span>
         </button>
