@@ -4,12 +4,17 @@ import Modal from "../Modal/Modal";
 import Select from "../Select/Select";
 import type { SelectOption } from "../Select/Select";
 import {
+  getCourses,
+  getSubjects,
   getCourseSubjects,
   getTeacherWithAssignments,
   assignTeacherToCourse,
   removeTeacherFromCourse,
+  createCourseSubject,
   type Teacher,
   type CourseSubject,
+  type Course,
+  type Subject,
 } from "../../services/teacher.service";
 import "./EditTeacherModal.css";
 
@@ -25,11 +30,16 @@ export default function EditTeacherModal({
   teacherId,
 }: EditTeacherModalProps): ReactElement | null {
   const [teacher, setTeacher] = useState<Teacher | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [courseSubjects, setCourseSubjects] = useState<CourseSubject[]>([]);
-  const [selectedCs, setSelectedCs] = useState<string>("");
+  const [selectedCourseId, setSelectedCourseId] = useState<string>("");
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
+  const [selectedExistingCs, setSelectedExistingCs] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showCreateNew, setShowCreateNew] = useState(false);
 
   useEffect(() => {
     if (isOpen && teacherId) {
@@ -42,11 +52,15 @@ export default function EditTeacherModal({
     setError(null);
     setSuccess(null);
     try {
-      const [teacherData, csData] = await Promise.all([
+      const [teacherData, coursesData, subjectsData, csData] = await Promise.all([
         getTeacherWithAssignments(id),
+        getCourses(),
+        getSubjects(),
         getCourseSubjects(),
       ]);
       setTeacher(teacherData);
+      setCourses(coursesData);
+      setSubjects(subjectsData);
       setCourseSubjects(csData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al cargar datos");
@@ -55,17 +69,45 @@ export default function EditTeacherModal({
     }
   };
 
-  const handleAssign = async () => {
-    if (!selectedCs || !teacher) return;
+  const handleCreateCourseSubject = async () => {
+    if (!selectedCourseId || !selectedSubjectId) return;
 
     setLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      await assignTeacherToCourse(teacher.id, parseInt(selectedCs));
+      const newCs = await createCourseSubject(
+        parseInt(selectedCourseId),
+        parseInt(selectedSubjectId)
+      );
+      setSuccess("Curso/Materia creado correctamente");
+      setSelectedCourseId("");
+      setSelectedSubjectId("");
+      setShowCreateNew(false);
+      // Recargar course-subjects
+      const csData = await getCourseSubjects();
+      setCourseSubjects(csData);
+      // Seleccionar el nuevo course-subject
+      setSelectedExistingCs(newCs.id.toString());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al crear curso/materia");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAssign = async () => {
+    if (!selectedExistingCs || !teacher) return;
+
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await assignTeacherToCourse(teacher.id, parseInt(selectedExistingCs));
       setSuccess("Profesor asignado correctamente");
-      setSelectedCs("");
+      setSelectedExistingCs("");
       // Recargar datos
       const updatedTeacher = await getTeacherWithAssignments(teacher.id);
       setTeacher(updatedTeacher);
@@ -98,14 +140,30 @@ export default function EditTeacherModal({
 
   const handleClose = () => {
     setTeacher(null);
+    setCourses([]);
+    setSubjects([]);
     setCourseSubjects([]);
-    setSelectedCs("");
+    setSelectedCourseId("");
+    setSelectedSubjectId("");
+    setSelectedExistingCs("");
     setError(null);
     setSuccess(null);
+    setShowCreateNew(false);
     onClose();
   };
 
-  // Generar opciones para el select combinando curso + materia
+  // Generar opciones para los selects
+  const courseOptions: SelectOption[] = courses.map((course) => ({
+    value: course.id,
+    label: `${course.name} (${course.year}°)`,
+  }));
+
+  const subjectOptions: SelectOption[] = subjects.map((subject) => ({
+    value: subject.id,
+    label: subject.name,
+  }));
+
+  // Generar opciones para el select de course-subjects existentes
   const csOptions: SelectOption[] = courseSubjects.map((cs) => ({
     value: cs.id,
     label: `${cs.course?.name || "Curso"} - ${cs.subject?.name || "Materia"}`,
@@ -126,7 +184,7 @@ export default function EditTeacherModal({
           <button
             className="edit-modal-btn edit-modal-btn--primary"
             onClick={handleAssign}
-            disabled={!selectedCs || loading}
+            disabled={!selectedExistingCs || loading}
           >
             {loading ? "Guardando..." : "Asignar"}
           </button>
@@ -146,18 +204,89 @@ export default function EditTeacherModal({
           </div>
         </div>
 
-        {/* Asignar nueva materia */}
+        {/* Asignar existente o crear nuevo */}
         <div className="edit-modal__section">
           <h3 className="edit-modal__section-title">Asignar Curso/Materia</h3>
-          <Select
-            id="course-subject"
-            name="course-subject"
-            value={selectedCs}
-            options={csOptions}
-            onChange={(e) => setSelectedCs(e.target.value)}
-            placeholder="Seleccionar curso y materia"
-            disabled={loading}
-          />
+          
+          {/* Toggle para crear nuevo o usar existente */}
+          <div className="edit-modal__toggle">
+            <button
+              className={`edit-modal__toggle-btn ${!showCreateNew ? "edit-modal__toggle-btn--active" : ""}`}
+              onClick={() => setShowCreateNew(false)}
+              type="button"
+            >
+              Usar existente
+            </button>
+            <button
+              className={`edit-modal__toggle-btn ${showCreateNew ? "edit-modal__toggle-btn--active" : ""}`}
+              onClick={() => setShowCreateNew(true)}
+              type="button"
+            >
+              Crear nuevo
+            </button>
+          </div>
+
+          {showCreateNew ? (
+            /* Crear nuevo Course-Subject */
+            <div className="edit-modal__create-new">
+              <p className="edit-modal__hint">
+                Primero seleccioná un curso y una materia para crear una nueva combinación:
+              </p>
+              <div className="edit-modal__row">
+                <div className="edit-modal__field">
+                  <label htmlFor="course" className="edit-modal__field-label">
+                    Curso
+                  </label>
+                  <Select
+                    id="course"
+                    name="course"
+                    value={selectedCourseId}
+                    options={courseOptions}
+                    onChange={(e) => setSelectedCourseId(e.target.value)}
+                    placeholder="Seleccionar curso"
+                    disabled={loading}
+                  />
+                </div>
+                <div className="edit-modal__field">
+                  <label htmlFor="subject" className="edit-modal__field-label">
+                    Materia
+                  </label>
+                  <Select
+                    id="subject"
+                    name="subject"
+                    value={selectedSubjectId}
+                    options={subjectOptions}
+                    onChange={(e) => setSelectedSubjectId(e.target.value)}
+                    placeholder="Seleccionar materia"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+              <button
+                className="edit-modal-btn edit-modal-btn--create"
+                onClick={handleCreateCourseSubject}
+                disabled={!selectedCourseId || !selectedSubjectId || loading}
+              >
+                {loading ? "Creando..." : "Crear Curso/Materia"}
+              </button>
+            </div>
+          ) : (
+            /* Seleccionar Course-Subject existente */
+            <div className="edit-modal__field">
+              <label htmlFor="existing-cs" className="edit-modal__field-label">
+                Curso/Materia disponible
+              </label>
+              <Select
+                id="existing-cs"
+                name="existing-cs"
+                value={selectedExistingCs}
+                options={csOptions}
+                onChange={(e) => setSelectedExistingCs(e.target.value)}
+                placeholder="Seleccionar curso y materia"
+                disabled={loading}
+              />
+            </div>
+          )}
         </div>
 
         {/* Asignaciones actuales */}

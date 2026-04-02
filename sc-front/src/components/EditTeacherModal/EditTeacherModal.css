@@ -33,7 +33,7 @@
   font-weight: 500;
 }
 
-/* ── Sections ── */
+/* ── Sections ─ */
 .edit-modal__section {
   display: flex;
   flex-direction: column;
@@ -45,6 +45,99 @@
   font-weight: 700;
   color: #1a1a2e;
   margin: 0;
+}
+
+/* ── Toggle Buttons ── */
+.edit-modal__toggle {
+  display: flex;
+  gap: 8px;
+  background: #f5f3ee;
+  padding: 4px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.edit-modal__toggle-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.edit-modal__toggle-btn--active {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.edit-modal__toggle-btn:hover:not(.edit-modal__toggle-btn--active) {
+  background: #e8e4dc;
+}
+
+/* ── Create New Section ── */
+.edit-modal__create-new {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #f9f7f2;
+  border-radius: 12px;
+  border: 2px dashed #d4c5b5;
+}
+
+.edit-modal__hint {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.edit-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.edit-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-modal__field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+.edit-modal-btn--create {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  border: none;
+  background: #5a8a3c;
+  color: #fff;
+  align-self: flex-start;
+}
+
+.edit-modal-btn--create:hover:not(:disabled) {
+  background: #4a7a2c;
+  box-shadow: 0 4px 12px rgba(90, 138, 60, 0.3);
+  transform: translateY(-1px);
+}
+
+.edit-modal-btn--create:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* ── Assignments List ── */

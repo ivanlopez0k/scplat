@@ -75,6 +75,25 @@ export async function getCourseSubjects(): Promise<CourseSubject[]> {
   return courseSubjects;
 }
 
+export async function createCourseSubject(course_id: number, subject_id: number): Promise<CourseSubject> {
+  const response = await fetch(`${API_URL}/cs`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ course_id, subject_id }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to create course-subject');
+  }
+
+  const courseSubject: CourseSubject = await response.json();
+  return courseSubject;
+}
+
 export async function getTeacherWithAssignments(teacherId: number): Promise<Teacher> {
   const response = await fetch(`${API_URL}/user/teacher/${teacherId}`, {
     credentials: 'include',
