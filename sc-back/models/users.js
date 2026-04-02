@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Grade, {foreignKey: 'student_id'});
       User.hasMany(models.Exam, { foreignKey: 'teacher_id'});
       User.hasMany(models.Enrollment, { foreignKey: 'student_id' });
-      User.hasMany(models.Tc, { foreignKey: 'teacher_id'});
+      User.hasMany(models.Tc, { foreignKey: 'teacher_id', as: 'teacher_courses'});
     }
   }
   User.init({

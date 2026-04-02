@@ -21,12 +21,13 @@ async function createTeacherCourse(teacher_id, cs_id) {
 async function getTeacherCourses() {
     const tc = await Tc.findAll({
         include: [
-            { model: User, attributes: ['name', 'lastname'] },
-            { 
-                model: Cs, 
+            { model: User, as: 'teacher', attributes: ['name', 'lastname'] },
+            {
+                model: Cs,
+                as: 'cs',
                 include: [
-                    { model: Course, attributes: ['name', 'year'] },
-                    { model: Subject, attributes: ['name'] }
+                    { model: Course, as: 'course', attributes: ['name', 'year'] },
+                    { model: Subject, as: 'subject', attributes: ['name'] }
                 ]
             }
         ]
@@ -37,12 +38,13 @@ async function getTeacherCourses() {
 async function getTeacherCourseById(id) {
     const tc = await Tc.findByPk(id, {
         include: [
-            { model: User, attributes: ['name', 'lastname'] },
-            { 
+            { model: User, as: 'teacher', attributes: ['name', 'lastname'] },
+            {
                 model: Cs,
+                as: 'cs',
                 include: [
-                    { model: Course, attributes: ['name', 'year'] },
-                    { model: Subject, attributes: ['name'] }
+                    { model: Course, as: 'course', attributes: ['name', 'year'] },
+                    { model: Subject, as: 'subject', attributes: ['name'] }
                 ]
             }
         ]

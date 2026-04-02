@@ -18,6 +18,9 @@ import {
 } from "../../services/teacher.service";
 import "./EditTeacherModal.css";
 
+const API_URL = '/api';
+const NEW_OPTION_VALUE = "__NEW__";
+
 export interface EditTeacherModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -36,6 +39,8 @@ export default function EditTeacherModal({
   const [selectedCourseId, setSelectedCourseId] = useState<string>("");
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
   const [selectedExistingCs, setSelectedExistingCs] = useState<string>("");
+  const [newCourseName, setNewCourseName] = useState("");
+  const [newSubjectName, setNewSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -58,6 +63,8 @@ export default function EditTeacherModal({
         getSubjects(),
         getCourseSubjects(),
       ]);
+      console.log('Teacher data:', teacherData);
+      console.log('Course subjects:', csData);
       setTeacher(teacherData);
       setCourses(coursesData);
       setSubjects(subjectsData);
@@ -70,26 +77,99 @@ export default function EditTeacherModal({
   };
 
   const handleCreateCourseSubject = async () => {
-    if (!selectedCourseId || !selectedSubjectId) return;
+    let courseId: number;
+    let subjectId: number;
 
+    // Si se seleccionó "Nuevo" para curso, crearlo primero
+    if (selectedCourseId === NEW_OPTION_VALUE) {
+      if (!newCourseName.trim()) {
+        setError("El nombre del curso es requerido");
+        return;
+      }
+      try {
+        const response = await fetch(`${API_URL}/courses`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            name: newCourseName.trim(), 
+            year: "1" // Valor por defecto, se podría agregar un campo para esto
+          }),
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message);
+        }
+        const newCourse: Course = await response.json();
+        courseId = newCourse.id;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Error al crear curso");
+        return;
+      }
+    } else {
+      courseId = parseInt(selectedCourseId);
+    }
+
+    // Si se seleccionó "Nuevo" para materia, crearla primero
+    if (selectedSubjectId === NEW_OPTION_VALUE) {
+      if (!newSubjectName.trim()) {
+        setError("El nombre de la materia es requerido");
+        return;
+      }
+      try {
+        const response = await fetch(`${API_URL}/subjects`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: newSubjectName.trim() }),
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message);
+        }
+        const newSubject: Subject = await response.json();
+        subjectId = newSubject.id;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Error al crear materia");
+        return;
+      }
+    } else {
+      subjectId = parseInt(selectedSubjectId);
+    }
+
+    // Crear el Course-Subject
     setLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      const newCs = await createCourseSubject(
-        parseInt(selectedCourseId),
-        parseInt(selectedSubjectId)
-      );
-      setSuccess("Curso/Materia creado correctamente");
-      setSelectedCourseId("");
-      setSelectedSubjectId("");
-      setShowCreateNew(false);
-      // Recargar course-subjects
+      const newCs = await createCourseSubject(courseId, subjectId);
+      
+      // Recargar course-subjects para actualizar el select
       const csData = await getCourseSubjects();
       setCourseSubjects(csData);
+      
       // Seleccionar el nuevo course-subject
-      setSelectedExistingCs(newCs.id.toString());
+      const newCsId = newCs.id.toString();
+      setSelectedExistingCs(newCsId);
+      
+      // Asignar automáticamente al profesor
+      await assignTeacherToCourse(teacher!.id, newCs.id);
+      
+      setSuccess("Curso/Materia creado y asignado correctamente");
+      setSelectedCourseId("");
+      setSelectedSubjectId("");
+      setNewCourseName("");
+      setNewSubjectName("");
+      setShowCreateNew(false);
+      
+      // Recargar datos del profesor
+      const updatedTeacher = await getTeacherWithAssignments(teacher!.id);
+      setTeacher(updatedTeacher);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al crear curso/materia");
     } finally {
@@ -146,6 +226,8 @@ export default function EditTeacherModal({
     setSelectedCourseId("");
     setSelectedSubjectId("");
     setSelectedExistingCs("");
+    setNewCourseName("");
+    setNewSubjectName("");
     setError(null);
     setSuccess(null);
     setShowCreateNew(false);
@@ -153,23 +235,30 @@ export default function EditTeacherModal({
   };
 
   // Generar opciones para los selects
-  const courseOptions: SelectOption[] = courses.map((course) => ({
-    value: course.id,
-    label: `${course.name} (${course.year}°)`,
-  }));
+  const courseOptions: SelectOption[] = [
+    ...courses.map((course) => ({
+      value: course.id,
+      label: `${course.name} (${course.year}°)`,
+    })),
+    { value: NEW_OPTION_VALUE, label: "[Nuevo] Curso..." },
+  ];
 
-  const subjectOptions: SelectOption[] = subjects.map((subject) => ({
-    value: subject.id,
-    label: subject.name,
-  }));
+  const subjectOptions: SelectOption[] = [
+    ...subjects.map((subject) => ({
+      value: subject.id,
+      label: subject.name,
+    })),
+    { value: NEW_OPTION_VALUE, label: "[Nuevo] Materia..." },
+  ];
 
   // Generar opciones para el select de course-subjects existentes
   const csOptions: SelectOption[] = courseSubjects.map((cs) => ({
     value: cs.id,
-    label: `${cs.course?.name || "Curso"} - ${cs.subject?.name || "Materia"}`,
+    label: `${cs.course?.name || 'Curso'} - ${cs.subject?.name || 'Materia'}`,
   }));
 
-  const currentAssignments = teacher?.teacher_courses || [];
+  // Acceder a las asignaciones del profesor (puede venir como teacher_courses o Tcs)
+  const currentAssignments = teacher?.teacher_courses || (teacher as any)?.Tcs || [];
 
   return (
     <Modal
@@ -230,7 +319,7 @@ export default function EditTeacherModal({
             /* Crear nuevo Course-Subject */
             <div className="edit-modal__create-new">
               <p className="edit-modal__hint">
-                Primero seleccioná un curso y una materia para crear una nueva combinación:
+                Seleccioná un curso y una materia para crear una nueva combinación:
               </p>
               <div className="edit-modal__row">
                 <div className="edit-modal__field">
@@ -246,6 +335,16 @@ export default function EditTeacherModal({
                     placeholder="Seleccionar curso"
                     disabled={loading}
                   />
+                  {selectedCourseId === NEW_OPTION_VALUE && (
+                    <input
+                      type="text"
+                      className="edit-modal__input"
+                      placeholder="Nombre del nuevo curso"
+                      value={newCourseName}
+                      onChange={(e) => setNewCourseName(e.target.value)}
+                      disabled={loading}
+                    />
+                  )}
                 </div>
                 <div className="edit-modal__field">
                   <label htmlFor="subject" className="edit-modal__field-label">
@@ -260,12 +359,22 @@ export default function EditTeacherModal({
                     placeholder="Seleccionar materia"
                     disabled={loading}
                   />
+                  {selectedSubjectId === NEW_OPTION_VALUE && (
+                    <input
+                      type="text"
+                      className="edit-modal__input"
+                      placeholder="Nombre de la nueva materia"
+                      value={newSubjectName}
+                      onChange={(e) => setNewSubjectName(e.target.value)}
+                      disabled={loading}
+                    />
+                  )}
                 </div>
               </div>
               <button
                 className="edit-modal-btn edit-modal-btn--create"
                 onClick={handleCreateCourseSubject}
-                disabled={!selectedCourseId || !selectedSubjectId || loading}
+                disabled={(!selectedCourseId || !selectedSubjectId) || loading}
               >
                 {loading ? "Creando..." : "Crear Curso/Materia"}
               </button>
@@ -301,26 +410,35 @@ export default function EditTeacherModal({
             </p>
           ) : (
             <ul className="edit-modal__assignments">
-              {currentAssignments.map((assignment) => (
-                <li key={assignment.id} className="edit-modal__assignment-item">
-                  <div className="edit-modal__assignment-info">
-                    <span className="edit-modal__assignment-course">
-                      {assignment.cs?.course?.name}
-                    </span>
-                    <span className="edit-modal__assignment-subject">
-                      {assignment.cs?.subject?.name}
-                    </span>
-                  </div>
-                  <button
-                    className="edit-modal__remove-btn"
-                    onClick={() => handleRemove(assignment.id)}
-                    disabled={loading}
-                    aria-label="Eliminar asignación"
-                  >
-                    🗑
-                  </button>
-                </li>
-              ))}
+              {currentAssignments.map((assignment: any) => {
+                // Acceder a los datos del curso y materia (puede venir como cs, Cs, o course/subject directamente)
+                const csData = assignment.cs || assignment.Cs || {};
+                const courseData = csData.course || csData.Course || {};
+                const subjectData = csData.subject || csData.Subject || {};
+                const courseName = courseData.name || 'Curso';
+                const subjectName = subjectData.name || 'Materia';
+
+                return (
+                  <li key={assignment.id} className="edit-modal__assignment-item">
+                    <div className="edit-modal__assignment-info">
+                      <span className="edit-modal__assignment-course">
+                        {courseName}
+                      </span>
+                      <span className="edit-modal__assignment-subject">
+                        {subjectName}
+                      </span>
+                    </div>
+                    <button
+                      className="edit-modal__remove-btn"
+                      onClick={() => handleRemove(assignment.id)}
+                      disabled={loading}
+                      aria-label="Eliminar asignación"
+                    >
+                      🗑
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

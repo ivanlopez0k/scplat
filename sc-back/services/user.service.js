@@ -61,20 +61,22 @@ async function getTeacherWithAssignments(teacherId) {
         attributes: ['id', 'name', 'lastname', 'dni', 'email', 'role'],
         include: [{
             model: Tc,
+            as: 'teacher_courses',
             include: [{
                 model: Cs,
+                as: 'cs',
                 include: [
-                    { model: Course, attributes: ['id', 'name', 'year'] },
-                    { model: Subject, attributes: ['id', 'name'] }
+                    { model: Course, as: 'course', attributes: ['id', 'name', 'year'] },
+                    { model: Subject, as: 'subject', attributes: ['id', 'name'] }
                 ]
             }]
         }]
     });
-    
+
     if (!teacher) {
         throw new Error('Profesor no encontrado');
     }
-    
+
     return teacher;
 }
 
