@@ -3,21 +3,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
+  padding: 16px 0;
 }
 
 .exam-row + .exam-row {
-  border-top: 1px solid #eee;
+  border-top: 1px solid #e8e4dc;
 }
 
 .exam-row__info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .exam-row__title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #1a1a2e;
 }
@@ -30,9 +30,9 @@
 .exam-row__date {
   font-size: 12px;
   font-weight: 600;
-  color: #5a8a3c;
-  background: #e8f5e0;
-  padding: 4px 14px;
+  color: #5c4a3d;
+  background: #d4c5b5;
+  padding: 5px 14px;
   border-radius: 20px;
   white-space: nowrap;
 }

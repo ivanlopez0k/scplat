@@ -17,7 +17,7 @@ async function login(req, res){
 
     try{
         const token = await userService.login(email,password)
-        
+
         // Set token in httpOnly cookie
         res.cookie('token', token, {
             httpOnly: true,
@@ -26,7 +26,7 @@ async function login(req, res){
             maxAge: 8 * 60 * 60 * 1000, // 8 hours
             path: '/'
         });
-        
+
         res.status(200).json({ message: 'Bienvenido' })
     }catch(error){
         // Generic error message to prevent user enumeration
@@ -50,7 +50,7 @@ async function getCurrentUser(req, res){
     if (!req.user) {
         return res.status(401).json({ message: 'No autenticado' });
     }
-    
+
     // Return user info without sensitive data
     res.json({
         id: req.user.id,
@@ -70,4 +70,14 @@ async function getAll(req, res){
     }
 }
 
-module.exports = { regUser, login, logout, getCurrentUser, getAll }
+async function getByRole(req, res){
+    try {
+        const { role } = req.params;
+        const users = await userService.getUsersByRole(role);
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
+module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole }

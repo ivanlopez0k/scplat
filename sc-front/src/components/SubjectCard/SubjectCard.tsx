@@ -37,7 +37,7 @@ export default function SubjectCard({ name, grade }: SubjectCardProps): ReactEle
         />
       </div>
 
-      <div className="subject-card__status">
+      <div className={`subject-card__status subject-card__status--${level}`}>
         <span className={`subject-card__dot subject-card__dot--${level}`} />
         <span className="subject-card__status-text">{label}</span>
       </div>

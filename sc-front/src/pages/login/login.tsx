@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { login as loginApi } from "../../services/auth.service";
 import "./login.css";
 import logo from "/Group_17.png";
@@ -141,7 +141,7 @@ export default function Login(): ReactElement {
         </form>
 
         <p className="login-register">
-          ¿No tenés cuenta aún? Registrate <a href="#">aquí</a>
+          ¿No tenés cuenta aún? Registrate <Link to="/register" className="login-register-link">aquí</Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
 /* ═══════════════════════════════════════
    LAYOUT
@@ -25,49 +26,50 @@
    SIDEBAR
    ═══════════════════════════════════════ */
 .dash-sidebar {
-  width: 240px;
+  width: 260px;
   min-height: 100vh;
-  background: #fff;
-  border-radius: 0 24px 24px 0;
+  background: #f5f0e6;
   display: flex;
   flex-direction: column;
-  padding: 32px 24px;
+  padding: 40px 20px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   z-index: 20;
-  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.04);
 }
 
 .dash-sidebar__logo {
-  height: 44px;
-  width: auto;
-  margin-bottom: 44px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 36px;
+  color: #1a1a2e;
+  margin-bottom: 48px;
+  padding-left: 16px;
+  letter-spacing: 1px;
 }
 
 .dash-sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   flex: 1;
 }
 
 .dash-sidebar__link {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
+  gap: 16px;
+  padding: 14px 16px;
   border-radius: 12px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #555;
   transition: background 0.2s, color 0.2s;
 }
 
 .dash-sidebar__link:hover {
-  background: #f0ece5;
+  background: rgba(30, 58, 110, 0.08);
   color: #1a1a2e;
 }
 
@@ -83,31 +85,46 @@
 }
 
 .dash-sidebar__link-icon {
-  font-size: 18px;
   width: 22px;
-  text-align: center;
+  height: 22px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-sidebar__link-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .dash-sidebar__logout {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
+  gap: 16px;
+  padding: 14px 16px;
   border: none;
   background: none;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #555;
   cursor: pointer;
   border-radius: 12px;
   transition: background 0.2s, color 0.2s;
+  margin-top: auto;
 }
 
 .dash-sidebar__logout:hover {
-  background: #fce8e8;
-  color: #c0392b;
+  background: rgba(220, 50, 50, 0.1);
+  color: #dc322f;
+}
+
+.dash-sidebar__logout svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 /* ═══════════════════════════════════════
@@ -371,6 +388,9 @@
 .dash-calendar {
   width: 260px;
   flex-shrink: 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
 }
 
 .dash-cal__header {
@@ -381,41 +401,40 @@
 }
 
 .dash-cal__month {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #1a1a2e;
 }
 
 .dash-cal__nav {
   display: flex;
-  gap: 8px;
+  gap: 4px;
 }
 
 .dash-cal__nav-btn {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  border: 1px solid #ddd;
-  background: #fff;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  font-size: 13px;
-  color: #555;
+  font-size: 16px;
+  color: #888;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .dash-cal__nav-btn:hover {
-  background: #1e3a6e;
-  border-color: #1e3a6e;
-  color: #fff;
+  background: #f0ece5;
+  color: #1a1a2e;
 }
 
 .dash-cal__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 4px;
   text-align: center;
 }
 
@@ -428,21 +447,25 @@
 
 .dash-cal__day {
   font-size: 13px;
-  padding: 6px 0;
+  padding: 8px 0;
   border-radius: 8px;
   color: #1a1a2e;
   cursor: default;
+  transition: background 0.2s;
+}
+
+.dash-cal__day:hover:not(.dash-cal__day--other) {
+  background: #f0ece5;
 }
 
 .dash-cal__day--other {
-  color: #ccc;
+  color: #ddd;
 }
 
 .dash-cal__day--today {
-  background: #1e3a6e;
+  background: #6b5ce7;
   color: #fff;
   font-weight: 700;
-  border-radius: 10px;
 }
 
 /* ── Dudas widget (bottom right) ── */

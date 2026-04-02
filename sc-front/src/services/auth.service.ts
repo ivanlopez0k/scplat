@@ -13,6 +13,15 @@ export interface AuthStatus {
   };
 }
 
+export interface RegisterData {
+  name: string;
+  lastname: string;
+  dni: string;
+  email: string;
+  password: string;
+  role: 'student' | 'teacher' | 'parent';
+}
+
 const API_URL = '/api';
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
@@ -34,6 +43,25 @@ export async function login(email: string, password: string): Promise<LoginRespo
   return data;
 }
 
+export async function register(data: RegisterData): Promise<LoginResponse> {
+  const response = await fetch(`${API_URL}/user/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Registration failed');
+  }
+
+  const responseData: LoginResponse = await response.json();
+  return responseData;
+}
+
 export async function logout(): Promise<void> {
   await fetch(`${API_URL}/user/logout`, {
     method: 'POST',
@@ -46,11 +74,11 @@ export async function checkAuth(): Promise<AuthStatus> {
     const response = await fetch(`${API_URL}/user/me`, {
       credentials: 'include',
     });
-    
+
     if (!response.ok) {
       return { authenticated: false };
     }
-    
+
     const user = await response.json();
     return { authenticated: true, user };
   } catch {

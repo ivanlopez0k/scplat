@@ -184,14 +184,14 @@
   margin-top: 24px;
 }
 
-.login-register a {
+.login-register-link {
   color: #fff;
   font-weight: 700;
   text-decoration: none;
   transition: opacity 0.2s;
 }
 
-.login-register a:hover {
+.login-register-link:hover {
   opacity: 0.8;
   text-decoration: underline;
 }

@@ -47,5 +47,13 @@ async function getUsers() {
     return user;
 }
 
+async function getUsersByRole(role) {
+    const users = await User.findAll({
+        where: { role },
+        attributes: ['id', 'name', 'lastname', 'dni', 'email', 'role']
+    });
+    return users;
+}
 
-module.exports = {register, login, getUsers}
+
+module.exports = {register, login, getUsers, getUsersByRole}

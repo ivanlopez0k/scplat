@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
+
+/* ═══════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════ */
+.admin-dash {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f3ee;
+  position: relative;
+}
+
+.admin-dash-grid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════ */
+.admin-dash-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #fff;
+  border-radius: 0 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.04);
+}
+
+.admin-dash-sidebar__logo {
+  height: 44px;
+  width: auto;
+  margin-bottom: 44px;
+}
+
+.admin-dash-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.admin-dash-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-dash-sidebar__link:hover {
+  background: #f0ece5;
+  color: #1a1a2e;
+}
+
+.admin-dash-sidebar__link--active {
+  background: #1e3a6e;
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-dash-sidebar__link--active:hover {
+  background: #17305d;
+  color: #fff;
+}
+
+.admin-dash-sidebar__link-icon {
+  font-size: 18px;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.admin-dash-sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-dash-sidebar__logout:hover {
+  background: #fce8e8;
+  color: #c0392b;
+}
+
+/* ═══════════════════════════════════════
+   MAIN AREA
+   ═══════════════════════════════════════ */
+.admin-dash-main {
+  margin-left: 240px;
+  flex: 1;
+  z-index: 10;
+  position: relative;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ── */
+.admin-dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.admin-dash-header__greeting {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.admin-dash-header__info {
+  font-size: 15px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.admin-dash-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-dash-header__icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  color: #555;
+}
+
+.admin-dash-header__icon-btn:hover {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+  transform: translateY(-1px);
+}
+
+.admin-dash-header__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #555;
+}
+
+/* ═══════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════ */
+.admin-dash-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+.admin-dash-tab {
+  padding: 14px 32px;
+  border: none;
+  background: #b8b8b8;
+  border-radius: 8px 8px 0 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-dash-tab:hover {
+  background: #a0a0a0;
+}
+
+.admin-dash-tab--active {
+  background: #f5f3ee;
+  color: #1a1a2e;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════
+   TOOLBAR (Search + Buttons)
+   ═══════════════════════════════════════ */
+.admin-dash-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f5f3ee;
+  padding: 20px 24px;
+  border-radius: 16px 16px 0 0;
+}
+
+.admin-dash-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 30px;
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+}
+
+.admin-dash-search__icon {
+  width: 20px;
+  height: 20px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.admin-dash-search__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.admin-dash-search__input::placeholder {
+  color: #aaa;
+}
+
+.admin-dash-btn {
+  padding: 10px 28px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.admin-dash-btn--buscar {
+  background: #fff;
+  border: 2px solid #1e3a6e;
+  color: #1e3a6e;
+}
+
+.admin-dash-btn--buscar:hover {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.admin-dash-btn--exportar {
+  background: #fff;
+  border: 2px solid #1e3a6e;
+  color: #1e3a6e;
+}
+
+.admin-dash-btn--exportar:hover {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════ */
+.admin-dash-table-container {
+  background: #f5f3ee;
+  padding: 0 24px 24px;
+  border-radius: 0 0 16px 16px;
+  overflow-x: auto;
+}
+
+.admin-dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-dash-table thead {
+  background: #fff;
+  border-radius: 8px;
+}
+
+.admin-dash-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #888;
+  font-size: 13px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-dash-table td {
+  padding: 14px 16px;
+  color: #1a1a2e;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-dash-table__row--even {
+  background: #f5f3ee;
+}
+
+.admin-dash-table__row--odd {
+  background: #d8d8d8;
+}
+
+.admin-dash-table__row--even:hover {
+  background: #ebe8e0;
+}
+
+.admin-dash-table__row--odd:hover {
+  background: #c9c9c9;
+}
+
+.admin-dash-table__loading,
+.admin-dash-table__empty {
+  text-align: center;
+  padding: 32px;
+  color: #888;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════
+   PAGINATION
+   ═══════════════════════════════════════ */
+.admin-dash-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 24px;
+}
+
+.admin-dash-pagination__item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-dash-pagination__item:hover:not(.admin-dash-pagination__item--disabled) {
+  background: #e0e0e0;
+  color: #1a1a2e;
+}
+
+.admin-dash-pagination__item--active {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.admin-dash-pagination__item--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .admin-dash-sidebar {
+    width: 72px;
+    padding: 24px 10px;
+    align-items: center;
+    border-radius: 0 18px 18px 0;
+  }
+
+  .admin-dash-sidebar__logo {
+    height: 28px;
+    margin-bottom: 28px;
+  }
+
+  .admin-dash-sidebar__link span:not(.admin-dash-sidebar__link-icon) {
+    display: none;
+  }
+
+  .admin-dash-sidebar__logout span:last-child {
+    display: none;
+  }
+
+  .admin-dash-main {
+    margin-left: 72px;
+    padding: 24px 20px;
+  }
+
+  .admin-dash-tabs {
+    padding: 0 10px;
+  }
+
+  .admin-dash-tab {
+    padding: 12px 20px;
+    font-size: 13px;
+  }
+
+  .admin-dash-toolbar {
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+
+  .admin-dash-search {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-dash-sidebar {
+    display: none;
+  }
+
+  .admin-dash-main {
+    margin-left: 0;
+  }
+}
