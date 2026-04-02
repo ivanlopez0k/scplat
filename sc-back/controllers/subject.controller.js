@@ -1,4 +1,4 @@
-const { createSubject, getSubjects, getSubjectById, updateSubject } = require('../services/subject.service');
+const { createSubject, getSubjects, getSubjectById, updateSubject, deleteSubject } = require('../services/subject.service');
 
 async function create(req, res) {
     try {
@@ -40,4 +40,14 @@ async function update(req, res) {
     }
 }
 
-module.exports = { create, getAll, getById, update };
+async function remove(req, res) {
+    try {
+        const { id } = req.params;
+        const result = await deleteSubject(id);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, update, remove };
