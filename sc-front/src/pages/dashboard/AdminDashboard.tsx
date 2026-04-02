@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { getUsersByRole, type User } from "../../services/user.service";
+import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
 import logo from "/Group_17.png";
 import "./adminDashboard.css";
 
@@ -39,6 +40,8 @@ export default function AdminDashboard(): ReactElement {
   const [loading, setLoading] = useState(false);
   const [adminName, setAdminName] = useState("Admin");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -70,6 +73,16 @@ export default function AdminDashboard(): ReactElement {
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const handleEditTeacher = (teacherId: number) => {
+    setSelectedTeacherId(teacherId);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedTeacherId(null);
   };
 
   const filteredUsers = users.filter((user) => {
@@ -171,18 +184,19 @@ export default function AdminDashboard(): ReactElement {
                 <th>Apellido y Nombre</th>
                 <th>DNI</th>
                 {activeTab === "teachers" && <th>Materia</th>}
+                {activeTab === "teachers" && <th>Acciones</th>}
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 4 : 3} className="admin-dash-table__loading">
+                  <td colSpan={activeTab === "teachers" ? 5 : 3} className="admin-dash-table__loading">
                     Cargando...
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 4 : 3} className="admin-dash-table__empty">
+                  <td colSpan={activeTab === "teachers" ? 5 : 3} className="admin-dash-table__empty">
                     No se encontraron usuarios
                   </td>
                 </tr>
@@ -192,7 +206,20 @@ export default function AdminDashboard(): ReactElement {
                     <td>{user.id}</td>
                     <td>{user.lastname} {user.name}</td>
                     <td>{user.dni}</td>
-                    {activeTab === "teachers" && <td>-</td>}
+                    {activeTab === "teachers" && (
+                      <>
+                        <td>-</td>
+                        <td>
+                          <button
+                            className="admin-dash-table__edit-btn"
+                            onClick={() => handleEditTeacher(user.id)}
+                            aria-label="Editar profesor"
+                          >
+                            ✏️ Editar
+                          </button>
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ))
               )}
@@ -212,6 +239,15 @@ export default function AdminDashboard(): ReactElement {
           <span className="admin-dash-pagination__item">›</span>
         </div>
       </div>
+
+      {/* ── EDIT TEACHER MODAL ── */}
+      {selectedTeacherId && (
+        <EditTeacherModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          teacherId={selectedTeacherId}
+        />
+      )}
     </div>
   );
 }

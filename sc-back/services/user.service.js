@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
-const { User } = require('../models');
+const { User, Tc, Cs, Course, Subject } = require('../models');
 
 async function register(name, lastname, dni, email, password, role) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,5 +56,52 @@ async function getUsersByRole(role) {
     return users;
 }
 
+async function getTeacherWithAssignments(teacherId) {
+    const teacher = await User.findByPk(teacherId, {
+        attributes: ['id', 'name', 'lastname', 'dni', 'email', 'role'],
+        include: [{
+            model: Tc,
+            include: [{
+                model: Cs,
+                include: [
+                    { model: Course, attributes: ['id', 'name', 'year'] },
+                    { model: Subject, attributes: ['id', 'name'] }
+                ]
+            }]
+        }]
+    });
+    
+    if (!teacher) {
+        throw new Error('Profesor no encontrado');
+    }
+    
+    return teacher;
+}
 
-module.exports = {register, login, getUsers, getUsersByRole}
+async function assignTeacherToCourse(teacher_id, cs_id) {
+    // verificamos que el usuario exista y sea profesor
+    const teacher = await User.findByPk(teacher_id);
+    if (!teacher) throw new Error('Usuario no encontrado');
+    if (teacher.role !== 'teacher') throw new Error('El usuario no es un profesor');
+
+    // verificamos que el course_subject exista
+    const cs = await Cs.findByPk(cs_id);
+    if (!cs) throw new Error('CourseSubject no encontrado');
+
+    // verificamos que no exista ya esa combinación
+    const existing = await Tc.findOne({ where: { teacher_id, cs_id } });
+    if (existing) throw new Error('Ese profesor ya está asignado a ese curso/materia');
+
+    const tc = await Tc.create({ teacher_id, cs_id });
+    return tc;
+}
+
+async function removeTeacherFromCourse(tcId) {
+    const tc = await Tc.findByPk(tcId);
+    if (!tc) throw new Error('Asignación no encontrada');
+    await tc.destroy();
+    return { message: 'Asignación eliminada correctamente' };
+}
+
+
+module.exports = {register, login, getUsers, getUsersByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse}

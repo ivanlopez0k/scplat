@@ -80,4 +80,34 @@ async function getByRole(req, res){
     }
 }
 
-module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole }
+async function getTeacherWithAssignments(req, res){
+    try {
+        const { id } = req.params;
+        const teacher = await userService.getTeacherWithAssignments(id);
+        res.status(200).json(teacher);
+    } catch (err) {
+        res.status(404).json({message: err.message});
+    }
+}
+
+async function assignTeacherToCourse(req, res){
+    try {
+        const { teacher_id, cs_id } = req.body;
+        const result = await userService.assignTeacherToCourse(teacher_id, cs_id);
+        res.status(201).json(result);
+    } catch (err) {
+        res.status(400).json({message: err.message});
+    }
+}
+
+async function removeTeacherFromCourse(req, res){
+    try {
+        const { id } = req.params;
+        const result = await userService.removeTeacherFromCourse(id);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
+module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse }

@@ -1,0 +1,181 @@
+.edit-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Teacher Info ── */
+.edit-modal__info {
+  background: #f5f3ee;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-modal__info-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.edit-modal__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  min-width: 60px;
+}
+
+.edit-modal__value {
+  font-size: 14px;
+  color: #1a1a2e;
+  font-weight: 500;
+}
+
+/* ── Sections ── */
+.edit-modal__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-modal__section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* ── Assignments List ── */
+.edit-modal__assignments {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-modal__assignment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f5f3ee;
+  border-radius: 10px;
+  gap: 12px;
+}
+
+.edit-modal__assignment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.edit-modal__assignment-course {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.edit-modal__assignment-subject {
+  font-size: 13px;
+  color: #888;
+}
+
+.edit-modal__remove-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edit-modal__remove-btn:hover:not(:disabled) {
+  background: #fce8e8;
+  transform: scale(1.05);
+}
+
+.edit-modal__remove-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Empty/Loading States ── */
+.edit-modal__empty,
+.edit-modal__loading {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  padding: 20px;
+  background: #f5f3ee;
+  border-radius: 10px;
+}
+
+/* ── Messages ─ */
+.edit-modal__message {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.edit-modal__message--error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.edit-modal__message--success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* ── Footer Buttons ── */
+.edit-modal-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  border: none;
+}
+
+.edit-modal-btn--primary {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.edit-modal-btn--primary:hover:not(:disabled) {
+  background: #17305d;
+  box-shadow: 0 4px 12px rgba(30, 58, 110, 0.3);
+  transform: translateY(-1px);
+}
+
+.edit-modal-btn--primary:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.edit-modal-btn--secondary {
+  background: #f5f3ee;
+  color: #555;
+}
+
+.edit-modal-btn--secondary:hover {
+  background: #e8e4dc;
+}

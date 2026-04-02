@@ -13,4 +13,7 @@ router.post('/logout', authMiddleware, userController.logout);
 router.get('/me', authMiddleware, userController.getCurrentUser);
 router.get('/getall', authMiddleware, checkRole('admin'), userController.getAll);
 router.get('/by-role/:role', authMiddleware, checkRole('admin'), userController.getByRole);
+router.get('/teacher/:id', authMiddleware, checkRole('admin'), userController.getTeacherWithAssignments);
+router.post('/assign', authMiddleware, checkRole('admin'), userController.assignTeacherToCourse);
+router.delete('/assign/:id', authMiddleware, checkRole('admin'), userController.removeTeacherFromCourse);
 module.exports = router
