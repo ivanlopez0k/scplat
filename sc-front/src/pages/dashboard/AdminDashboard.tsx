@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { getUsersByRole, type User } from "../../services/user.service";
 import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
+import ManageSubjectsModal from "../../components/ManageSubjectsModal/ManageSubjectsModal";
 import logo from "/Group_17.png";
 import "./adminDashboard.css";
 
@@ -42,6 +43,7 @@ export default function AdminDashboard(): ReactElement {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isManageSubjectsModalOpen, setIsManageSubjectsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -98,33 +100,33 @@ export default function AdminDashboard(): ReactElement {
 
       {/* ── SIDEBAR ── */}
       <aside className="admin-dash-sidebar">
-        <img className="admin-dash-sidebar__logo" src={logo} alt="EducAR" />
+        <div className="admin-dash-sidebar__logo">EducAR</div>
 
         <nav className="admin-dash-sidebar__nav">
-          <a href="#" className="admin-dash-sidebar__link">
-            <span className="admin-dash-sidebar__link-icon">⊞</span>
-            <span>Dashboard</span>
-          </a>
-          <a href="#" className="admin-dash-sidebar__link">
-            <span className="admin-dash-sidebar__link-icon">▪</span>
-            <span>Mis materias</span>
-          </a>
-          <a href="#" className="admin-dash-sidebar__link">
-            <span className="admin-dash-sidebar__link-icon">📋</span>
-            <span>Mis notas</span>
-          </a>
-          <a href="#" className="admin-dash-sidebar__link">
-            <span className="admin-dash-sidebar__link-icon">📅</span>
-            <span>Calendario</span>
-          </a>
-          <a href="#" className="admin-dash-sidebar__link">
-            <span className="admin-dash-sidebar__link-icon">✉</span>
+          <a href="#" className="admin-dash-sidebar__link admin-dash-sidebar__link--active">
+            <span className="admin-dash-sidebar__link-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+              </svg>
+            </span>
             <span>Mensajes</span>
           </a>
         </nav>
 
+        <button 
+          className="admin-dash-sidebar__manage" 
+          onClick={() => setIsManageSubjectsModalOpen(true)}
+        >
+          <span className="admin-dash-sidebar__link-icon">📚</span>
+          <span>Gestionar Cursos/Materias</span>
+        </button>
+
         <button className="admin-dash-sidebar__logout" onClick={handleLogout}>
-          <span>↪</span>
+          <span className="admin-dash-sidebar__link-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 17l1.41-1.41L8.83 13H20v-2H8.83l2.58-2.59L10 7l-5 5 5 5zM4 5h8V3H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8v-2H4V5z"/>
+            </svg>
+          </span>
           <span>Cerrar Sesión</span>
         </button>
       </aside>
@@ -248,6 +250,12 @@ export default function AdminDashboard(): ReactElement {
           teacherId={selectedTeacherId}
         />
       )}
+
+      {/* ── MANAGE SUBJECTS MODAL ── */}
+      <ManageSubjectsModal
+        isOpen={isManageSubjectsModalOpen}
+        onClose={() => setIsManageSubjectsModalOpen(false)}
+      />
     </div>
   );
 }

@@ -140,3 +140,33 @@ export async function removeTeacherFromCourse(tcId: number): Promise<{ message: 
   const result: { message: string } = await response.json();
   return result;
 }
+
+export async function deleteSubject(id: number): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/subjects/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to delete subject');
+  }
+
+  const result: { message: string } = await response.json();
+  return result;
+}
+
+export async function deleteCourse(id: number): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/courses/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to delete course');
+  }
+
+  const result: { message: string } = await response.json();
+  return result;
+}

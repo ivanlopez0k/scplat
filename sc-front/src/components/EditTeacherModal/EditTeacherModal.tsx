@@ -40,6 +40,7 @@ export default function EditTeacherModal({
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
   const [selectedExistingCs, setSelectedExistingCs] = useState<string>("");
   const [newCourseName, setNewCourseName] = useState("");
+  const [newCourseYear, setNewCourseYear] = useState<string>("1");
   const [newSubjectName, setNewSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,7 +95,7 @@ export default function EditTeacherModal({
           },
           body: JSON.stringify({ 
             name: newCourseName.trim(), 
-            year: "1" // Valor por defecto, se podría agregar un campo para esto
+            year: newCourseYear
           }),
           credentials: 'include',
         });
@@ -227,6 +228,7 @@ export default function EditTeacherModal({
     setSelectedSubjectId("");
     setSelectedExistingCs("");
     setNewCourseName("");
+    setNewCourseYear("1");
     setNewSubjectName("");
     setError(null);
     setSuccess(null);
@@ -254,7 +256,7 @@ export default function EditTeacherModal({
   // Generar opciones para el select de course-subjects existentes
   const csOptions: SelectOption[] = courseSubjects.map((cs) => ({
     value: cs.id,
-    label: `${cs.course?.name || 'Curso'} - ${cs.subject?.name || 'Materia'}`,
+    label: `${cs.course?.year || ''}° ${cs.course?.name || 'Curso'} - ${cs.subject?.name || 'Materia'}`,
   }));
 
   // Acceder a las asignaciones del profesor (puede venir como teacher_courses o Tcs)
@@ -336,14 +338,31 @@ export default function EditTeacherModal({
                     disabled={loading}
                   />
                   {selectedCourseId === NEW_OPTION_VALUE && (
-                    <input
-                      type="text"
-                      className="edit-modal__input"
-                      placeholder="Nombre del nuevo curso"
-                      value={newCourseName}
-                      onChange={(e) => setNewCourseName(e.target.value)}
-                      disabled={loading}
-                    />
+                    <>
+                      <input
+                        type="text"
+                        className="edit-modal__input"
+                        placeholder="Nombre del nuevo curso (ej: A, B, C)"
+                        value={newCourseName}
+                        onChange={(e) => setNewCourseName(e.target.value)}
+                        disabled={loading}
+                      />
+                      <div className="edit-modal__select-year-wrapper">
+                        <select
+                          className="edit-modal__select-year"
+                          value={newCourseYear}
+                          onChange={(e) => setNewCourseYear(e.target.value)}
+                          disabled={loading}
+                        >
+                          <option value="1">1° Grado</option>
+                          <option value="2">2° Grado</option>
+                          <option value="3">3° Grado</option>
+                          <option value="4">4° Grado</option>
+                          <option value="5">5° Grado</option>
+                          <option value="6">6° Grado</option>
+                        </select>
+                      </div>
+                    </>
                   )}
                 </div>
                 <div className="edit-modal__field">
@@ -415,6 +434,7 @@ export default function EditTeacherModal({
                 const csData = assignment.cs || assignment.Cs || {};
                 const courseData = csData.course || csData.Course || {};
                 const subjectData = csData.subject || csData.Subject || {};
+                const courseYear = courseData.year || '';
                 const courseName = courseData.name || 'Curso';
                 const subjectName = subjectData.name || 'Materia';
 
@@ -422,10 +442,7 @@ export default function EditTeacherModal({
                   <li key={assignment.id} className="edit-modal__assignment-item">
                     <div className="edit-modal__assignment-info">
                       <span className="edit-modal__assignment-course">
-                        {courseName}
-                      </span>
-                      <span className="edit-modal__assignment-subject">
-                        {subjectName}
+                        {courseYear}° {courseName} - {subjectName}
                       </span>
                     </div>
                     <button
