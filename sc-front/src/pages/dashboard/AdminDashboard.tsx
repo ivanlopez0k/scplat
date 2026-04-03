@@ -6,6 +6,7 @@ import { getUsersByRole, type User } from "../../services/user.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
 import ManageSubjectsModal from "../../components/ManageSubjectsModal/ManageSubjectsModal";
+import EditParentModal from "../../components/EditParentModal/EditParentModal";
 import "./adminDashboard.css";
 
 /* ── Grid background ── */
@@ -44,6 +45,9 @@ export default function AdminDashboard(): ReactElement {
   const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isManageSubjectsModalOpen, setIsManageSubjectsModalOpen] = useState(false);
+  const [selectedParentId, setSelectedParentId] = useState<number | null>(null);
+  const [selectedParentName, setSelectedParentName] = useState("");
+  const [isEditParentModalOpen, setIsEditParentModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -85,6 +89,18 @@ export default function AdminDashboard(): ReactElement {
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setSelectedTeacherId(null);
+  };
+
+  const handleEditParent = (parent: User) => {
+    setSelectedParentId(parent.id);
+    setSelectedParentName(`${parent.lastname}, ${parent.name}`);
+    setIsEditParentModalOpen(true);
+  };
+
+  const handleCloseEditParentModal = () => {
+    setIsEditParentModalOpen(false);
+    setSelectedParentId(null);
+    setSelectedParentName("");
   };
 
   const sidebarConfig = useSidebarConfig("admin", {
@@ -162,18 +178,19 @@ export default function AdminDashboard(): ReactElement {
                 <th>DNI</th>
                 {activeTab === "teachers" && <th>Materia</th>}
                 {activeTab === "teachers" && <th>Acciones</th>}
+                {activeTab === "parents" && <th>Acciones</th>}
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 5 : 3} className="admin-dash-table__loading">
+                  <td colSpan={activeTab === "teachers" ? 5 : activeTab === "parents" ? 4 : 3} className="admin-dash-table__loading">
                     Cargando...
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 5 : 3} className="admin-dash-table__empty">
+                  <td colSpan={activeTab === "teachers" ? 5 : activeTab === "parents" ? 4 : 3} className="admin-dash-table__empty">
                     No se encontraron usuarios
                   </td>
                 </tr>
@@ -196,6 +213,17 @@ export default function AdminDashboard(): ReactElement {
                           </button>
                         </td>
                       </>
+                    )}
+                    {activeTab === "parents" && (
+                      <td>
+                        <button
+                          className="admin-dash-table__edit-btn"
+                          onClick={() => handleEditParent(user)}
+                          aria-label="Editar padre"
+                        >
+                          ✏️ Editar
+                        </button>
+                      </td>
                     )}
                   </tr>
                 ))
@@ -223,6 +251,16 @@ export default function AdminDashboard(): ReactElement {
           isOpen={isEditModalOpen}
           onClose={handleCloseEditModal}
           teacherId={selectedTeacherId}
+        />
+      )}
+
+      {/* ── EDIT PARENT MODAL ── */}
+      {selectedParentId && (
+        <EditParentModal
+          isOpen={isEditParentModalOpen}
+          onClose={handleCloseEditParentModal}
+          parentId={selectedParentId}
+          parentName={selectedParentName}
         />
       )}
 

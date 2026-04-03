@@ -1,0 +1,207 @@
+.edit-parent-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-parent-modal__description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.edit-parent-modal__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.edit-parent-modal__search-icon {
+  position: absolute;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  color: #888;
+  pointer-events: none;
+}
+
+.edit-parent-modal__search-input {
+  width: 100%;
+  padding: 8px 12px 8px 34px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #f9fafb;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.edit-parent-modal__search-input:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+  background-color: #fff;
+}
+
+.edit-parent-modal__search-input::placeholder {
+  color: #aaa;
+}
+
+.edit-parent-modal__select-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.edit-parent-modal__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.edit-parent-modal__checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #4a90d9;
+  cursor: pointer;
+}
+
+.edit-parent-modal__count {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.edit-parent-modal__students {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+}
+
+.edit-parent-modal__student-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-parent-modal__student-item:last-child {
+  border-bottom: none;
+}
+
+.edit-parent-modal__student-item:hover {
+  background-color: #f5f7fa;
+}
+
+.edit-parent-modal__student-item--selected {
+  background-color: #e8f0fe;
+}
+
+.edit-parent-modal__student-item--selected:hover {
+  background-color: #d5e5fc;
+}
+
+.edit-parent-modal__checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.edit-parent-modal__checkbox-wrapper input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #4a90d9;
+  cursor: pointer;
+}
+
+.edit-parent-modal__checkbox-wrapper label {
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  flex: 1;
+}
+
+.edit-parent-modal__student-dni {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+}
+
+.edit-parent-modal__loading {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.edit-parent-modal__empty {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.edit-parent-modal__message {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.edit-parent-modal__message--error {
+  background-color: #fde8e8;
+  color: #c53030;
+  border: 1px solid #fbb6b6;
+}
+
+.edit-parent-modal__message--success {
+  background-color: #e6f9ed;
+  color: #276749;
+  border: 1px solid #b6e3c9;
+}
+
+/* Buttons in modal footer */
+.edit-parent-modal-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.edit-parent-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit-parent-modal-btn--secondary {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.edit-parent-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #cbd5e0;
+}
+
+.edit-parent-modal-btn--primary {
+  background-color: #4a90d9;
+  color: #fff;
+}
+
+.edit-parent-modal-btn--primary:hover:not(:disabled) {
+  background-color: #357abd;
+}
