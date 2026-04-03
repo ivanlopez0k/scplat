@@ -1,9 +1,9 @@
 const userService = require('../services/user.service');
 
 async function regUser(req, res){
-    const { name, lastname, dni, email, password, role } = req.body;
+    const { name, lastname, dni, email, password, role, courseId } = req.body;
     try{
-        const user = await userService.register(name,lastname,dni,email,password,role)
+        const user = await userService.register(name, lastname, dni, email, password, role, courseId)
         res.status(200).send(user)
     }
     catch (error){

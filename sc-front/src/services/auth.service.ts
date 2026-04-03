@@ -20,6 +20,7 @@ export interface RegisterData {
   email: string;
   password: string;
   role: 'student' | 'teacher' | 'parent';
+  courseId?: string;
 }
 
 const API_URL = '/api';

@@ -60,6 +60,10 @@ const registerValidation = [
     .optional()
     .isIn(['student', 'teacher', 'parent', 'admin'])
     .withMessage('Rol inválido'),
+  body('courseId')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('El curso debe ser un número entero válido'),
 ];
 
 // Middleware to check validation results
@@ -80,4 +84,5 @@ module.exports = {
   loginValidation,
   registerValidation,
   validateFields,
+  courseIdValidation: body('courseId').optional().isInt({ min: 1 }).withMessage('El curso debe ser un número entero válido'),
 };

@@ -1,6 +1,7 @@
-import { useState, type ReactElement, type FormEvent } from "react";
+import { useState, useEffect, type ReactElement, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../../services/auth.service";
+import { getCourses, type Course } from "../../services/course.service";
 import logo from "/Group_17.png";
 import "./register.css";
 
@@ -33,10 +34,26 @@ export default function Register(): ReactElement {
     email: '',
     password: '',
     role: 'student' as UserRole,
+    courseId: '' as string,
   });
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (formData.role === 'student') {
+      setCoursesLoading(true);
+      getCourses()
+        .then((data) => setCourses(data))
+        .catch(() => setCourses([]))
+        .finally(() => setCoursesLoading(false));
+    } else {
+      setCourses([]);
+      setFormData((prev) => ({ ...prev, courseId: '' }));
+    }
+  }, [formData.role]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -66,8 +83,25 @@ export default function Register(): ReactElement {
       return;
     }
 
+    // Validate course selection for students
+    if (formData.role === 'student' && !formData.courseId) {
+      setError('Debes seleccionar un curso');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await register(formData);
+      const registerData = {
+        name: formData.name,
+        lastname: formData.lastname,
+        dni: formData.dni,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role as 'student' | 'teacher' | 'parent',
+        courseId: formData.role === 'student' && formData.courseId ? formData.courseId : undefined,
+      };
+
+      await register(registerData);
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
@@ -221,6 +255,40 @@ export default function Register(): ReactElement {
                 <span className="reg-form__select-arrow">▼</span>
               </div>
             </div>
+
+            {/* ── ROW 5: Curso (solo Alumno) ── */}
+            {formData.role === 'student' && (
+              <div className="reg-form__group">
+                <label htmlFor="courseId" className="reg-form__label">
+                  Curso
+                </label>
+                <div className="reg-form__select-wrapper">
+                  <select
+                    id="courseId"
+                    name="courseId"
+                    className="reg-form__select"
+                    value={formData.courseId}
+                    onChange={handleChange}
+                    disabled={coursesLoading}
+                  >
+                    <option value="" disabled>
+                      {coursesLoading ? 'Cargando cursos...' : 'Seleccionar curso'}
+                    </option>
+                    {courses.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.year}° {course.name}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="reg-form__select-arrow">▼</span>
+                </div>
+                {courses.length === 0 && !coursesLoading && (
+                  <p className="reg-form__hint">
+                    No hay cursos disponibles. Contactá al administrador.
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* ── SUBMIT BUTTON ── */}
             <button

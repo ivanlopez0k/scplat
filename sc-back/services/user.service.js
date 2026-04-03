@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 
-const { User, Tc, Cs, Course, Subject } = require('../models');
+const { User, Tc, Cs, Course, Subject, Enrollment } = require('../models');
 
-async function register(name, lastname, dni, email, password, role) {
+async function register(name, lastname, dni, email, password, role, courseId) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const exUser = await User.findOne({ where: { email: email } });
@@ -21,6 +21,27 @@ async function register(name, lastname, dni, email, password, role) {
         password: hashedPassword,
         role
     });
+
+    // Auto-enroll student in selected course
+    if (role === 'student' && courseId) {
+        const course = await Course.findByPk(courseId);
+        if (!course) {
+            throw new Error('Curso no encontrado');
+        }
+
+        const currentYear = new Date().getFullYear();
+
+        const existing = await Enrollment.findOne({
+            where: { student_id: user.id, course_id: courseId, school_year: currentYear }
+        });
+        if (!existing) {
+            await Enrollment.create({
+                student_id: user.id,
+                course_id: courseId,
+                school_year: currentYear
+            });
+        }
+    }
 
     return user;
 }
