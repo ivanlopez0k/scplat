@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════
+   EDIT EXAM FORM
+   ═══════════════════════════════════════ */
+.edit-exam-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-exam-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-exam-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.edit-exam-form .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.edit-exam-form .form-input,
+.edit-exam-form .form-select {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+
+.edit-exam-form .form-input:focus,
+.edit-exam-form .form-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.edit-exam-form .form-error {
+  font-size: 14px;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.edit-exam-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.edit-exam-form .btn-cancel,
+.edit-exam-form .btn-submit {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+
+.edit-exam-form .btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.edit-exam-form .btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.edit-exam-form .btn-submit {
+  background: #6366f1;
+  color: #fff;
+}
+
+.edit-exam-form .btn-submit:hover:not(:disabled) {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.edit-exam-form .btn-submit:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 500px) {
+  .edit-exam-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-exam-form .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .edit-exam-form .btn-cancel,
+  .edit-exam-form .btn-submit {
+    width: 100%;
+  }
+}

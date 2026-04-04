@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════
+   EXAM CALENDAR
+   ═══════════════════════════════════════ */
+.exam-calendar {
+  width: 340px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.exam-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.exam-calendar__month {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.exam-calendar__nav {
+  display: flex;
+  gap: 4px;
+}
+
+.exam-calendar__nav-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.exam-calendar__nav-btn:hover {
+  background: #f0ece5;
+  color: #1a1a2e;
+}
+
+.exam-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.exam-calendar__day-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaa;
+  padding: 4px 0;
+}
+
+.exam-calendar__day {
+  font-size: 13px;
+  padding: 8px 0;
+  border-radius: 8px;
+  color: #1a1a2e;
+  cursor: default;
+  transition: background 0.2s;
+}
+
+.exam-calendar__day:hover:not(.exam-calendar__day--other) {
+  background: #f0ece5;
+}
+
+.exam-calendar__day--other {
+  color: #ddd;
+}
+
+/* Today highlight */
+.exam-calendar__day--today {
+  background: #6b5ce7;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Exam day highlight — blue dot */
+.exam-calendar__day--exam {
+  position: relative;
+  font-weight: 600;
+}
+
+.exam-calendar__day--exam::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1e3a6e;
+}
+
+/* If today AND has exam, keep white text */
+.exam-calendar__day--today.exam-calendar__day--exam {
+  background: #6b5ce7;
+  color: #fff;
+  font-weight: 700;
+}
+
+.exam-calendar__day--today.exam-calendar__day--exam::after {
+  background: #fff;
+}

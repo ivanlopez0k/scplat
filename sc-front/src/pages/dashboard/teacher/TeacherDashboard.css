@@ -159,6 +159,58 @@
 }
 
 /* ═══════════════════════════════════════
+   EXAMS SECTION
+   ═══════════════════════════════════════ */
+.teacher-dash-exams-section {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.teacher-dash-exams-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.teacher-dash-exams-section__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.teacher-dash-exams-section__btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.teacher-dash-exams-section__btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.teacher-dash-exams-section__error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  border: 1px solid #fecaca;
+}
+
+/* ═══════════════════════════════════════
    LOADING
    ═══════════════════════════════════════ */
 .teacher-dash-loading {

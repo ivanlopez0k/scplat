@@ -1,0 +1,93 @@
+/* ═══════════════════════════════════════
+   EXAM LIST CARD
+   ═══════════════════════════════════════ */
+.exam-list-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-list-card__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.exam-list-card__skeleton {
+  height: 48px;
+  background: linear-gradient(90deg, #f0ece5 25%, #e8e4dc 50%, #f0ece5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.exam-list-card__empty {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.exam-list-card__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-list-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.exam-list-card__row + .exam-list-card__row {
+  border-top: 1px solid #e8e4dc;
+}
+
+.exam-list-card__actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.exam-list-card__action {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.exam-list-card__action--edit {
+  background: #f0f0ff;
+  color: #6366f1;
+}
+
+.exam-list-card__action--edit:hover {
+  background: #e0e0ff;
+  transform: scale(1.1);
+}
+
+.exam-list-card__action--delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.exam-list-card__action--delete:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
+}

@@ -434,9 +434,19 @@
   min-width: 0;
 }
 
+.dash-exams__error {
+  font-size: 13px;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin: 0 0 12px;
+  border: 1px solid #fecaca;
+}
+
 /* ── Calendar ── */
 .dash-calendar {
-  width: 260px;
+  width: 340px;
   flex-shrink: 0;
   background: #fff;
   border-radius: 16px;

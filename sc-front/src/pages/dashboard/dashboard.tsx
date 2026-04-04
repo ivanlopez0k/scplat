@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
-import ExamRow from "../../components/ExamRow/ExamRow";
 import { getStudentsByParent, type ParentStudentLink } from "../../services/parent.service";
 import {
   getStudentEnrollment,
@@ -14,7 +13,10 @@ import {
   type Grade,
   type Enrollment,
 } from "../../services/student.service";
+import { getExamsForStudent, type Exam as ExamType } from "../../services/exam.service";
 import AddChildModal from "../../components/AddChildModal/AddChildModal";
+import ExamListCard from "../../components/ExamListCard/ExamListCard";
+import ExamCalendar from "../../components/ExamCalendar/ExamCalendar";
 import "./dashboard.css";
 
 /* ── Grid background ── */
@@ -35,12 +37,6 @@ const SUBJECTS = [
   { name: "Lengua", grade: 6.2 },
   { name: "Historia", grade: 3.8 },
   { name: "Inglés", grade: 9.5 },
-];
-
-const EXAMS = [
-  { subject: "Parcial Historia", detail: "Unidades 3 y 4", dateLabel: "13 mar" },
-  { subject: "Matemática", detail: "Trigonometría 2", dateLabel: "23 mar" },
-  { subject: "Inglés", detail: "Unidad 3", dateLabel: "01 abr" },
 ];
 
 const COMUNICADOS = [
@@ -65,31 +61,6 @@ const COMUNICADOS = [
 ];
 
 /* ── Calendar helpers ── */
-const DAY_NAMES = ["D", "L", "M", "M", "J", "V", "S"];
-
-function buildCalendar(year: number, month: number) {
-  const first = new Date(year, month, 1);
-  const startDay = first.getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const daysInPrev = new Date(year, month, 0).getDate();
-
-  const cells: { day: number; current: boolean }[] = [];
-
-  for (let i = startDay - 1; i >= 0; i--) {
-    cells.push({ day: daysInPrev - i, current: false });
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    cells.push({ day: d, current: true });
-  }
-  const remaining = 7 - (cells.length % 7);
-  if (remaining < 7) {
-    for (let d = 1; d <= remaining; d++) {
-      cells.push({ day: d, current: false });
-    }
-  }
-
-  return cells;
-}
 
 export default function Dashboard(): ReactElement {
   const navigate = useNavigate();
@@ -104,6 +75,9 @@ export default function Dashboard(): ReactElement {
   const [studentCourse, setStudentCourse] = useState<string>("");
   const [studentSubjects, setStudentSubjects] = useState<{ name: string; average: number | null }[]>([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
+  const [studentExams, setStudentExams] = useState<ExamType[]>([]);
+  const [examsLoading, setExamsLoading] = useState(false);
+  const [examsError, setExamsError] = useState<string | null>(null);
 
   // Parent-specific state
   const [children, setChildren] = useState<{ id: number; name: string; lastname: string }[]>([]);
@@ -146,6 +120,7 @@ export default function Dashboard(): ReactElement {
         if (status.user.role === 'student' && status.user.id) {
           try {
             setSubjectsLoading(true);
+            setExamsLoading(true);
             const enrollments: Enrollment[] = await getStudentEnrollment(status.user.id);
             if (enrollments.length > 0) {
               const enrollment = enrollments[0];
@@ -176,11 +151,24 @@ export default function Dashboard(): ReactElement {
 
                 setStudentSubjects(subjectsWithAvg);
               }
+
+              // Fetch exams for this student
+              console.log(`[Dashboard] Fetching exams for student id=${status.user.id}`);
+              try {
+                const exams = await getExamsForStudent(status.user.id);
+                console.log(`[Dashboard] Received ${exams.length} exams:`, JSON.stringify(exams, null, 2));
+                setStudentExams(exams);
+              } catch (examErr: any) {
+                const msg = examErr?.message || 'Error al cargar evaluaciones';
+                console.error('[Dashboard] Error fetching exams:', msg);
+                setExamsError(msg);
+              }
             }
           } catch (err) {
             console.error('Error fetching student data:', err);
           } finally {
             setSubjectsLoading(false);
+            setExamsLoading(false);
           }
         }
       }
@@ -210,9 +198,6 @@ export default function Dashboard(): ReactElement {
     onLogout: handleLogout,
     onAddChild: handleAddChild,
   });
-
-  const today = 13;
-  const calCells = buildCalendar(2026, 2);
 
   const handleArrow = () => {
     if (!cardsRef.current) return;
@@ -357,34 +342,18 @@ export default function Dashboard(): ReactElement {
           {/* Evaluaciones + Calendario combined */}
           <div className="dash-exams-cal">
             <div className="dash-exams">
-              <h2 className="dash-section-title">Próximas evaluaciones</h2>
-              {EXAMS.map((e) => (
-                <ExamRow key={e.subject + e.dateLabel} subject={e.subject} detail={e.detail} dateLabel={e.dateLabel} />
-              ))}
+              {examsError && (
+                <p className="dash-exams__error">Error: {examsError}</p>
+              )}
+              <ExamListCard
+                exams={studentExams}
+                loading={examsLoading}
+                title="Próximas evaluaciones"
+                emptyMessage="No hay evaluaciones próximas"
+              />
             </div>
 
-            <div className="dash-calendar">
-              <div className="dash-cal__header">
-                <span className="dash-cal__month">Marzo 2026</span>
-                <div className="dash-cal__nav">
-                  <button className="dash-cal__nav-btn" aria-label="Mes anterior">‹</button>
-                  <button className="dash-cal__nav-btn" aria-label="Mes siguiente">›</button>
-                </div>
-              </div>
-              <div className="dash-cal__grid">
-                {DAY_NAMES.map((d, i) => (
-                  <span className="dash-cal__day-name" key={i}>{d}</span>
-                ))}
-                {calCells.map((cell, i) => (
-                  <span
-                    key={i}
-                    className={`dash-cal__day ${!cell.current ? "dash-cal__day--other" : ""} ${cell.current && cell.day === today ? "dash-cal__day--today" : ""}`}
-                  >
-                    {cell.day}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <ExamCalendar exams={studentExams} />
           </div>
 
           {/* ¿Tenes dudas? */}
