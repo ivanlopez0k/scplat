@@ -1,0 +1,152 @@
+.add-child-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-child-modal__description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.add-child-modal__search {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.add-child-modal__input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add-child-modal__input:focus {
+  outline: none;
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+}
+
+.add-child-modal__input::placeholder {
+  color: #aaa;
+}
+
+.add-child-modal__search-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1e3a6e;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.add-child-modal__search-btn:hover:not(:disabled) {
+  background: #17305d;
+}
+
+.add-child-modal__search-btn:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Student found card */
+.add-child-modal__found {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+}
+
+.add-child-modal__found-icon {
+  font-size: 1.4rem;
+  color: #2e7d32;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.add-child-modal__found-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.add-child-modal__found-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.add-child-modal__found-dni {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Messages */
+.add-child-modal__message {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.add-child-modal__message--error {
+  background-color: #fde8e8;
+  color: #c53030;
+  border: 1px solid #fbb6b6;
+}
+
+.add-child-modal__message--success {
+  background-color: #e6f9ed;
+  color: #276749;
+  border: 1px solid #b6e3c9;
+}
+
+/* Buttons */
+.add-child-modal-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.add-child-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-child-modal-btn--secondary {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.add-child-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #cbd5e0;
+}
+
+.add-child-modal-btn--primary {
+  background-color: #4a90d9;
+  color: #fff;
+}
+
+.add-child-modal-btn--primary:hover:not(:disabled) {
+  background-color: #357abd;
+}

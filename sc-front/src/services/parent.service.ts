@@ -53,3 +53,21 @@ export async function deleteParentStudentLink(id: number): Promise<{ message: st
 
   return await response.json();
 }
+
+export async function createParentStudentLink(parentId: number, studentId: number): Promise<ParentStudentLink> {
+  const response = await fetch(`${API_URL}/ps/`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ parent_id: parentId, student_id: studentId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to create parent-student link');
+  }
+
+  return await response.json();
+}

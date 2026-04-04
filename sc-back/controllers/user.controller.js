@@ -1,9 +1,9 @@
 const userService = require('../services/user.service');
 
 async function regUser(req, res){
-    const { name, lastname, dni, email, password, role, courseId } = req.body;
+    const { name, lastname, dni, email, password, role, courseId, childDni } = req.body;
     try{
-        const user = await userService.register(name, lastname, dni, email, password, role, courseId)
+        const user = await userService.register(name, lastname, dni, email, password, role, courseId, childDni)
         res.status(200).send(user)
     }
     catch (error){
@@ -110,4 +110,26 @@ async function removeTeacherFromCourse(req, res){
     }
 }
 
-module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse }
+async function findStudentByDni(req, res){
+    try {
+        const { dni } = req.params;
+        const student = await userService.findStudentByDni(dni);
+        res.status(200).json(student);
+    } catch (err) {
+        res.status(404).json({message: err.message});
+    }
+}
+
+async function getMyAssignments(req, res){
+    try {
+        if (!req.user || req.user.role !== 'teacher') {
+            return res.status(403).json({message: 'No autorizado'});
+        }
+        const teacher = await userService.getTeacherWithAssignments(req.user.id);
+        res.status(200).json(teacher);
+    } catch (err) {
+        res.status(404).json({message: err.message});
+    }
+}
+
+module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse, findStudentByDni, getMyAssignments }

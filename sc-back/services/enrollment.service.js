@@ -18,8 +18,8 @@ async function createEnrollment(student_id, course_id, school_year) {
 async function getEnrollments() {
     const enrollments = await Enrollment.findAll({
         include: [
-            { model: User, attributes: ['name', 'lastname'] },
-            { model: Course, attributes: ['name', 'year'] }
+            { model: User, as: 'student', attributes: ['name', 'lastname'] },
+            { model: Course, as: 'course', attributes: ['name', 'year'] }
         ]
     });
     return enrollments;
@@ -28,8 +28,8 @@ async function getEnrollments() {
 async function getEnrollmentById(id) {
     const enrollment = await Enrollment.findByPk(id, {
         include: [
-            { model: User, attributes: ['name', 'lastname'] },
-            { model: Course, attributes: ['name', 'year'] }
+            { model: User, as: 'student', attributes: ['name', 'lastname'] },
+            { model: Course, as: 'course', attributes: ['name', 'year'] }
         ]
     });
     if (!enrollment) throw new Error('Inscripción no encontrada');
@@ -43,4 +43,18 @@ async function deleteEnrollment(id) {
     return { message: 'Inscripción eliminada correctamente' };
 }
 
-module.exports = { createEnrollment, getEnrollments, getEnrollmentById, deleteEnrollment };
+async function getEnrollmentsByStudent(student_id) {
+    const student = await User.findByPk(student_id);
+    if (!student) throw new Error('Usuario no encontrado');
+    if (student.role !== 'student') throw new Error('El usuario no es un estudiante');
+
+    const enrollments = await Enrollment.findAll({
+        where: { student_id },
+        include: [
+            { model: Course, as: 'course', attributes: ['id', 'name', 'year'] }
+        ]
+    });
+    return enrollments;
+}
+
+module.exports = { createEnrollment, getEnrollments, getEnrollmentById, deleteEnrollment, getEnrollmentsByStudent };

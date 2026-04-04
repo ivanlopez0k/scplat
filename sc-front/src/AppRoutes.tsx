@@ -4,6 +4,7 @@ import Login from "./pages/login/login";
 import Register from "./pages/register/Register";
 import Dashboard from "./pages/dashboard/dashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
+import TeacherDashboard from "./pages/dashboard/teacher/TeacherDashboard";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function AppRoutes(){
@@ -16,6 +17,11 @@ function AppRoutes(){
             <Route path="/dashboard" element={
                 <PrivateRoute>
                     <Dashboard />
+                </PrivateRoute>
+            }/>
+            <Route path="/teacher-dashboard" element={
+                <PrivateRoute teacherOnly>
+                    <TeacherDashboard />
                 </PrivateRoute>
             }/>
             <Route path="/admin-dashboard" element={

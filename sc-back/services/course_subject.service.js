@@ -52,4 +52,18 @@ async function deleteCourseSubject(id) {
     return { message: 'Eliminado correctamente' };
 }
 
-module.exports = { createCourseSubject, getCourseSubjects, getCourseSubjectById, deleteCourseSubject };
+async function getCourseSubjectsByCourse(course_id) {
+    const course = await Course.findByPk(course_id);
+    if (!course) throw new Error('Curso no encontrado');
+
+    const csList = await Cs.findAll({
+        where: { course_id },
+        include: [
+            { model: Subject, as: 'subject', attributes: ['id', 'name'] }
+        ],
+        order: [[{ model: Subject, as: 'subject' }, 'name', 'ASC']]
+    });
+    return csList;
+}
+
+module.exports = { createCourseSubject, getCourseSubjects, getCourseSubjectById, deleteCourseSubject, getCourseSubjectsByCourse };

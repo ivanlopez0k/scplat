@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 
-const { User, Tc, Cs, Course, Subject, Enrollment } = require('../models');
+const { User, Tc, Cs, Course, Subject, Enrollment, Ps } = require('../models');
 
-async function register(name, lastname, dni, email, password, role, courseId) {
+async function register(name, lastname, dni, email, password, role, courseId, childDni) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const exUser = await User.findOne({ where: { email: email } });
@@ -40,6 +40,24 @@ async function register(name, lastname, dni, email, password, role, courseId) {
                 course_id: courseId,
                 school_year: currentYear
             });
+        }
+    }
+
+    // Auto-link parent to student by DNI
+    if (role === 'parent' && childDni) {
+        const student = await User.findOne({
+            where: { dni: childDni, role: 'student' }
+        });
+        if (student) {
+            const existingLink = await Ps.findOne({
+                where: { parent_id: user.id, student_id: student.id }
+            });
+            if (!existingLink) {
+                await Ps.create({
+                    parent_id: user.id,
+                    student_id: student.id
+                });
+            }
         }
     }
 
@@ -126,5 +144,15 @@ async function removeTeacherFromCourse(tcId) {
     return { message: 'Asignación eliminada correctamente' };
 }
 
+async function findStudentByDni(dni) {
+    const student = await User.findOne({
+        where: { dni, role: 'student' },
+        attributes: ['id', 'name', 'lastname', 'dni', 'email', 'role']
+    });
+    if (!student) {
+        throw new Error('Estudiante no encontrado');
+    }
+    return student;
+}
 
-module.exports = {register, login, getUsers, getUsersByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse}
+module.exports = {register, login, getUsers, getUsersByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse, findStudentByDni}

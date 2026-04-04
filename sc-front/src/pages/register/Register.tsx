@@ -5,6 +5,8 @@ import { getCourses, type Course } from "../../services/course.service";
 import logo from "/Group_17.png";
 import "./register.css";
 
+const API_URL = '/api';
+
 /* ── Grid background ── */
 const GridBackground = (): ReactElement => (
   <svg className="reg-grid-bg" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +40,11 @@ export default function Register(): ReactElement {
   });
   const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(false);
+  const [childRegistered, setChildRegistered] = useState(false);
+  const [childDni, setChildDni] = useState('');
+  const [childDniError, setChildDniError] = useState<string | null>(null);
+  const [childDniLoading, setChildDniLoading] = useState(false);
+  const [childDniVerified, setChildDniVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -53,6 +60,13 @@ export default function Register(): ReactElement {
       setCourses([]);
       setFormData((prev) => ({ ...prev, courseId: '' }));
     }
+    // Reset child data when role changes
+    if (formData.role !== 'parent') {
+      setChildRegistered(false);
+      setChildDni('');
+      setChildDniError(null);
+      setChildDniVerified(false);
+    }
   }, [formData.role]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -61,6 +75,31 @@ export default function Register(): ReactElement {
       [e.target.name]: e.target.value,
     });
     setError(null);
+  };
+
+  const handleVerifyChildDni = async () => {
+    if (!childDni.trim()) {
+      setChildDniError('Ingresá el DNI de tu hijo');
+      return;
+    }
+    setChildDniLoading(true);
+    setChildDniError(null);
+    setChildDniVerified(false);
+    try {
+      const response = await fetch(`${API_URL}/user/student/by-dni/${childDni.trim()}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Estudiante no encontrado');
+      }
+      await response.json();
+      setChildDniVerified(true);
+      setChildDniError(null);
+    } catch (err) {
+      setChildDniVerified(false);
+      setChildDniError(err instanceof Error ? err.message : 'Error al buscar estudiante');
+    } finally {
+      setChildDniLoading(false);
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -90,6 +129,20 @@ export default function Register(): ReactElement {
       return;
     }
 
+    // Validate child DNI for parents
+    if (formData.role === 'parent' && childRegistered) {
+      if (!childDni.trim()) {
+        setError('Ingresá el DNI de tu hijo');
+        setLoading(false);
+        return;
+      }
+      if (!childDniVerified) {
+        setError('Verificá el DNI de tu hijo antes de continuar');
+        setLoading(false);
+        return;
+      }
+    }
+
     try {
       const registerData = {
         name: formData.name,
@@ -99,6 +152,7 @@ export default function Register(): ReactElement {
         password: formData.password,
         role: formData.role as 'student' | 'teacher' | 'parent',
         courseId: formData.role === 'student' && formData.courseId ? formData.courseId : undefined,
+        childDni: formData.role === 'parent' && childRegistered && childDniVerified ? childDni.trim() : undefined,
       };
 
       await register(registerData);
@@ -288,6 +342,70 @@ export default function Register(): ReactElement {
                   </p>
                 )}
               </div>
+            )}
+
+            {/* ── ROW 6: Hijo registrado (solo Padre) ── */}
+            {formData.role === 'parent' && (
+              <>
+                <div className="reg-form__group">
+                  <label className="reg-form__checkbox-row">
+                    <input
+                      type="checkbox"
+                      checked={childRegistered}
+                      onChange={(e) => {
+                        setChildRegistered(e.target.checked);
+                        if (!e.target.checked) {
+                          setChildDni('');
+                          setChildDniError(null);
+                          setChildDniVerified(false);
+                        }
+                      }}
+                    />
+                    <span>Mi hijo ya está registrado</span>
+                  </label>
+                </div>
+
+                {childRegistered && (
+                  <div className="reg-form__group">
+                    <label htmlFor="childDni" className="reg-form__label">
+                      DNI de tu hijo
+                    </label>
+                    <div className="reg-form__child-dni-row">
+                      <input
+                        type="text"
+                        id="childDni"
+                        className={`reg-form__input ${childDniError ? 'reg-form__input--error' : ''}`}
+                        value={childDni}
+                        onChange={(e) => {
+                          setChildDni(e.target.value);
+                          setChildDniError(null);
+                          setChildDniVerified(false);
+                        }}
+                        placeholder="Ej: 12345678"
+                        disabled={childDniLoading}
+                      />
+                      <button
+                        type="button"
+                        className="reg-form__verify-btn"
+                        onClick={handleVerifyChildDni}
+                        disabled={childDniLoading || !childDni.trim()}
+                      >
+                        {childDniLoading ? 'Verificando...' : 'Verificar'}
+                      </button>
+                    </div>
+                    {childDniVerified && (
+                      <p className="reg-form__hint reg-form__hint--success">
+                        ✓ Hijo verificado correctamente
+                      </p>
+                    )}
+                    {childDniError && (
+                      <p className="reg-form__hint reg-form__hint--error">
+                        {childDniError}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </>
             )}
 
             {/* ── SUBMIT BUTTON ── */}

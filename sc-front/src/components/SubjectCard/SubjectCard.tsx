@@ -3,7 +3,8 @@ import "./SubjectCard.css";
 
 export interface SubjectCardProps {
   name: string;
-  grade: number;
+  grade?: number;
+  noGrade?: boolean;
 }
 
 function getLevel(grade: number): "green" | "yellow" | "red" {
@@ -18,16 +19,25 @@ function getLabel(level: "green" | "yellow" | "red"): string {
   return "Atención";
 }
 
-export default function SubjectCard({ name, grade }: SubjectCardProps): ReactElement {
-  const level = getLevel(grade);
+export default function SubjectCard({ name, grade, noGrade }: SubjectCardProps): ReactElement {
+  if (noGrade) {
+    return (
+      <div className="subject-card subject-card--no-grade">
+        <span className="subject-card__name">{name}</span>
+        <span className="subject-card__no-grade">Sin notas</span>
+      </div>
+    );
+  }
+
+  const level = getLevel(grade ?? 0);
   const label = getLabel(level);
-  const pct = Math.min((grade / 10) * 100, 100);
+  const pct = Math.min(((grade ?? 0) / 10) * 100, 100);
 
   return (
     <div className="subject-card">
       <span className="subject-card__name">{name}</span>
       <span className={`subject-card__grade subject-card__grade--${level}`}>
-        {grade.toFixed(1)}
+        {(grade ?? 0).toFixed(1)}
       </span>
 
       <div className="subject-card__bar">

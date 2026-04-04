@@ -21,6 +21,7 @@ export interface RegisterData {
   password: string;
   role: 'student' | 'teacher' | 'parent';
   courseId?: string;
+  childDni?: string;
 }
 
 const API_URL = '/api';

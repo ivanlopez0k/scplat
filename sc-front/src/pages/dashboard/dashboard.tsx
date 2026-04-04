@@ -5,6 +5,16 @@ import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import ExamRow from "../../components/ExamRow/ExamRow";
+import { getStudentsByParent, type ParentStudentLink } from "../../services/parent.service";
+import {
+  getStudentEnrollment,
+  getCourseSubjects,
+  getStudentGrades,
+  type CourseSubject,
+  type Grade,
+  type Enrollment,
+} from "../../services/student.service";
+import AddChildModal from "../../components/AddChildModal/AddChildModal";
 import "./dashboard.css";
 
 /* ── Grid background ── */
@@ -87,17 +97,95 @@ export default function Dashboard(): ReactElement {
   const cardsRef = useRef<HTMLDivElement>(null);
   const [cardOffset, setCardOffset] = useState(0);
   const [userRole, setUserRole] = useState<"student" | "teacher" | "parent" | "admin">("student");
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState<number | null>(null);
+
+  // Student-specific state
+  const [studentCourse, setStudentCourse] = useState<string>("");
+  const [studentSubjects, setStudentSubjects] = useState<{ name: string; average: number | null }[]>([]);
+  const [subjectsLoading, setSubjectsLoading] = useState(false);
+
+  // Parent-specific state
+  const [children, setChildren] = useState<{ id: number; name: string; lastname: string }[]>([]);
+  const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
+  const [isAddChildModalOpen, setIsAddChildModalOpen] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
     return () => clearTimeout(t);
-    
-    // Get user role
-    checkAuth().then((status) => {
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const status = await checkAuth();
       if (status.user) {
         setUserRole(status.user.role as any);
+        setUserName(status.user.name);
+        setUserId(status.user.id ?? null);
+
+        // If parent, fetch children
+        if (status.user.role === 'parent' && status.user.id) {
+          try {
+            const links = await getStudentsByParent(status.user.id);
+            const kids = links.map((link: ParentStudentLink) => ({
+              id: link.student_id,
+              name: link.student?.name ?? '',
+              lastname: link.student?.lastname ?? '',
+            }));
+            setChildren(kids);
+            if (kids.length > 0) {
+              setSelectedChildId(kids[0].id);
+            }
+          } catch (err) {
+            console.error('Error fetching children:', err);
+            setChildren([]);
+          }
+        }
+
+        // If student, fetch enrollment, subjects and grades
+        if (status.user.role === 'student' && status.user.id) {
+          try {
+            setSubjectsLoading(true);
+            const enrollments: Enrollment[] = await getStudentEnrollment(status.user.id);
+            if (enrollments.length > 0) {
+              const enrollment = enrollments[0];
+              const courseName = enrollment.course
+                ? `${enrollment.course.year}° ${enrollment.course.name}`
+                : '';
+              setStudentCourse(courseName);
+
+              // Fetch subjects for this course (only if course exists)
+              if (enrollment.course) {
+                const subjects: CourseSubject[] = await getCourseSubjects(enrollment.course_id);
+                const subjectNames = subjects.map((cs) => cs.subject?.name ?? 'Materia');
+
+                // Fetch grades for this student
+                const grades: Grade[] = await getStudentGrades(status.user.id);
+
+                // Calculate average per subject
+                const subjectsWithAvg = subjectNames.map((name) => {
+                  const subjectGrades = grades.filter(
+                    (g) => g.Exam?.Cs?.subject?.name === name
+                  );
+                  if (subjectGrades.length === 0) {
+                    return { name, average: null };
+                  }
+                  const sum = subjectGrades.reduce((acc, g) => acc + Number(g.note), 0);
+                  return { name, average: Math.round((sum / subjectGrades.length) * 10) / 10 };
+                });
+
+                setStudentSubjects(subjectsWithAvg);
+              }
+            }
+          } catch (err) {
+            console.error('Error fetching student data:', err);
+          } finally {
+            setSubjectsLoading(false);
+          }
+        }
       }
-    });
+    };
+    fetchUser();
   }, []);
 
   const handleLogout = () => {
@@ -105,8 +193,22 @@ export default function Dashboard(): ReactElement {
     navigate("/login");
   };
 
+  const handleAddChild = () => {
+    setIsAddChildModalOpen(true);
+  };
+
+  const handleChildAdded = (child: { id: number; name: string; lastname: string }) => {
+    setChildren((prev) => [...prev, child]);
+    setSelectedChildId(child.id);
+    // Close modal after a short delay to let user see success message
+    setTimeout(() => {
+      setIsAddChildModalOpen(false);
+    }, 1200);
+  };
+
   const sidebarConfig = useSidebarConfig(userRole, {
     onLogout: handleLogout,
+    onAddChild: handleAddChild,
   });
 
   const today = 13;
@@ -114,11 +216,18 @@ export default function Dashboard(): ReactElement {
 
   const handleArrow = () => {
     if (!cardsRef.current) return;
-    const cardWidth = 200 + 16; // card min-width + gap
+    const cardWidth = 200 + 16;
     const maxOffset = Math.max(0, SUBJECTS.length * cardWidth - (cardsRef.current.parentElement?.clientWidth ?? 600));
     const next = cardOffset + cardWidth;
     setCardOffset(next >= maxOffset ? 0 : next);
   };
+
+  const selectedChild = children.find((c) => c.id === selectedChildId);
+  const selectedChildName = selectedChild
+    ? `${selectedChild.lastname}, ${selectedChild.name}`
+    : children.length > 0
+      ? `${children[0].lastname}, ${children[0].name}`
+      : null;
 
   return (
     <div className={`dash ${visible ? "" : ""}`}>
@@ -132,8 +241,42 @@ export default function Dashboard(): ReactElement {
         {/* Header */}
         <header className="dash-header">
           <div>
-            <h1 className="dash-header__greeting">Hola, Pedro</h1>
-            <p className="dash-header__info">5to grado, Turno Mañana</p>
+            <h1 className="dash-header__greeting">Hola, {userName}</h1>
+            {userRole === 'parent' && selectedChildName && (
+              <>
+                <div className="dash-header__child-selector">
+                  <label htmlFor="child-select" className="dash-header__child-label">
+                    Rendimiento de
+                  </label>
+                  <select
+                    id="child-select"
+                    className="dash-header__child-select"
+                    value={selectedChildId ?? children[0]?.id ?? ''}
+                    onChange={(e) => setSelectedChildId(Number(e.target.value))}
+                  >
+                    {children.map((child) => (
+                      <option key={child.id} value={child.id}>
+                        {child.lastname}, {child.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+            {userRole === 'parent' && children.length === 0 && (
+              <p className="dash-header__info">
+                No tenés hijos vinculados aún. Usá "Agregar hijo" en el menú.
+              </p>
+            )}
+            {userRole === 'student' && (
+              <p className="dash-header__info">
+                {subjectsLoading
+                  ? 'Cargando...'
+                  : studentCourse
+                    ? studentCourse
+                    : 'Sin curso asignado'}
+              </p>
+            )}
           </div>
           <div className="dash-header__actions">
             <button className="dash-header__icon-btn" aria-label="Configuración">⚙</button>
@@ -146,22 +289,46 @@ export default function Dashboard(): ReactElement {
         <div className="dash-top-row">
           {/* Rendimiento */}
           <div className="dash-subjects">
-            <h2 className="dash-section-title">Tu rendimiento por materia</h2>
+            <h2 className="dash-section-title">
+              {userRole === 'parent' && selectedChildName
+                ? `Rendimiento de ${selectedChildName}`
+                : 'Tu rendimiento por materia'}
+            </h2>
             <div className="dash-subjects__scroll">
-              <div
-                className="dash-subjects__cards"
-                ref={cardsRef}
-                style={{ transform: `translateX(-${cardOffset}px)` }}
-              >
-                {SUBJECTS.map((s) => (
-                  <SubjectCard key={s.name} name={s.name} grade={s.grade} />
-                ))}
-              </div>
+              {userRole === 'student' && subjectsLoading ? (
+                <p className="dash-subjects__loading">Cargando materias...</p>
+              ) : (
+                <div
+                  className="dash-subjects__cards"
+                  ref={cardsRef}
+                  style={{ transform: `translateX(-${cardOffset}px)` }}
+                >
+                  {userRole === 'student'
+                    ? studentSubjects.map((s) => (
+                        <SubjectCard
+                          key={s.name}
+                          name={s.name}
+                          grade={s.average ?? undefined}
+                          noGrade={s.average === null}
+                        />
+                      ))
+                    : SUBJECTS.map((s) => (
+                        <SubjectCard key={s.name} name={s.name} grade={s.grade} />
+                      ))}
+                </div>
+              )}
               <button className="dash-subjects__arrow" aria-label="Ver más" onClick={handleArrow}>
                 ›
               </button>
             </div>
-            <a className="dash-subjects__link" href="#">Ver todas las materias</a>
+            {userRole === 'student' && studentSubjects.length > 0 && (
+              <a className="dash-subjects__link" href="#">Ver todas las materias</a>
+            )}
+            {userRole === 'student' && studentSubjects.length === 0 && !subjectsLoading && (
+              <p className="dash-subjects__empty">
+                No hay materias asignadas aún.
+              </p>
+            )}
           </div>
 
           {/* Comunicados */}
@@ -232,6 +399,16 @@ export default function Dashboard(): ReactElement {
           </div>
         </div>
       </div>
+
+      {/* ── ADD CHILD MODAL ── */}
+      {userId !== null && (
+        <AddChildModal
+          isOpen={isAddChildModalOpen}
+          onClose={() => setIsAddChildModalOpen(false)}
+          parentId={userId}
+          onChildAdded={handleChildAdded}
+        />
+      )}
     </div>
   );
 }

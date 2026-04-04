@@ -64,6 +64,13 @@ const registerValidation = [
     .optional()
     .isInt({ min: 1 })
     .withMessage('El curso debe ser un número entero válido'),
+  body('childDni')
+    .optional()
+    .trim()
+    .isLength({ min: 6, max: 20 })
+    .withMessage('El DNI del hijo debe tener entre 6 y 20 caracteres')
+    .matches(/^[a-zA-Z0-9]+$/)
+    .withMessage('El DNI del hijo solo puede contener letras y números'),
 ];
 
 // Middleware to check validation results

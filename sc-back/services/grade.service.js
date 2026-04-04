@@ -1,4 +1,4 @@
-const { Grade, User, Exam, Cs, Enrollment } = require('../models');
+const { Grade, User, Exam, Cs, Enrollment, Subject } = require('../models');
 
 async function createGrade(exam_id, student_id, note) {
     const student = await User.findByPk(student_id);
@@ -56,7 +56,20 @@ async function getGradesByStudent(student_id) {
     const grades = await Grade.findAll({
         where: { student_id },
         include: [
-            { model: Exam, attributes: ['title', 'type', 'exam_date'] }
+            {
+                model: Exam,
+                attributes: ['id', 'title', 'type', 'exam_date'],
+                include: [
+                    {
+                        model: Cs,
+                        as: 'Cs',
+                        attributes: ['id'],
+                        include: [
+                            { model: Subject, as: 'subject', attributes: ['id', 'name'] }
+                        ]
+                    }
+                ]
+            }
         ]
     });
     return grades;

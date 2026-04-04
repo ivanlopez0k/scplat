@@ -107,6 +107,19 @@ export async function getTeacherWithAssignments(teacherId: number): Promise<Teac
   return teacher;
 }
 
+export async function getMyAssignments(): Promise<Teacher> {
+  const response = await fetch(`${API_URL}/user/teacher/me/assignments`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch assignments');
+  }
+
+  const teacher: Teacher = await response.json();
+  return teacher;
+}
+
 export async function assignTeacherToCourse(teacher_id: number, cs_id: number): Promise<TeacherAssignment> {
   const response = await fetch(`${API_URL}/user/assign`, {
     method: 'POST',

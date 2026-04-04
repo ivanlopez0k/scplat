@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import type { UserRole, SidebarConfig } from "./Sidebar.types";
-import { studentSidebarConfig, adminSidebarConfig } from "./Sidebar.config";
+import { studentSidebarConfig, adminSidebarConfig, parentSidebarConfig, teacherSidebarConfig } from "./Sidebar.config";
 
 export function useSidebarConfig(
   role: UserRole,
   handlers: {
     onLogout: () => void;
     onManageSubjects?: () => void;
+    onAddChild?: () => void;
   }
 ): SidebarConfig {
   return useMemo(() => {
@@ -19,14 +20,40 @@ export function useSidebarConfig(
         },
         actions: adminSidebarConfig.actions?.map(action => ({
           ...action,
-          onClick: action.label.includes('Gestionar') 
-            ? handlers.onManageSubjects || (() => {}) 
+          onClick: action.label.includes('Gestionar')
+            ? handlers.onManageSubjects || (() => {})
             : action.onClick,
         })),
       };
     }
 
-    // Student, teacher, parent use the same config for now
+    if (role === 'parent') {
+      return {
+        ...parentSidebarConfig,
+        logout: {
+          ...parentSidebarConfig.logout,
+          onClick: handlers.onLogout,
+        },
+        actions: parentSidebarConfig.actions?.map(action => ({
+          ...action,
+          onClick: action.label.includes('Agregar hijo')
+            ? handlers.onAddChild || (() => {})
+            : action.onClick,
+        })),
+      };
+    }
+
+    if (role === 'teacher') {
+      return {
+        ...teacherSidebarConfig,
+        logout: {
+          ...teacherSidebarConfig.logout,
+          onClick: handlers.onLogout,
+        },
+      };
+    }
+
+    // Student uses the same config
     return {
       ...studentSidebarConfig,
       logout: {
@@ -34,5 +61,5 @@ export function useSidebarConfig(
         onClick: handlers.onLogout,
       },
     };
-  }, [role, handlers.onLogout, handlers.onManageSubjects]);
+  }, [role, handlers.onLogout, handlers.onManageSubjects, handlers.onAddChild]);
 }

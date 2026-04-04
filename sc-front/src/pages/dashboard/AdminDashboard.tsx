@@ -7,6 +7,7 @@ import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
 import ManageSubjectsModal from "../../components/ManageSubjectsModal/ManageSubjectsModal";
 import EditParentModal from "../../components/EditParentModal/EditParentModal";
+import AssignStudentModal from "../../components/AssignStudentModal/AssignStudentModal";
 import "./adminDashboard.css";
 
 /* ── Grid background ── */
@@ -48,6 +49,9 @@ export default function AdminDashboard(): ReactElement {
   const [selectedParentId, setSelectedParentId] = useState<number | null>(null);
   const [selectedParentName, setSelectedParentName] = useState("");
   const [isEditParentModalOpen, setIsEditParentModalOpen] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
+  const [selectedStudentName, setSelectedStudentName] = useState("");
+  const [isAssignStudentModalOpen, setIsAssignStudentModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -101,6 +105,18 @@ export default function AdminDashboard(): ReactElement {
     setIsEditParentModalOpen(false);
     setSelectedParentId(null);
     setSelectedParentName("");
+  };
+
+  const handleAssignStudent = (student: User) => {
+    setSelectedStudentId(student.id);
+    setSelectedStudentName(`${student.lastname}, ${student.name}`);
+    setIsAssignStudentModalOpen(true);
+  };
+
+  const handleCloseAssignStudentModal = () => {
+    setIsAssignStudentModalOpen(false);
+    setSelectedStudentId(null);
+    setSelectedStudentName("");
   };
 
   const sidebarConfig = useSidebarConfig("admin", {
@@ -179,18 +195,19 @@ export default function AdminDashboard(): ReactElement {
                 {activeTab === "teachers" && <th>Materia</th>}
                 {activeTab === "teachers" && <th>Acciones</th>}
                 {activeTab === "parents" && <th>Acciones</th>}
+                {activeTab === "students" && <th>Acciones</th>}
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 5 : activeTab === "parents" ? 4 : 3} className="admin-dash-table__loading">
+                  <td colSpan={activeTab === "teachers" ? 5 : (activeTab === "parents" || activeTab === "students") ? 4 : 3} className="admin-dash-table__loading">
                     Cargando...
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={activeTab === "teachers" ? 5 : activeTab === "parents" ? 4 : 3} className="admin-dash-table__empty">
+                  <td colSpan={activeTab === "teachers" ? 5 : (activeTab === "parents" || activeTab === "students") ? 4 : 3} className="admin-dash-table__empty">
                     No se encontraron usuarios
                   </td>
                 </tr>
@@ -222,6 +239,17 @@ export default function AdminDashboard(): ReactElement {
                           aria-label="Editar padre"
                         >
                           ✏️ Editar
+                        </button>
+                      </td>
+                    )}
+                    {activeTab === "students" && (
+                      <td>
+                        <button
+                          className="admin-dash-table__edit-btn"
+                          onClick={() => handleAssignStudent(user)}
+                          aria-label="Asignar curso"
+                        >
+                          ✏️ Asignar
                         </button>
                       </td>
                     )}
@@ -261,6 +289,16 @@ export default function AdminDashboard(): ReactElement {
           onClose={handleCloseEditParentModal}
           parentId={selectedParentId}
           parentName={selectedParentName}
+        />
+      )}
+
+      {/* ── ASSIGN STUDENT MODAL ── */}
+      {selectedStudentId && (
+        <AssignStudentModal
+          isOpen={isAssignStudentModalOpen}
+          onClose={handleCloseAssignStudentModal}
+          studentId={selectedStudentId}
+          studentName={selectedStudentName}
         />
       )}
 
