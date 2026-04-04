@@ -1,4 +1,4 @@
-const { Grade, User, Exam, Cs, Enrollment, Subject } = require('../models');
+const { Grade, User, Exam, Cs, Enrollment, Subject, Course } = require('../models');
 
 async function createGrade(exam_id, student_id, note) {
     const student = await User.findByPk(student_id);
@@ -82,4 +82,73 @@ async function updateGrade(id, note) {
     return grade;
 }
 
-module.exports = { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade };
+async function getStudentsByExam(examId) {
+    const exam = await Exam.findByPk(examId, {
+        include: [
+            {
+                model: Cs,
+                as: 'Cs',
+                include: [
+                    { model: Course, as: 'course', attributes: ['id', 'name', 'year'] }
+                ]
+            }
+        ]
+    });
+    if (!exam) throw new Error('Examen no encontrado');
+
+    // Get all students enrolled in this course
+    const enrollments = await Enrollment.findAll({
+        where: { course_id: exam.Cs.course_id },
+        include: [
+            { model: User, as: 'student', attributes: ['id', 'name', 'lastname', 'dni'] }
+        ]
+    });
+
+    // Get existing grades for this exam
+    const existingGrades = await Grade.findAll({
+        where: { exam_id: examId },
+        attributes: ['student_id', 'id', 'note']
+    });
+
+    const gradeMap = {};
+    existingGrades.forEach(g => {
+        gradeMap[g.student_id] = { gradeId: g.id, note: parseFloat(g.note) };
+    });
+
+    // Build response: all enrolled students with their grade (or null)
+    const students = enrollments.map(enrollment => ({
+        student_id: enrollment.student.id,
+        name: enrollment.student.name,
+        lastname: enrollment.student.lastname,
+        dni: enrollment.student.dni,
+        grade: gradeMap[enrollment.student.id] || null
+    }));
+
+    // Sort alphabetically by lastname
+    students.sort((a, b) => a.lastname.localeCompare(b.lastname));
+
+    return students;
+}
+
+async function bulkUpsertGrades(examId, grades) {
+    // grades: [{ student_id, note }, ...]
+    const exam = await Exam.findByPk(examId);
+    if (!exam) throw new Error('Examen no encontrado');
+
+    for (const { student_id, note } of grades) {
+        if (note < 0 || note > 100) {
+            throw new Error(`Nota inválida para alumno ${student_id}: debe estar entre 0 y 100`);
+        }
+
+        const existing = await Grade.findOne({ where: { exam_id: examId, student_id } });
+        if (existing) {
+            await existing.update({ note });
+        } else {
+            await Grade.create({ exam_id: examId, student_id, note });
+        }
+    }
+
+    return { message: `Se guardaron ${grades.length} notas correctamente` };
+}
+
+module.exports = { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades };

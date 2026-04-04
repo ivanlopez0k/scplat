@@ -8,6 +8,7 @@ import { getExamsByCsId, deleteExam, type Exam as ExamType } from "../../../serv
 import TeacherCourseCard from "../../../components/TeacherCourseCard/TeacherCourseCard";
 import CreateExamModal from "../../../components/CreateExamModal/CreateExamModal";
 import EditExamModal from "../../../components/EditExamModal/EditExamModal";
+import ExamStudentList from "../../../components/ExamStudentList/ExamStudentList";
 import ExamListCard from "../../../components/ExamListCard/ExamListCard";
 import "./TeacherDashboard.css";
 
@@ -35,6 +36,7 @@ export default function TeacherDashboard(): ReactElement {
   const [examsError, setExamsError] = useState<string | null>(null);
   const [isCreateExamModalOpen, setIsCreateExamModalOpen] = useState(false);
   const [editingExam, setEditingExam] = useState<ExamType | null>(null);
+  const [gradingExam, setGradingExam] = useState<ExamType | null>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -158,6 +160,10 @@ export default function TeacherDashboard(): ReactElement {
     }
   };
 
+  const handleSelectExam = (exam: ExamType) => {
+    setGradingExam(exam);
+  };
+
   // If a course is selected, show detail view
   if (selectedCsId !== null) {
     const assignment = assignments.find((a) => a.cs_id === selectedCsId);
@@ -209,6 +215,7 @@ export default function TeacherDashboard(): ReactElement {
                 loading={examsLoading}
                 title=""
                 emptyMessage="No hay evaluaciones creadas para esta materia"
+                onSelectExam={handleSelectExam}
                 onEdit={handleEditExam}
                 onDelete={handleDeleteExam}
               />
@@ -232,6 +239,16 @@ export default function TeacherDashboard(): ReactElement {
             onClose={() => setEditingExam(null)}
             exam={editingExam}
             onSuccess={handleExamEdited}
+          />
+        )}
+
+        {gradingExam && (
+          <ExamStudentList
+            isOpen={!!gradingExam}
+            onClose={() => setGradingExam(null)}
+            examId={gradingExam.id}
+            examTitle={gradingExam.title}
+            onSuccess={handleExamCreated}
           />
         )}
       </div>

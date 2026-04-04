@@ -49,6 +49,18 @@
   gap: 8px;
 }
 
+.exam-list-card__row--clickable {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  transition: background 0.15s;
+}
+
+.exam-list-card__row--clickable:hover {
+  background: #f0f0ff;
+}
+
 .exam-list-card__row + .exam-list-card__row {
   border-top: 1px solid #e8e4dc;
 }

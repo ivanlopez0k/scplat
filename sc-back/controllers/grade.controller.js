@@ -1,4 +1,4 @@
-const { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade } = require('../services/grade.service');
+const { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades } = require('../services/grade.service');
 
 async function create(req, res) {
     try {
@@ -50,4 +50,26 @@ async function update(req, res) {
     }
 }
 
-module.exports = { create, getAll, getById, getByStudent, update };
+async function getStudentsForExam(req, res) {
+    try {
+        const { examId } = req.params;
+        const students = await getStudentsByExam(examId);
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function bulkSave(req, res) {
+    try {
+        const { examId } = req.params;
+        const { grades } = req.body;
+        if (!Array.isArray(grades)) throw new Error('Se requiere un array de notas');
+        const result = await bulkUpsertGrades(examId, grades);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, getByStudent, update, getStudentsForExam, bulkSave };

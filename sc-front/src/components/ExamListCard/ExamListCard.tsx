@@ -10,6 +10,7 @@ export interface ExamListCardProps {
   emptyMessage?: string;
   onEdit?: (exam: Exam) => void;
   onDelete?: (exam: Exam) => void;
+  onSelectExam?: (exam: Exam) => void;
 }
 
 const MONTH_NAMES = [
@@ -50,6 +51,7 @@ export default function ExamListCard({
   emptyMessage = "No hay evaluaciones próximas",
   onEdit,
   onDelete,
+  onSelectExam,
 }: ExamListCardProps): ReactElement {
   // Sort by date ascending (closest first)
   const sortedExams = [...exams].sort(
@@ -71,18 +73,22 @@ export default function ExamListCard({
       ) : (
         <div className="exam-list-card__list">
           {sortedExams.map((exam) => (
-            <div className="exam-list-card__row" key={exam.id}>
+            <div
+              className={`exam-list-card__row ${onSelectExam ? "exam-list-card__row--clickable" : ""}`}
+              key={exam.id}
+              onClick={() => onSelectExam?.(exam)}
+            >
               <ExamRow
                 subject={exam.title}
                 detail={formatExamDetail(exam)}
                 dateLabel={formatDateLabel(exam.exam_date)}
               />
               {(onEdit || onDelete) && (
-                <div className="exam-list-card__actions">
+                <div className="exam-list-card__actions" onClick={(e) => e.stopPropagation()}>
                   {onEdit && (
                     <button
                       className="exam-list-card__action exam-list-card__action--edit"
-                      onClick={() => onEdit(exam)}
+                      onClick={(e) => { e.stopPropagation(); onEdit(exam); }}
                       aria-label="Editar evaluación"
                       title="Editar"
                     >
@@ -92,7 +98,7 @@ export default function ExamListCard({
                   {onDelete && (
                     <button
                       className="exam-list-card__action exam-list-card__action--delete"
-                      onClick={() => onDelete(exam)}
+                      onClick={(e) => { e.stopPropagation(); onDelete(exam); }}
                       aria-label="Eliminar evaluación"
                       title="Eliminar"
                     >
