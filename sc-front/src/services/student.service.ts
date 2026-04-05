@@ -128,6 +128,23 @@ export interface CourseSubjectDetail {
   students: CourseSubjectStudent[];
 }
 
+export interface LeaderboardStudent {
+  student_id: number;
+  name: string;
+  lastname: string;
+  dni: string;
+  average: number;
+}
+
+export interface LeaderboardData {
+  course: {
+    id: number;
+    name: string;
+    year: number;
+  } | null;
+  topStudents: LeaderboardStudent[];
+}
+
 export async function getStudentsByCsId(csId: number): Promise<CourseSubjectDetail> {
   const response = await fetch(`${API_URL}/enrollment/cs/${csId}/students`, {
     credentials: 'include',
@@ -135,6 +152,18 @@ export async function getStudentsByCsId(csId: number): Promise<CourseSubjectDeta
 
   if (!response.ok) {
     throw new Error('Failed to fetch students for course-subject');
+  }
+
+  return await response.json();
+}
+
+export async function getCourseLeaderboard(studentId: number): Promise<LeaderboardData> {
+  const response = await fetch(`${API_URL}/grade/leaderboard/${studentId}`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch leaderboard');
   }
 
   return await response.json();

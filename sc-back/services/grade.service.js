@@ -1,4 +1,4 @@
-const { Grade, User, Exam, Cs, Enrollment, Subject, Course } = require('../models');
+const { Grade, User, Exam, Cs, Enrollment, Subject, Course, Sequelize } = require('../models');
 
 async function createGrade(exam_id, student_id, note) {
     const student = await User.findByPk(student_id);
@@ -11,11 +11,11 @@ if (!exam) throw new Error('Examen no encontrado');
 const cs = await Cs.findByPk(exam.cs_id);
 if (!cs) throw new Error('CourseSubject no encontrado');
 
-const enrollment = await Enrollment.findOne({ 
-    where: { 
-        student_id, 
-        course_id: cs.course_id 
-    } 
+const enrollment = await Enrollment.findOne({
+    where: {
+        student_id,
+        course_id: cs.course_id
+    }
 });
     if (!enrollment) throw new Error('El alumno no está inscripto en el curso de ese examen');
 
@@ -151,4 +151,67 @@ async function bulkUpsertGrades(examId, grades) {
     return { message: `Se guardaron ${grades.length} notas correctamente` };
 }
 
-module.exports = { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades };
+// Get top 5 students by course based on average grade
+async function getTopStudentsByCourse(studentId) {
+    // First, find the course the student is enrolled in
+    const studentEnrollment = await Enrollment.findOne({
+        where: { student_id: studentId },
+        include: [
+            { model: Course, as: 'course', attributes: ['id', 'name', 'year'] }
+        ]
+    });
+
+    if (!studentEnrollment) {
+        return { course: null, topStudents: [] };
+    }
+
+    const courseId = studentEnrollment.course_id;
+    const course = studentEnrollment.course;
+
+    // Get all students enrolled in this course
+    const enrollments = await Enrollment.findAll({
+        where: { course_id: courseId },
+        attributes: ['student_id']
+    });
+
+    if (enrollments.length === 0) {
+        return { course, topStudents: [] };
+    }
+
+    const studentIds = enrollments.map(e => e.student_id);
+
+    // Calculate average grade for each student
+    const studentAverages = await Grade.findAll({
+        where: {
+            student_id: studentIds
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'name', 'lastname', 'dni']
+            }
+        ],
+        attributes: [
+            'student_id',
+            [Sequelize.fn('AVG', Sequelize.col('note')), 'average']
+        ],
+        group: ['student_id', 'User.id']
+    });
+
+    // Build the list of students with their averages
+    const studentsWithAverages = studentAverages.map(record => ({
+        student_id: record.student_id,
+        name: record.User.name,
+        lastname: record.User.lastname,
+        dni: record.User.dni,
+        average: parseFloat(record.dataValues.average) // Convert to number
+    }));
+
+    // Sort by average (descending) and take top 5
+    studentsWithAverages.sort((a, b) => b.average - a.average);
+    const topStudents = studentsWithAverages.slice(0, 5);
+
+    return { course, topStudents };
+}
+
+module.exports = { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades, getTopStudentsByCourse };

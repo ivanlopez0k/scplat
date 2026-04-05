@@ -9,19 +9,23 @@ import {
   getStudentEnrollment,
   getCourseSubjects,
   getStudentGrades,
+  getCourseLeaderboard,
   type CourseSubject,
   type Grade,
   type Enrollment,
+  type LeaderboardStudent,
+  type LeaderboardData,
 } from "../../services/student.service";
 import { getExamsForStudent, type Exam as ExamType } from "../../services/exam.service";
-import { 
-  getStudentAnnouncements, 
+import {
+  getStudentAnnouncements,
   getParentAnnouncements,
-  type Announcement 
+  type Announcement
 } from "../../services/announcement.service";
 import AddChildModal from "../../components/AddChildModal/AddChildModal";
 import ExamListCard from "../../components/ExamListCard/ExamListCard";
 import ExamCalendar from "../../components/ExamCalendar/ExamCalendar";
+import Leaderboard from "../../components/Leaderboard/Leaderboard";
 import "./dashboard.css";
 
 /* ── Grid background ── */
@@ -83,6 +87,12 @@ export default function Dashboard(): ReactElement {
   const [parentChildExams, setParentChildExams] = useState<ExamType[]>([]);
   const [parentChildExamsError, setParentChildExamsError] = useState<string | null>(null);
   const [parentAnnouncements, setParentAnnouncements] = useState<Announcement[]>([]);
+
+  // Leaderboard state
+  const [leaderboardStudents, setLeaderboardStudents] = useState<LeaderboardStudent[]>([]);
+  const [leaderboardCourse, setLeaderboardCourse] = useState<string>("");
+  const [leaderboardLoading, setLeaderboardLoading] = useState(false);
+  const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
 
   // Fetch child data when selected child changes
   useEffect(() => {
@@ -178,6 +188,22 @@ export default function Dashboard(): ReactElement {
                 const msg = examErr?.message || 'Error al cargar evaluaciones';
                 console.error('[Dashboard] Error fetching exams:', msg);
                 setExamsError(msg);
+              }
+              
+              // Fetch leaderboard for this student's course
+              setLeaderboardLoading(true);
+              try {
+                const leaderboardData: LeaderboardData = await getCourseLeaderboard(status.user.id);
+                if (leaderboardData.course) {
+                  setLeaderboardCourse(`${leaderboardData.course.year}° ${leaderboardData.course.name}`);
+                }
+                setLeaderboardStudents(leaderboardData.topStudents);
+              } catch (lbErr: any) {
+                const msg = lbErr?.message || 'Error al cargar leaderboard';
+                console.error('[Dashboard] Error fetching leaderboard:', msg);
+                setLeaderboardError(msg);
+              } finally {
+                setLeaderboardLoading(false);
               }
             }
             
@@ -482,16 +508,25 @@ export default function Dashboard(): ReactElement {
             <ExamCalendar exams={userRole === 'student' ? studentExams : parentChildExams} />
           </div>
 
-          {/* ¿Tenes dudas? */}
-          <div className="dash-dudas">
-            <h3 className="dash-dudas__title">¿Tenés dudas?</h3>
-            <p className="dash-dudas__desc">
-              Podés escribirle un mensaje directo a tu docente
-            </p>
-            <button className="dash-dudas__btn">
-              Enviar un mensaje <span>💬</span>
-            </button>
-          </div>
+          {/* Leaderboard for students OR Mensajes for parents */}
+          {userRole === 'student' ? (
+            <Leaderboard
+              students={leaderboardStudents}
+              courseName={leaderboardCourse}
+              loading={leaderboardLoading}
+              error={leaderboardError}
+            />
+          ) : (
+            <div className="dash-dudas">
+              <h3 className="dash-dudas__title">¿Tenés dudas?</h3>
+              <p className="dash-dudas__desc">
+                Podés escribirle un mensaje directo al docente de tu hijo
+              </p>
+              <button className="dash-dudas__btn">
+                Enviar un mensaje <span>💬</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

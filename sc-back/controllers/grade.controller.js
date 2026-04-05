@@ -1,4 +1,4 @@
-const { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades } = require('../services/grade.service');
+const { createGrade, getGrades, getGradeById, getGradesByStudent, updateGrade, getStudentsByExam, bulkUpsertGrades, getTopStudentsByCourse } = require('../services/grade.service');
 
 async function create(req, res) {
     try {
@@ -72,4 +72,14 @@ async function bulkSave(req, res) {
     }
 }
 
-module.exports = { create, getAll, getById, getByStudent, update, getStudentsForExam, bulkSave };
+async function getTopStudents(req, res) {
+    try {
+        const { student_id } = req.params;
+        const result = await getTopStudentsByCourse(student_id);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, getByStudent, update, getStudentsForExam, bulkSave, getTopStudents };
