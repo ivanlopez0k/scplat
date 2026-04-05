@@ -8,8 +8,8 @@ export interface SubjectCardProps {
 }
 
 function getLevel(grade: number): "green" | "yellow" | "red" {
-  if (grade >= 7) return "green";
-  if (grade >= 5) return "yellow";
+  if (grade >= 70) return "green";
+  if (grade >= 40) return "yellow";
   return "red";
 }
 
@@ -31,7 +31,7 @@ export default function SubjectCard({ name, grade, noGrade }: SubjectCardProps):
 
   const level = getLevel(grade ?? 0);
   const label = getLabel(level);
-  const pct = Math.min(((grade ?? 0) / 10) * 100, 100);
+  const pct = Math.min(((grade ?? 0) / 100) * 100, 100);
 
   return (
     <div className="subject-card">
