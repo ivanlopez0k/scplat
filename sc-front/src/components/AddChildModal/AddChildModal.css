@@ -30,8 +30,8 @@
 
 .add-child-modal__input:focus {
   outline: none;
-  border-color: #4a90d9;
-  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+  border-color: #1e3a6e;
+  box-shadow: 0 0 0 2px rgba(30, 58, 110, 0.1);
 }
 
 .add-child-modal__input::placeholder {
@@ -143,10 +143,10 @@
 }
 
 .add-child-modal-btn--primary {
-  background-color: #4a90d9;
+  background-color: #1e3a6e;
   color: #fff;
 }
 
 .add-child-modal-btn--primary:hover:not(:disabled) {
-  background-color: #357abd;
+  background-color: #17305d;
 }

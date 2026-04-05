@@ -38,8 +38,8 @@
 }
 
 .edit-parent-modal__search-input:focus {
-  border-color: #4a90d9;
-  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+  border-color: #1e3a6e;
+  box-shadow: 0 0 0 2px rgba(30, 58, 110, 0.1);
   background-color: #fff;
 }
 
@@ -68,7 +68,7 @@
 .edit-parent-modal__checkbox-label input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #4a90d9;
+  accent-color: #1e3a6e;
   cursor: pointer;
 }
 
@@ -123,7 +123,7 @@
 .edit-parent-modal__checkbox-wrapper input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #4a90d9;
+  accent-color: #1e3a6e;
   cursor: pointer;
 }
 
@@ -198,10 +198,10 @@
 }
 
 .edit-parent-modal-btn--primary {
-  background-color: #4a90d9;
+  background-color: #1e3a6e;
   color: #fff;
 }
 
 .edit-parent-modal-btn--primary:hover:not(:disabled) {
-  background-color: #357abd;
+  background-color: #17305d;
 }

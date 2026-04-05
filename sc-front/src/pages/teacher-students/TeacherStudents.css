@@ -193,7 +193,7 @@
 .teacher-students-card:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
-  border-color: #6366f1;
+  border-color: #1e3a6e;
 }
 
 .teacher-students-card__icon {
@@ -230,7 +230,7 @@
 }
 
 .teacher-students-card:hover .teacher-students-card__arrow {
-  color: #6366f1;
+  color: #1e3a6e;
   transform: translateX(4px);
 }
 

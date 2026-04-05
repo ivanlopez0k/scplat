@@ -97,9 +97,9 @@
 }
 
 .home-btn:hover {
-  background-color: #1a1a2e;
+  background-color: #17305d;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.3);
+  box-shadow: 0 8px 24px rgba(23, 48, 93, 0.3);
 }
 
 /* Decorative circle */

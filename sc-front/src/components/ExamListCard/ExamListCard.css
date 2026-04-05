@@ -58,7 +58,7 @@
 }
 
 .exam-list-card__row--clickable:hover {
-  background: #f0f0ff;
+  background: rgba(30, 58, 110, 0.06);
 }
 
 .exam-list-card__row + .exam-list-card__row {
@@ -85,12 +85,12 @@
 }
 
 .exam-list-card__action--edit {
-  background: #f0f0ff;
-  color: #6366f1;
+  background: rgba(30, 58, 110, 0.08);
+  color: #1e3a6e;
 }
 
 .exam-list-card__action--edit:hover {
-  background: #e0e0ff;
+  background: rgba(30, 58, 110, 0.15);
   transform: scale(1.1);
 }
 

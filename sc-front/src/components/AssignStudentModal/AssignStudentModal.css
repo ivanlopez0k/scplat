@@ -158,10 +158,10 @@
 }
 
 .assign-student-modal-btn--primary {
-  background-color: #4a90d9;
+  background-color: #1e3a6e;
   color: #fff;
 }
 
 .assign-student-modal-btn--primary:hover:not(:disabled) {
-  background-color: #357abd;
+  background-color: #17305d;
 }

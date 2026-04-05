@@ -79,7 +79,7 @@
 
 /* Today highlight */
 .exam-calendar__day--today {
-  background: #6b5ce7;
+  background: #1e3a6e;
   color: #fff;
   font-weight: 700;
 }
@@ -104,7 +104,7 @@
 
 /* If today AND has exam, keep white text */
 .exam-calendar__day--today.exam-calendar__day--exam {
-  background: #6b5ce7;
+  background: #1e3a6e;
   color: #fff;
   font-weight: 700;
 }

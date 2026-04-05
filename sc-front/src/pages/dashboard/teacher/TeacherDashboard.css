@@ -186,7 +186,7 @@
   padding: 8px 20px;
   border-radius: 10px;
   border: none;
-  background: #6366f1;
+  background: #1e3a6e;
   color: #fff;
   font-size: 14px;
   font-weight: 600;
@@ -196,7 +196,7 @@
 }
 
 .teacher-dash-exams-section__btn:hover {
-  background: #4f46e5;
+  background: #17305d;
   transform: translateY(-1px);
 }
 
