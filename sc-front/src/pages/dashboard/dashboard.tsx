@@ -14,6 +14,11 @@ import {
   type Enrollment,
 } from "../../services/student.service";
 import { getExamsForStudent, type Exam as ExamType } from "../../services/exam.service";
+import { 
+  getStudentAnnouncements, 
+  getParentAnnouncements,
+  type Announcement 
+} from "../../services/announcement.service";
 import AddChildModal from "../../components/AddChildModal/AddChildModal";
 import ExamListCard from "../../components/ExamListCard/ExamListCard";
 import ExamCalendar from "../../components/ExamCalendar/ExamCalendar";
@@ -31,28 +36,23 @@ const GridBackground = (): ReactElement => (
   </svg>
 );
 
-/* ── Hardcoded data ── */
+/* ── Helper to format date ── */
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear()).slice(-2);
+  return `${day}/${month}/${year}`;
+};
 
-const COMUNICADOS = [
-  {
-    title: "Feriado",
-    isNew: true,
-    date: "27/03/26",
-    desc: "El lunes 31/03 no habrá clases por feriado nacional. Se retoman actividades el martes 1/04.",
-  },
-  {
-    title: "Cambio de aula",
-    isNew: false,
-    date: "12/03/26",
-    desc: "La clase de Lengua del jueves 27/03 se dictará en el aula 12 por refacción del aula habitual.",
-  },
-  {
-    title: "Material Nuevo",
-    isNew: false,
-    date: "27/02/26",
-    desc: "Se subió el resumen de la unidad 5 de Ciencias Naturales. Ya está disponible en Mis Materias.",
-  },
-];
+/* ── Check if announcement is from last 7 days ── */
+const isNewAnnouncement = (dateString: string): boolean => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays <= 7;
+};
 
 /* ── Calendar helpers ── */
 
@@ -71,6 +71,9 @@ export default function Dashboard(): ReactElement {
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   const [studentExams, setStudentExams] = useState<ExamType[]>([]);
   const [examsError, setExamsError] = useState<string | null>(null);
+  const [studentAnnouncements, setStudentAnnouncements] = useState<Announcement[]>([]);
+  const [announcementsLoading, setAnnouncementsLoading] = useState(false);
+  const [announcementsError, setAnnouncementsError] = useState<string | null>(null);
 
   // Parent-specific state
   const [children, setChildren] = useState<{ id: number; name: string; lastname: string }[]>([]);
@@ -79,6 +82,7 @@ export default function Dashboard(): ReactElement {
   const [parentChildSubjects, setParentChildSubjects] = useState<{ name: string; average: number | null }[]>([]);
   const [parentChildExams, setParentChildExams] = useState<ExamType[]>([]);
   const [parentChildExamsError, setParentChildExamsError] = useState<string | null>(null);
+  const [parentAnnouncements, setParentAnnouncements] = useState<Announcement[]>([]);
 
   // Fetch child data when selected child changes
   useEffect(() => {
@@ -114,6 +118,14 @@ export default function Dashboard(): ReactElement {
               setSelectedChildId(kids[0].id);
               // Fetch data for the first child
               await fetchChildData(kids[0].id);
+            }
+            
+            // Fetch parent announcements
+            try {
+              const announcements = await getParentAnnouncements(status.user.id);
+              setParentAnnouncements(announcements);
+            } catch (err) {
+              console.error('Error fetching parent announcements:', err);
             }
           } catch (err) {
             console.error('Error fetching children:', err);
@@ -167,6 +179,19 @@ export default function Dashboard(): ReactElement {
                 console.error('[Dashboard] Error fetching exams:', msg);
                 setExamsError(msg);
               }
+            }
+            
+            // Fetch student announcements
+            setAnnouncementsLoading(true);
+            try {
+              const announcements = await getStudentAnnouncements(status.user.id);
+              setStudentAnnouncements(announcements);
+            } catch (annErr: any) {
+              const msg = annErr?.message || 'Error al cargar comunicados';
+              console.error('[Dashboard] Error fetching announcements:', msg);
+              setAnnouncementsError(msg);
+            } finally {
+              setAnnouncementsLoading(false);
             }
           } catch (err) {
             console.error('Error fetching student data:', err);
@@ -384,18 +409,51 @@ export default function Dashboard(): ReactElement {
           {/* Comunicados */}
           <div className="dash-comunicados">
             <h3 className="dash-comunicados__title">Comunicados</h3>
-            <div className="dash-comunicados__list">
-              {COMUNICADOS.map((c) => (
-                <div className="dash-com-item" key={c.title}>
-                  <div className="dash-com-item__header">
-                    <span className="dash-com-item__name">{c.title}</span>
-                    {c.isNew && <span className="dash-com-item__badge">¡Nuevo!</span>}
-                    <span className="dash-com-item__date">{c.date}</span>
+            
+            {/* Loading state */}
+            {announcementsLoading && (
+              <p className="dash-comunicados__loading">Cargando comunicados...</p>
+            )}
+            
+            {/* Error state */}
+            {announcementsError && (
+              <p className="dash-comunicados__error">Error: {announcementsError}</p>
+            )}
+            
+            {/* Empty state */}
+            {!announcementsLoading && !announcementsError && 
+              ((userRole === 'student' && studentAnnouncements.length === 0) || 
+               (userRole === 'parent' && parentAnnouncements.length === 0)) && (
+              <p className="dash-comunicados__empty">
+                No hay comunicados nuevos
+              </p>
+            )}
+            
+            {/* Announcements list */}
+            {!announcementsLoading && (
+              <div className="dash-comunicados__list">
+                {(userRole === 'student' ? studentAnnouncements : parentAnnouncements).map((announcement) => (
+                  <div className="dash-com-item" key={announcement.id}>
+                    <div className="dash-com-item__header">
+                      <span className="dash-com-item__name">{announcement.title}</span>
+                      {isNewAnnouncement(announcement.created_at) && (
+                        <span className="dash-com-item__badge">¡Nuevo!</span>
+                      )}
+                      <span className="dash-com-item__date">
+                        {formatDate(announcement.created_at)}
+                      </span>
+                    </div>
+                    <p className="dash-com-item__desc">{announcement.description}</p>
+                    {announcement.course && (
+                      <p className="dash-com-item__course">
+                        📚 {announcement.course.year}° {announcement.course.name}
+                      </p>
+                    )}
                   </div>
-                  <p className="dash-com-item__desc">{c.desc}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+            
             <div className="dash-comunicados__more">
               <button className="dash-comunicados__more-btn" aria-label="Ver más comunicados">⌄</button>
             </div>

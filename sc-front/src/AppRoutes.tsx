@@ -5,6 +5,7 @@ import Register from "./pages/register/Register";
 import Dashboard from "./pages/dashboard/dashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import TeacherDashboard from "./pages/dashboard/teacher/TeacherDashboard";
+import TeacherAnnouncements from "./pages/teacher-announcements/TeacherAnnouncements";
 import StudentGrades from "./pages/grades/StudentGrades";
 import StudentSubjects from "./pages/subjects/StudentSubjects";
 import TeacherStudents from "./pages/teacher-students/TeacherStudents";
@@ -42,6 +43,11 @@ function AppRoutes(){
             <Route path="/teacher-messages" element={
                 <PrivateRoute teacherOnly>
                     <TeacherMessages />
+                </PrivateRoute>
+            }/>
+            <Route path="/teacher-announcements" element={
+                <PrivateRoute teacherOnly>
+                    <TeacherAnnouncements />
                 </PrivateRoute>
             }/>
             <Route path="/parent-messages" element={

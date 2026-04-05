@@ -40,14 +40,20 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     }
-  }, 
-  {    
+  },
+  {
     sequelize: sequelize,
     modelName: 'Ps',
     tableName: 'parent_student',
     timestamps: true,
     createdAt: false,
-    updatedAt: false
+    updatedAt: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ['parent_id', 'student_id']
+      }
+    ]
 }
   );
 

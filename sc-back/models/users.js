@@ -59,14 +59,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
-  }, 
-  {    
+    updated_at: {
+      allowNull: true,
+      type: DataTypes.DATE,
+      defaultValue: null
+    },
+  },
+  {
     sequelize: sequelize,
     modelName: 'User',
     tableName: 'users',
     timestamps: true,
     createdAt: 'created_at',
-    updatedAt: false
+    updatedAt: 'updated_at'
 }
   );
 

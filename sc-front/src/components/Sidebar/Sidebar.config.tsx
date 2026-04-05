@@ -157,6 +157,11 @@ export const teacherSidebarConfig: SidebarConfig = {
       label: "Alumnos",
       href: "/teacher-students",
     },
+    {
+      icon: <MessageIcon />,
+      label: "Anuncios",
+      href: "/teacher-announcements",
+    },
   ],
   logout: {
     icon: <LogoutIcon />,

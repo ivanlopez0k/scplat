@@ -40,8 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     note: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(3,1),
       allowNull: false,
+      validate: {
+        min: 0,
+        max: 10
+      }
     }
   }, 
   {    

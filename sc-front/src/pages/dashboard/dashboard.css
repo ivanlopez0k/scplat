@@ -389,6 +389,38 @@
   margin: 0;
 }
 
+/* New announcement states */
+.dash-comunicados__loading,
+.dash-comunicados__error,
+.dash-comunicados__empty {
+  padding: 20px 16px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.dash-comunicados__loading {
+  color: #666;
+}
+
+.dash-comunicados__error {
+  color: #c53030;
+  background: #fde8e8;
+  border-radius: 6px;
+  margin: 0 16px 8px;
+  padding: 12px;
+}
+
+.dash-comunicados__empty {
+  color: #999;
+}
+
+.dash-com-item__course {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: #1e3a6e;
+  font-weight: 500;
+}
+
 .dash-comunicados__more {
   display: flex;
   justify-content: center;

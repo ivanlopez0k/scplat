@@ -21,6 +21,7 @@ const examRoutes = require('./routes/exam.routes');
 const gradeRoutes = require('./routes/grade.routes');
 const messageRoutes = require('./routes/message.routes');
 const parentStudentsRoutes = require('./routes/parent_student.routes');
+const announcementRoutes = require('./routes/announcement.routes');
 
 
 //app
@@ -133,5 +134,6 @@ app.use('/exam', examRoutes);
 app.use('/grade', gradeRoutes);
 app.use('/message', messageRoutes);
 app.use('/ps', parentStudentsRoutes);
+app.use('/announcement', announcementRoutes);
 
 module.exports = app;

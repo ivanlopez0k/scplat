@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 
 const { User, Tc, Cs, Course, Subject, Enrollment, Ps } = require('../models');
 
-async function register(name, lastname, dni, email, password, role, courseId, childDni) {
+async function register(name, lastname, dni, email, password, role, courseId, childDni, parentId) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const exUser = await User.findOne({ where: { email: email } });
@@ -43,7 +43,7 @@ async function register(name, lastname, dni, email, password, role, courseId, ch
         }
     }
 
-    // Auto-link parent to student by DNI
+    // Auto-link parent to student by DNI (when parent registers themselves)
     if (role === 'parent' && childDni) {
         const student = await User.findOne({
             where: { dni: childDni, role: 'student' }
@@ -56,6 +56,22 @@ async function register(name, lastname, dni, email, password, role, courseId, ch
                 await Ps.create({
                     parent_id: user.id,
                     student_id: student.id
+                });
+            }
+        }
+    }
+
+    // Auto-link student to parent (when parent registers a child)
+    if (role === 'student' && parentId) {
+        const parent = await User.findByPk(parentId);
+        if (parent && parent.role === 'parent') {
+            const existingLink = await Ps.findOne({
+                where: { parent_id: parentId, student_id: user.id }
+            });
+            if (!existingLink) {
+                await Ps.create({
+                    parent_id: parentId,
+                    student_id: user.id
                 });
             }
         }
