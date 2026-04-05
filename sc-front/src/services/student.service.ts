@@ -76,3 +76,66 @@ export async function getStudentGrades(studentId: number): Promise<Grade[]> {
 
   return await response.json();
 }
+
+export interface StudentSubject {
+  subject_id: number;
+  subject_name: string;
+  teachers: {
+    id: number;
+    name: string;
+    lastname: string;
+    email: string;
+  }[];
+}
+
+export async function getStudentSubjects(studentId: number): Promise<StudentSubject[]> {
+  const response = await fetch(`${API_URL}/enrollment/student/${studentId}/subjects`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch student subjects');
+  }
+
+  return await response.json();
+}
+
+export interface CourseSubjectStudent {
+  student_id: number;
+  name: string;
+  lastname: string;
+  dni: string;
+  email: string;
+  grades: {
+    exam_id: number;
+    exam_title: string;
+    exam_type: string;
+    exam_date: string | null;
+    note: number;
+  }[];
+}
+
+export interface CourseSubjectDetail {
+  course: {
+    id: number;
+    name: string;
+    year: number;
+  };
+  subject: {
+    id: number;
+    name: string;
+  };
+  students: CourseSubjectStudent[];
+}
+
+export async function getStudentsByCsId(csId: number): Promise<CourseSubjectDetail> {
+  const response = await fetch(`${API_URL}/enrollment/cs/${csId}/students`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch students for course-subject');
+  }
+
+  return await response.json();
+}

@@ -1,4 +1,4 @@
-const { createEnrollment, getEnrollments, getEnrollmentById, deleteEnrollment, getEnrollmentsByStudent } = require('../services/enrollment.service');
+const { createEnrollment, getEnrollments, getEnrollmentById, deleteEnrollment, getEnrollmentsByStudent, getStudentSubjects, getStudentsByCsId } = require('../services/enrollment.service');
 
 async function create(req, res) {
     try {
@@ -49,4 +49,24 @@ async function getByStudent(req, res) {
     }
 }
 
-module.exports = { create, getAll, getById, remove, getByStudent };
+async function getSubjects(req, res) {
+    try {
+        const { student_id } = req.params;
+        const subjects = await getStudentSubjects(student_id);
+        res.status(200).json(subjects);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getStudentsByCourseSubject(req, res) {
+    try {
+        const { csId } = req.params;
+        const data = await getStudentsByCsId(csId);
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, remove, getByStudent, getSubjects, getStudentsByCourseSubject };

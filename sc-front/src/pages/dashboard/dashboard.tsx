@@ -32,12 +32,6 @@ const GridBackground = (): ReactElement => (
 );
 
 /* ── Hardcoded data ── */
-const SUBJECTS = [
-  { name: "Matemática", grade: 8.5 },
-  { name: "Lengua", grade: 6.2 },
-  { name: "Historia", grade: 3.8 },
-  { name: "Inglés", grade: 9.5 },
-];
 
 const COMUNICADOS = [
   {
@@ -76,13 +70,22 @@ export default function Dashboard(): ReactElement {
   const [studentSubjects, setStudentSubjects] = useState<{ name: string; average: number | null }[]>([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   const [studentExams, setStudentExams] = useState<ExamType[]>([]);
-  const [examsLoading, setExamsLoading] = useState(false);
   const [examsError, setExamsError] = useState<string | null>(null);
 
   // Parent-specific state
   const [children, setChildren] = useState<{ id: number; name: string; lastname: string }[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
   const [isAddChildModalOpen, setIsAddChildModalOpen] = useState(false);
+  const [parentChildSubjects, setParentChildSubjects] = useState<{ name: string; average: number | null }[]>([]);
+  const [parentChildExams, setParentChildExams] = useState<ExamType[]>([]);
+  const [parentChildExamsError, setParentChildExamsError] = useState<string | null>(null);
+
+  // Fetch child data when selected child changes
+  useEffect(() => {
+    if (userRole === 'parent' && selectedChildId) {
+      fetchChildData(selectedChildId);
+    }
+  }, [selectedChildId, userRole]);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
@@ -109,6 +112,8 @@ export default function Dashboard(): ReactElement {
             setChildren(kids);
             if (kids.length > 0) {
               setSelectedChildId(kids[0].id);
+              // Fetch data for the first child
+              await fetchChildData(kids[0].id);
             }
           } catch (err) {
             console.error('Error fetching children:', err);
@@ -120,7 +125,6 @@ export default function Dashboard(): ReactElement {
         if (status.user.role === 'student' && status.user.id) {
           try {
             setSubjectsLoading(true);
-            setExamsLoading(true);
             const enrollments: Enrollment[] = await getStudentEnrollment(status.user.id);
             if (enrollments.length > 0) {
               const enrollment = enrollments[0];
@@ -168,13 +172,60 @@ export default function Dashboard(): ReactElement {
             console.error('Error fetching student data:', err);
           } finally {
             setSubjectsLoading(false);
-            setExamsLoading(false);
           }
         }
       }
     };
     fetchUser();
   }, []);
+
+  // Fetch grades and exams for selected child (parent view)
+  const fetchChildData = async (childId: number) => {
+    if (!childId) return;
+    setParentChildExamsError(null);
+
+    try {
+      const enrollments: Enrollment[] = await getStudentEnrollment(childId);
+      if (enrollments.length > 0) {
+        const enrollment = enrollments[0];
+
+        // Fetch subjects for this course
+        if (enrollment.course) {
+          const subjects: CourseSubject[] = await getCourseSubjects(enrollment.course_id);
+          const subjectNames = subjects.map((cs) => cs.subject?.name ?? 'Materia');
+
+          // Fetch grades for this student
+          const grades: Grade[] = await getStudentGrades(childId);
+
+          // Calculate average per subject
+          const subjectsWithAvg = subjectNames.map((name) => {
+            const subjectGrades = grades.filter(
+              (g) => g.Exam?.Cs?.subject?.name === name
+            );
+            if (subjectGrades.length === 0) {
+              return { name, average: null };
+            }
+            const sum = subjectGrades.reduce((acc, g) => acc + Number(g.note), 0);
+            return { name, average: Math.round((sum / subjectGrades.length) * 10) / 10 };
+          });
+
+          setParentChildSubjects(subjectsWithAvg);
+        }
+
+        // Fetch exams for this student
+        try {
+          const exams = await getExamsForStudent(childId);
+          setParentChildExams(exams);
+        } catch (examErr: any) {
+          const msg = examErr?.message || 'Error al cargar evaluaciones';
+          console.error('[Dashboard] Error fetching exams for child:', msg);
+          setParentChildExamsError(msg);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching child data:', err);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -188,6 +239,7 @@ export default function Dashboard(): ReactElement {
   const handleChildAdded = (child: { id: number; name: string; lastname: string }) => {
     setChildren((prev) => [...prev, child]);
     setSelectedChildId(child.id);
+    fetchChildData(child.id);
     // Close modal after a short delay to let user see success message
     setTimeout(() => {
       setIsAddChildModalOpen(false);
@@ -202,7 +254,9 @@ export default function Dashboard(): ReactElement {
   const handleArrow = () => {
     if (!cardsRef.current) return;
     const cardWidth = 200 + 16;
-    const maxOffset = Math.max(0, SUBJECTS.length * cardWidth - (cardsRef.current.parentElement?.clientWidth ?? 600));
+    const data = userRole === 'student' ? studentSubjects : parentChildSubjects;
+    if (data.length === 0) return;
+    const maxOffset = Math.max(0, data.length * cardWidth - (cardsRef.current.parentElement?.clientWidth ?? 600));
     const next = cardOffset + cardWidth;
     setCardOffset(next >= maxOffset ? 0 : next);
   };
@@ -237,7 +291,11 @@ export default function Dashboard(): ReactElement {
                     id="child-select"
                     className="dash-header__child-select"
                     value={selectedChildId ?? children[0]?.id ?? ''}
-                    onChange={(e) => setSelectedChildId(Number(e.target.value))}
+                    onChange={(e) => {
+                      const childId = Number(e.target.value);
+                      setSelectedChildId(childId);
+                      fetchChildData(childId);
+                    }}
                   >
                     {children.map((child) => (
                       <option key={child.id} value={child.id}>
@@ -297,9 +355,16 @@ export default function Dashboard(): ReactElement {
                           noGrade={s.average === null}
                         />
                       ))
-                    : SUBJECTS.map((s) => (
-                        <SubjectCard key={s.name} name={s.name} grade={s.grade} />
-                      ))}
+                    : parentChildSubjects.length > 0
+                      ? parentChildSubjects.map((s) => (
+                          <SubjectCard
+                            key={s.name}
+                            name={s.name}
+                            grade={s.average ?? undefined}
+                            noGrade={s.average === null}
+                          />
+                        ))
+                      : []}
                 </div>
               )}
               <button className="dash-subjects__arrow" aria-label="Ver más" onClick={handleArrow}>
@@ -342,18 +407,21 @@ export default function Dashboard(): ReactElement {
           {/* Evaluaciones + Calendario combined */}
           <div className="dash-exams-cal">
             <div className="dash-exams">
-              {examsError && (
+              {userRole === 'student' && examsError && (
                 <p className="dash-exams__error">Error: {examsError}</p>
               )}
+              {userRole === 'parent' && parentChildExamsError && (
+                <p className="dash-exams__error">Error: {parentChildExamsError}</p>
+              )}
               <ExamListCard
-                exams={studentExams}
-                loading={examsLoading}
+                exams={userRole === 'student' ? studentExams : parentChildExams}
+                loading={false}
                 title="Próximas evaluaciones"
                 emptyMessage="No hay evaluaciones próximas"
               />
             </div>
 
-            <ExamCalendar exams={studentExams} />
+            <ExamCalendar exams={userRole === 'student' ? studentExams : parentChildExams} />
           </div>
 
           {/* ¿Tenes dudas? */}

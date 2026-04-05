@@ -1,12 +1,6 @@
 import type { SidebarConfig } from "./Sidebar.types";
 
 // Icon components
-const MessageIcon = () => (
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
-  </svg>
-);
-
 const DashboardIcon = () => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M3 3h8v8H3V3zm10 0h8v5h-8V3zM3 13h5v8H3v-8zm7 0h11v8H10v-8z"/>
@@ -22,6 +16,12 @@ const BookIcon = () => (
 const GradeIcon = () => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+  </svg>
+);
+
+const MessageIcon = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
   </svg>
 );
 
@@ -58,28 +58,22 @@ export const studentSidebarConfig: SidebarConfig = {
     {
       icon: <DashboardIcon />,
       label: "Dashboard",
-      href: "#",
-      active: true,
+      href: "/dashboard",
     },
     {
       icon: <BookIcon />,
       label: "Mis materias",
-      href: "#",
+      href: "/subjects",
     },
     {
       icon: <GradeIcon />,
       label: "Mis notas",
-      href: "#",
+      href: "/grades",
     },
     {
       icon: <CalendarIcon />,
       label: "Calendario",
-      href: "#",
-    },
-    {
-      icon: <MessageIcon />,
-      label: "Mensajes",
-      href: "#",
+      href: "/calendar",
     },
   ],
   logout: {
@@ -94,13 +88,7 @@ export const adminSidebarConfig: SidebarConfig = {
     src: "/Group_17.png",
     alt: "EducAR",
   },
-  links: [
-    {
-      icon: <MessageIcon />,
-      label: "Mensajes",
-      href: "#",
-    },
-  ],
+  links: [],
   actions: [
     {
       icon: "📚",
@@ -125,13 +113,12 @@ export const parentSidebarConfig: SidebarConfig = {
     {
       icon: <DashboardIcon />,
       label: "Dashboard",
-      href: "#",
-      active: true,
+      href: "/dashboard",
     },
     {
       icon: <MessageIcon />,
       label: "Mensajes",
-      href: "#",
+      href: "/parent-messages",
     },
   ],
   actions: [
@@ -158,23 +145,17 @@ export const teacherSidebarConfig: SidebarConfig = {
     {
       icon: <BookIcon />,
       label: "Cursos",
-      href: "#",
-      active: true,
-    },
-    {
-      icon: <GradeIcon />,
-      label: "Notas",
-      href: "#",
+      href: "/teacher-dashboard",
     },
     {
       icon: <MessageIcon />,
       label: "Mensajes",
-      href: "#",
+      href: "/teacher-messages",
     },
     {
       icon: <UsersIcon />,
       label: "Alumnos",
-      href: "#",
+      href: "/teacher-students",
     },
   ],
   logout: {

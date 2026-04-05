@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from "react-router-dom";
 import type { ReactElement } from "react";
 import type { SidebarConfig } from "./Sidebar.types";
 import "./Sidebar.css";
@@ -7,6 +8,9 @@ export interface SidebarProps {
 }
 
 export default function Sidebar({ config }: SidebarProps): ReactElement {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <aside className="sidebar">
       {/* Logo */}
@@ -22,16 +26,25 @@ export default function Sidebar({ config }: SidebarProps): ReactElement {
 
       {/* Navigation Links */}
       <nav className="sidebar__nav">
-        {config.links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className={`sidebar__link ${link.active ? "sidebar__link--active" : ""}`}
-          >
-            <span className="sidebar__link-icon">{link.icon}</span>
-            <span>{link.label}</span>
-          </a>
-        ))}
+        {config.links.map((link) => {
+          const isActive = location.pathname === link.href;
+          return (
+            <button
+              key={link.label}
+              className={`sidebar__link ${isActive ? "sidebar__link--active" : ""}`}
+              onClick={() => {
+                if (link.onClick) {
+                  link.onClick();
+                } else {
+                  navigate(link.href);
+                }
+              }}
+            >
+              <span className="sidebar__link-icon">{link.icon}</span>
+              <span>{link.label}</span>
+            </button>
+          );
+        })}
       </nav>
 
       {/* Actions (optional, for admin) */}

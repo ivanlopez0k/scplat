@@ -5,6 +5,11 @@ import Register from "./pages/register/Register";
 import Dashboard from "./pages/dashboard/dashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import TeacherDashboard from "./pages/dashboard/teacher/TeacherDashboard";
+import StudentGrades from "./pages/grades/StudentGrades";
+import StudentSubjects from "./pages/subjects/StudentSubjects";
+import TeacherStudents from "./pages/teacher-students/TeacherStudents";
+import TeacherMessages from "./pages/teacher-messages/TeacherMessages";
+import ParentMessages from "./pages/parent-messages/ParentMessages";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function AppRoutes(){
@@ -17,6 +22,31 @@ function AppRoutes(){
             <Route path="/dashboard" element={
                 <PrivateRoute>
                     <Dashboard />
+                </PrivateRoute>
+            }/>
+            <Route path="/grades" element={
+                <PrivateRoute>
+                    <StudentGrades />
+                </PrivateRoute>
+            }/>
+            <Route path="/subjects" element={
+                <PrivateRoute>
+                    <StudentSubjects />
+                </PrivateRoute>
+            }/>
+            <Route path="/teacher-students" element={
+                <PrivateRoute teacherOnly>
+                    <TeacherStudents />
+                </PrivateRoute>
+            }/>
+            <Route path="/teacher-messages" element={
+                <PrivateRoute teacherOnly>
+                    <TeacherMessages />
+                </PrivateRoute>
+            }/>
+            <Route path="/parent-messages" element={
+                <PrivateRoute>
+                    <ParentMessages />
                 </PrivateRoute>
             }/>
             <Route path="/teacher-dashboard" element={

@@ -6,7 +6,7 @@ export interface SidebarLink {
   icon: ReactNode;
   label: string;
   href: string;
-  active?: boolean;
+  onClick?: () => void;
 }
 
 export interface SidebarAction {
