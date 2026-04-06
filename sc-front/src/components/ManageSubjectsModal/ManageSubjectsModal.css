@@ -149,3 +149,72 @@
 .manage-subjects-btn:hover {
   background: #e8e4dc;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .manage-subjects__tabs {
+  border-bottom-color: #333355;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .manage-subjects__tab {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .manage-subjects__tab:hover {
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .manage-subjects__tab--active {
+  color: #4a6fa5;
+  border-bottom-color: #4a6fa5;
+}
+
+[data-theme="dark"] .manage-subjects__subtitle {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .manage-subjects__item {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .manage-subjects__item-name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .manage-subjects__delete-btn {
+  background: #1e1e32;
+  color: #ef5350;
+}
+
+[data-theme="dark"] .manage-subjects__delete-btn:hover:not(:disabled) {
+  background: rgba(239, 83, 80, 0.1);
+}
+
+[data-theme="dark"] .manage-subjects__empty,
+[data-theme="dark"] .manage-subjects__loading {
+  color: #9090a8;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .manage-subjects__message--error {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .manage-subjects__message--success {
+  background: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .manage-subjects-btn {
+  background: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .manage-subjects-btn:hover {
+  background: #333355;
+}

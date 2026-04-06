@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import {
   getStudentGrades,
   type Grade,
@@ -33,6 +34,7 @@ function noteColor(note: number): string {
 
 export default function StudentGrades(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [userName, setUserName] = useState("");
   const [grades, setGrades] = useState<Grade[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +88,9 @@ export default function StudentGrades(): ReactElement {
             <p className="grades-header__subtitle">Mis notas</p>
           </div>
           <div className="grades-header__actions">
-            <button className="grades-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="grades-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="grades-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="grades-header__avatar" />
           </div>

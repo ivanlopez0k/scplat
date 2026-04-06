@@ -336,3 +336,158 @@
 .edit-modal-btn--secondary:hover {
   background: #e8e4dc;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .edit-modal__info {
+  background: #2a2a48;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .edit-modal__label {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-modal__value {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .edit-modal__section-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .edit-modal__toggle {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .edit-modal__toggle-btn {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-modal__toggle-btn--active {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .edit-modal__toggle-btn:hover:not(.edit-modal__toggle-btn--active) {
+  background: #333355;
+}
+
+[data-theme="dark"] .edit-modal__create-new {
+  background: #2a2a48;
+  border-color: #555;
+}
+
+[data-theme="dark"] .edit-modal__hint {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-modal__field-label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .edit-modal__input {
+  border-color: #333355;
+  color: #e8e8f0;
+  background: #1e1e32;
+}
+
+[data-theme="dark"] .edit-modal__input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .edit-modal__input::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .edit-modal__select-year {
+  border-color: #333355;
+  color: #e8e8f0;
+  background: #1e1e32;
+}
+
+[data-theme="dark"] .edit-modal__select-year:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .edit-modal__select-year-wrapper::after {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-modal-btn--create {
+  background: #3dd68c;
+  color: #16162a;
+}
+
+[data-theme="dark"] .edit-modal-btn--create:hover:not(:disabled) {
+  background: #3dd68c;
+  box-shadow: 0 4px 12px rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .edit-modal-btn--create:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .edit-modal__assignment-item {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .edit-modal__assignment-course {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .edit-modal__assignment-subject {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-modal__remove-btn {
+  background: #1e1e32;
+}
+
+[data-theme="dark"] .edit-modal__remove-btn:hover:not(:disabled) {
+  background: rgba(239, 83, 80, 0.1);
+}
+
+[data-theme="dark"] .edit-modal__empty,
+[data-theme="dark"] .edit-modal__loading {
+  color: #9090a8;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .edit-modal__message--error {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .edit-modal__message--success {
+  background: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .edit-modal-btn--primary {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .edit-modal-btn--primary:hover:not(:disabled) {
+  background: #5a7fb5;
+  box-shadow: 0 4px 12px rgba(74, 111, 165, 0.3);
+}
+
+[data-theme="dark"] .edit-modal-btn--primary:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .edit-modal-btn--secondary {
+  background: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .edit-modal-btn--secondary:hover {
+  background: #333355;
+}

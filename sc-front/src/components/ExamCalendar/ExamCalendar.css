@@ -112,3 +112,58 @@
 .exam-calendar__day--today.exam-calendar__day--exam::after {
   background: #fff;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .exam-calendar {
+  background: #1e1e32;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .exam-calendar__month {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .exam-calendar__nav-btn {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-calendar__nav-btn:hover {
+  background: #333355;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .exam-calendar__day-name {
+  color: #808098;
+}
+
+[data-theme="dark"] .exam-calendar__day {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .exam-calendar__day:hover:not(.exam-calendar__day--other) {
+  background: #333355;
+}
+
+[data-theme="dark"] .exam-calendar__day--other {
+  color: #333355;
+}
+
+[data-theme="dark"] .exam-calendar__day--today {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .exam-calendar__day--exam::after {
+  background: #4a6fa5;
+}
+
+[data-theme="dark"] .exam-calendar__day--today.exam-calendar__day--exam {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .exam-calendar__day--today.exam-calendar__day--exam::after {
+  background: #fff;
+}

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { getUsersByRole, type User } from "../../services/user.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
 import ManageSubjectsModal from "../../components/ManageSubjectsModal/ManageSubjectsModal";
 import EditParentModal from "../../components/EditParentModal/EditParentModal";
@@ -38,6 +39,7 @@ const ROLE_MAP: Record<TabType, string> = {
 
 export default function AdminDashboard(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("teachers");
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -146,7 +148,9 @@ export default function AdminDashboard(): ReactElement {
             <h1 className="admin-dash-header__greeting">Hola, {adminName}</h1>
           </div>
           <div className="admin-dash-header__actions">
-            <button className="admin-dash-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="admin-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="admin-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="admin-dash-header__avatar" />
           </div>

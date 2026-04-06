@@ -340,3 +340,122 @@
     height: 44px;
   }
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .reg {
+  background: #16162a;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .reg-card {
+  background: #1e1e32;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .reg-card__title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .reg-card__subtitle {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .reg-card__success {
+  background: rgba(61, 214, 140, 0.1);
+  border-color: rgba(61, 214, 140, 0.3);
+  color: #3dd68c;
+}
+
+[data-theme="dark"] .reg-card__error {
+  background: rgba(239, 83, 80, 0.1);
+  border-color: rgba(239, 83, 80, 0.3);
+  color: #ef5350;
+}
+
+[data-theme="dark"] .reg-form__label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .reg-form__input,
+[data-theme="dark"] .reg-form__select {
+  border-color: #333355;
+  background: #2a2a48;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .reg-form__input::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .reg-form__input:focus,
+[data-theme="dark"] .reg-form__select:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .reg-form__input:hover,
+[data-theme="dark"] .reg-form__select:hover {
+  border-color: #555;
+}
+
+[data-theme="dark"] .reg-form__select-arrow {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .reg-form__hint {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .reg-form__hint--success {
+  color: #3dd68c;
+}
+
+[data-theme="dark"] .reg-form__hint--error {
+  color: #ef5350;
+}
+
+[data-theme="dark"] .reg-form__checkbox-row {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .reg-form__verify-btn {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .reg-form__verify-btn:hover:not(:disabled) {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .reg-form__verify-btn:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .reg-form__submit {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .reg-form__submit:hover:not(:disabled) {
+  background: #5a7fb5;
+  box-shadow: 0 4px 16px rgba(74, 111, 165, 0.35);
+}
+
+[data-theme="dark"] .reg-form__submit:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .reg-card__login {
+  color: #9090a8;
+  border-top-color: #333355;
+}
+
+[data-theme="dark"] .reg-card__login-link {
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .reg-card__login-link:hover {
+  color: #5a7fb5;
+}

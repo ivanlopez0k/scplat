@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import { getStudentSubjects, type StudentSubject } from "../../services/student.service";
 import "./StudentSubjects.css";
 
@@ -18,6 +19,7 @@ const GridBackground = (): ReactElement => (
 
 export default function StudentSubjects(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [userName, setUserName] = useState("");
   const [subjects, setSubjects] = useState<StudentSubject[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +65,9 @@ export default function StudentSubjects(): ReactElement {
             <p className="subjects-header__subtitle">Mis materias</p>
           </div>
           <div className="subjects-header__actions">
-            <button className="subjects-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="subjects-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="subjects-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="subjects-header__avatar" />
           </div>

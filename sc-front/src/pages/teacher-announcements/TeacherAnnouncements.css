@@ -384,3 +384,143 @@
     padding: 18px 20px;
   }
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .teacher-announcements {
+  background: #16162a;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .teacher-announcements__title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__icon-btn {
+  background: #1e1e32;
+  color: #b0b0c0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__icon-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .teacher-announcements__avatar {
+  background: #4a6fa5;
+}
+
+[data-theme="dark"] .teacher-announcements__create-section {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__create-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .teacher-announcements__input,
+[data-theme="dark"] .teacher-announcements__textarea,
+[data-theme="dark"] .teacher-announcements__select {
+  border-color: #333355;
+  background: #2a2a48;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__input:focus,
+[data-theme="dark"] .teacher-announcements__textarea:focus,
+[data-theme="dark"] .teacher-announcements__select:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__input::placeholder,
+[data-theme="dark"] .teacher-announcements__textarea::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .teacher-announcements__btn {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .teacher-announcements__btn:hover {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .teacher-announcements__btn:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .teacher-announcements__form-error {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .teacher-announcements__form-success {
+  background: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .teacher-announcements__list-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__card {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .teacher-announcements__card-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__card-delete-btn {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+}
+
+[data-theme="dark"] .teacher-announcements__card-delete-btn:hover {
+  background: rgba(239, 83, 80, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__card-meta {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .teacher-announcements__card-course {
+  background: rgba(74, 111, 165, 0.2);
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .teacher-announcements__card-description {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .teacher-announcements__loading {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .teacher-announcements__empty {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .teacher-announcements__empty-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-announcements__empty-desc {
+  color: #9090a8;
+}

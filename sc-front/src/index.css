@@ -1,0 +1,100 @@
+/* CSS Custom Properties for theming */
+:root {
+  /* Light theme (default) */
+  --bg-primary: #f5f3ee;
+  --bg-secondary: #f5f0e6;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-modal: #ffffff;
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  
+  --text-primary: #1a1a2e;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --text-muted: #777777;
+  --text-inverse: #ffffff;
+  
+  --accent-primary: #1e3a6e;
+  --accent-hover: #17305d;
+  --accent-light: rgba(30, 58, 110, 0.1);
+  
+  --border-primary: #e0e0e0;
+  --border-secondary: #dddddd;
+  --border-focus: #1e3a6e;
+  
+  --shadow-sm: rgba(0, 0, 0, 0.05);
+  --shadow-md: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.15);
+  
+  --success: #28a745;
+  --warning: #ffc107;
+  --error: #dc3545;
+  --error-bg: rgba(220, 53, 69, 0.1);
+  
+  --avatar-bg: #555555;
+  --skeleton: #e0e0e0;
+  --skeleton-shine: #f0f0f0;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #16162a;
+  --bg-card: #1e1e32;
+  --bg-input: #242442;
+  --bg-modal: #1e1e32;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  --text-primary: #e8e8f0;
+  --text-secondary: #b0b0c0;
+  --text-tertiary: #9090a8;
+  --text-muted: #808098;
+  --text-inverse: #0f0f1a;
+  
+  --accent-primary: #4a6fa5;
+  --accent-hover: #5a7fb5;
+  --accent-light: rgba(74, 111, 165, 0.15);
+  
+  --border-primary: #333355;
+  --border-secondary: #2a2a48;
+  --border-focus: #4a6fa5;
+  
+  --shadow-sm: rgba(0, 0, 0, 0.2);
+  --shadow-md: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
+  
+  --success: #3dd68c;
+  --warning: #ffd54f;
+  --error: #ef5350;
+  --error-bg: rgba(239, 83, 80, 0.15);
+  
+  --avatar-bg: #606080;
+  --skeleton: #2a2a48;
+  --skeleton-shine: #333355;
+}
+
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  min-height: 100vh;
+}

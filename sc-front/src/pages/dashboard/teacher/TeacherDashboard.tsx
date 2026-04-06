@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../../components/Sidebar";
+import { useTheme } from "../../../contexts/ThemeContext";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../../services/teacher.service";
 import { getExamsByCsId, deleteExam, type Exam as ExamType } from "../../../services/exam.service";
 import TeacherCourseCard from "../../../components/TeacherCourseCard/TeacherCourseCard";
@@ -26,6 +27,7 @@ const GridBackground = (): ReactElement => (
 
 export default function TeacherDashboard(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [userName, setUserName] = useState("");
   const [teacherId, setTeacherId] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<TeacherAssignment[]>([]);
@@ -191,7 +193,9 @@ export default function TeacherDashboard(): ReactElement {
               <p className="teacher-dash-header__subtitle">{courseName}</p>
             </div>
             <div className="teacher-dash-header__actions">
-              <button className="teacher-dash-header__icon-btn" aria-label="Configuración">⚙</button>
+              <button className="teacher-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+                {theme === 'light' ? '🌙' : '☀️'}
+              </button>
               <button className="teacher-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
               <div className="teacher-dash-header__avatar" />
             </div>

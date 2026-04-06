@@ -217,3 +217,117 @@
 .add-child-modal-btn--primary:hover:not(:disabled) {
   background-color: #17305d;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .add-child-modal__description {
+  color: #b0b0c0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .add-child-modal__mode-btn {
+  border-color: #333355;
+  background: #1e1e32;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .add-child-modal__mode-btn:hover:not(:disabled) {
+  border-color: #4a6fa5;
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .add-child-modal__mode-btn--active {
+  border-color: #4a6fa5;
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .add-child-modal__mode-btn--active:hover {
+  background: #5a7fb5;
+  border-color: #5a7fb5;
+}
+
+[data-theme="dark"] .add-child-modal__label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .add-child-modal__select {
+  background-color: #2a2a48;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .add-child-modal__input {
+  border-color: #333355;
+  color: #e8e8f0;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .add-child-modal__input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .add-child-modal__input::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .add-child-modal__search-btn {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .add-child-modal__search-btn:hover:not(:disabled) {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .add-child-modal__search-btn:disabled {
+  background: #555;
+}
+
+[data-theme="dark"] .add-child-modal__found {
+  background: rgba(61, 214, 140, 0.1);
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .add-child-modal__found-icon {
+  color: #3dd68c;
+}
+
+[data-theme="dark"] .add-child-modal__found-name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .add-child-modal__found-dni {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .add-child-modal__message--error {
+  background-color: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .add-child-modal__message--success {
+  background-color: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .add-child-modal-btn--secondary {
+  background-color: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .add-child-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #333355;
+}
+
+[data-theme="dark"] .add-child-modal-btn--primary {
+  background-color: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .add-child-modal-btn--primary:hover:not(:disabled) {
+  background-color: #5a7fb5;
+}

@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../services/teacher.service";
 import {
   createAnnouncement,
@@ -31,6 +32,7 @@ interface CourseOption {
 
 export default function TeacherAnnouncements(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [userName, setUserName] = useState("");
   const [teacherId, setTeacherId] = useState<number | null>(null);
   const [courseOptions, setCourseOptions] = useState<CourseOption[]>([]);
@@ -185,7 +187,9 @@ export default function TeacherAnnouncements(): ReactElement {
         <header className="teacher-announcements__header">
           <h1 className="teacher-announcements__title">Comunicados — {userName}</h1>
           <div className="teacher-announcements__actions">
-            <button className="teacher-announcements__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="teacher-announcements__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="teacher-announcements__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="teacher-announcements__avatar" />
           </div>

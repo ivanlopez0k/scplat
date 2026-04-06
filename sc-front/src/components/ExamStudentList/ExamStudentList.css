@@ -221,3 +221,89 @@
     width: 100%;
   }
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .exam-student-list__skeleton {
+  background: linear-gradient(90deg, #2a2a48 25%, #333355 50%, #2a2a48 75%);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .exam-student-list__error {
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.1);
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .exam-student-list__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__header {
+  border-bottom-color: #333355;
+}
+
+[data-theme="dark"] .exam-student-list__col {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__row {
+  border-bottom-color: #2a2a48;
+}
+
+[data-theme="dark"] .exam-student-list__row .exam-student-list__col--name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .exam-student-list__row .exam-student-list__col--dni {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__input {
+  border-color: #555;
+  color: #e8e8f0;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .exam-student-list__input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+  background: #333355;
+}
+
+[data-theme="dark"] .exam-student-list__input::placeholder {
+  color: #606080;
+}
+
+[data-theme="dark"] .exam-student-list__success {
+  color: #3dd68c;
+  background: rgba(61, 214, 140, 0.1);
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .exam-student-list__footer {
+  border-top-color: #2a2a48;
+}
+
+[data-theme="dark"] .btn-cancel {
+  background: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+  background: #333355;
+}
+
+[data-theme="dark"] .btn-save {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-save:hover:not(:disabled) {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .btn-save:disabled {
+  background: #555;
+}

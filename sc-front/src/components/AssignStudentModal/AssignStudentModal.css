@@ -165,3 +165,81 @@
 .assign-student-modal-btn--primary:hover:not(:disabled) {
   background-color: #17305d;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .assign-student-modal__section-title {
+  color: #e8e8f0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .assign-student-modal__hint {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__field-label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .assign-student-modal__loading {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollments {
+  border-color: #333355;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-item {
+  border-bottom-color: #2a2a48;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-item:hover {
+  background-color: #2a2a48;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-course {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-year {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__remove-btn:hover:not(:disabled) {
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
+[data-theme="dark"] .assign-student-modal__message--error {
+  background-color: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .assign-student-modal__message--success {
+  background-color: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .assign-student-modal-btn--secondary {
+  background-color: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #333355;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--primary {
+  background-color: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--primary:hover:not(:disabled) {
+  background-color: #5a7fb5;
+}

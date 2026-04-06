@@ -489,3 +489,194 @@
     margin-left: 0;
   }
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .admin-dash {
+  background: #16162a;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .admin-dash-sidebar {
+  background: #1e1e32;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .admin-dash-sidebar__link {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__link:hover {
+  background: #333355;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__link--active {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__link--active:hover {
+  background: #5a7fb5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__logout {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__logout:hover {
+  background: rgba(239, 83, 80, 0.15);
+  color: #ef5350;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__manage {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-sidebar__manage:hover {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .admin-dash-header__greeting {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .admin-dash-header__info {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .admin-dash-header__icon-btn {
+  background: #1e1e32;
+  color: #b0b0c0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .admin-dash-header__icon-btn:hover {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .admin-dash-header__avatar {
+  background: #606080;
+}
+
+[data-theme="dark"] .admin-dash-tab {
+  background: #555;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .admin-dash-tab:hover {
+  background: #606080;
+}
+
+[data-theme="dark"] .admin-dash-tab--active {
+  background: #16162a;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .admin-dash-toolbar {
+  background: #16162a;
+}
+
+[data-theme="dark"] .admin-dash-search {
+  background: #1e1e32;
+  border-color: #333355;
+}
+
+[data-theme="dark"] .admin-dash-search__icon {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .admin-dash-search__input {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .admin-dash-search__input::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .admin-dash-btn--buscar {
+  background: #1e1e32;
+  border-color: #4a6fa5;
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .admin-dash-btn--buscar:hover {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-btn--exportar {
+  background: #1e1e32;
+  border-color: #4a6fa5;
+  color: #4a6fa5;
+}
+
+[data-theme="dark"] .admin-dash-btn--exportar:hover {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-table-container {
+  background: #16162a;
+}
+
+[data-theme="dark"] .admin-dash-table thead {
+  background: #1e1e32;
+}
+
+[data-theme="dark"] .admin-dash-table th {
+  color: #9090a8;
+  border-bottom-color: #333355;
+}
+
+[data-theme="dark"] .admin-dash-table td {
+  color: #e8e8f0;
+  border-bottom-color: #333355;
+}
+
+[data-theme="dark"] .admin-dash-table__row--even {
+  background: #16162a;
+}
+
+[data-theme="dark"] .admin-dash-table__row--odd {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .admin-dash-table__row--even:hover {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .admin-dash-table__row--odd:hover {
+  background: #333355;
+}
+
+[data-theme="dark"] .admin-dash-table__loading,
+[data-theme="dark"] .admin-dash-table__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .admin-dash-table__edit-btn {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .admin-dash-table__edit-btn:hover {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .admin-dash-pagination__item {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .admin-dash-pagination__item:hover:not(.admin-dash-pagination__item--disabled) {
+  background: #333355;
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .admin-dash-pagination__item--active {
+  background: #4a6fa5;
+  color: #fff;
+}

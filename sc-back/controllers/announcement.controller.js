@@ -1,4 +1,4 @@
-const { Announcement, Course, User } = require('../models');
+const { Announcement, Course, User, Cs } = require('../models');
 
 // Create a new announcement
 async function create(req, res) {
@@ -9,7 +9,18 @@ async function create(req, res) {
             return res.status(403).json({ message: 'No autorizado' });
         }
 
-        const course = await Course.findByPk(course_id);
+        // Check if course_id is actually a cs_id (course_subject ID)
+        // This happens when the frontend sends the cs_id from teacher_courses
+        let actualCourseId = course_id;
+        
+        // Try to find if this ID exists in course_subject table
+        const cs = await Cs.findByPk(course_id);
+        if (cs) {
+            // It's a cs_id, use the course_id from the relationship
+            actualCourseId = cs.course_id;
+        }
+        
+        const course = await Course.findByPk(actualCourseId);
         if (!course) {
             return res.status(404).json({ message: 'Curso no encontrado' });
         }
@@ -17,7 +28,7 @@ async function create(req, res) {
         const announcement = await Announcement.create({
             title,
             description,
-            course_id,
+            course_id: actualCourseId,
             teacher_id: req.user.id
         });
 
@@ -92,8 +103,35 @@ async function getForStudent(req, res) {
 async function getForParent(req, res) {
     try {
         const { parent_id } = req.params;
+        const { Ps, Enrollment, Course, User } = require('../models');
         
+        // Step 1: Find all students linked to this parent
+        const parentStudents = await Ps.findAll({
+            where: { parent_id: parseInt(parent_id) },
+            attributes: ['student_id']
+        });
+        
+        if (parentStudents.length === 0) {
+            return res.status(200).json([]);
+        }
+        
+        const studentIds = parentStudents.map(ps => ps.student_id);
+        
+        // Step 2: Find all courses where these students are enrolled
+        const enrollments = await Enrollment.findAll({
+            where: { student_id: studentIds },
+            attributes: ['course_id']
+        });
+        
+        if (enrollments.length === 0) {
+            return res.status(200).json([]);
+        }
+        
+        const courseIds = [...new Set(enrollments.map(e => e.course_id))];
+        
+        // Step 3: Get all announcements for these courses
         const announcements = await Announcement.findAll({
+            where: { course_id: courseIds },
             include: [
                 {
                     model: User,
@@ -103,19 +141,7 @@ async function getForParent(req, res) {
                 {
                     model: Course,
                     as: 'course',
-                    attributes: ['id', 'name', 'year'],
-                    required: true,
-                    include: [{
-                        model: require('../models').Enrollment,
-                        as: 'Enrollments',
-                        required: true,
-                        include: [{
-                            model: require('../models').Ps,
-                            as: 'Ps',
-                            where: { parent_id: parseInt(parent_id) },
-                            attributes: []
-                        }]
-                    }]
+                    attributes: ['id', 'name', 'year']
                 }
             ],
             order: [['created_at', 'DESC']]

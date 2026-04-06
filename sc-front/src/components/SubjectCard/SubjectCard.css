@@ -95,3 +95,32 @@
   color: #999;
   font-style: italic;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .subject-card {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .subject-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subject-card__name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .subject-card__bar {
+  background: #333355;
+}
+
+[data-theme="dark"] .subject-card__status--green { background: rgba(61, 214, 140, 0.15); color: #3dd68c; }
+[data-theme="dark"] .subject-card__status--yellow { background: rgba(255, 213, 79, 0.15); color: #ffd54f; }
+[data-theme="dark"] .subject-card__status--red { background: rgba(239, 83, 80, 0.15); color: #ef5350; }
+
+[data-theme="dark"] .subject-card__no-grade {
+  color: #808098;
+}

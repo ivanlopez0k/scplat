@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import { getStudentsByParent, type ParentStudentLink } from "../../services/parent.service";
 import {
@@ -62,6 +63,7 @@ const isNewAnnouncement = (dateString: string): boolean => {
 
 export default function Dashboard(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [visible, setVisible] = useState(false);
   const cardsRef = useRef<HTMLDivElement>(null);
   const [cardOffset, setCardOffset] = useState(0);
@@ -373,7 +375,9 @@ export default function Dashboard(): ReactElement {
             )}
           </div>
           <div className="dash-header__actions">
-            <button className="dash-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="dash-header__avatar" />
           </div>

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
 import {
   getMyAssignments,
   type Teacher,
@@ -41,6 +42,7 @@ function formatDate(dateStr: string | null): string {
 
 export default function TeacherStudents(): ReactElement {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [userName, setUserName] = useState("");
   const [assignments, setAssignments] = useState<TeacherAssignment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -127,7 +129,9 @@ export default function TeacherStudents(): ReactElement {
               <p className="teacher-students-header__subtitle">{courseName} — {courseDetail.students.length} alumnos</p>
             </div>
             <div className="teacher-students-header__actions">
-              <button className="teacher-students-header__icon-btn" aria-label="Configuración">⚙</button>
+              <button className="teacher-students-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
               <button className="teacher-students-header__icon-btn" aria-label="Notificaciones">🔔</button>
               <div className="teacher-students-header__avatar" />
             </div>
@@ -220,7 +224,9 @@ export default function TeacherStudents(): ReactElement {
             <p className="teacher-students-header__subtitle">Seleccioná un curso para ver los alumnos</p>
           </div>
           <div className="teacher-students-header__actions">
-            <button className="teacher-students-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="teacher-students-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <button className="teacher-students-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="teacher-students-header__avatar" />
           </div>

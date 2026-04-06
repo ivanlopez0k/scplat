@@ -113,3 +113,29 @@
   background: radial-gradient(circle, rgba(245, 200, 66, 0.15) 0%, transparent 70%);
   z-index: 1;
 }
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .home-wrapper {
+  background-color: #16162a;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .home-title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .home-description {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .home-btn {
+  background-color: #4a6fa5;
+  box-shadow: 0 4px 16px rgba(74, 111, 165, 0.3);
+}
+
+[data-theme="dark"] .home-btn:hover {
+  background-color: #5a7fb5;
+  box-shadow: 0 8px 24px rgba(90, 127, 181, 0.35);
+}
