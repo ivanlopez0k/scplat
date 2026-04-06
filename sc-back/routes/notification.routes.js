@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware');
-const { checkRole } = require('../middlewares/auth.middleware');
+const checkRole = require('../middlewares/role.middleware');
 const { getAll, getUnread, markRead, markAllRead } = require('../controllers/notification.controller');
 
 // All routes require authentication and student role

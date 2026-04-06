@@ -1,5 +1,5 @@
 const { Notification, Exam, Cs, Subject, Course } = require('../models');
-const { io } = require('../index');
+const { getIo } = require('../socket');
 
 async function createGradeUpdateNotification(studentId, examId) {
   try {
@@ -38,6 +38,7 @@ async function createGradeUpdateNotification(studentId, examId) {
     });
 
     // Emit real-time notification via Socket.IO
+    const io = getIo();
     io.to(`user-${studentId}`).emit('notification:new', {
       id: notification.id,
       message,

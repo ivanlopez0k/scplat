@@ -1,7 +1,6 @@
 require('dotenv').config();
-const http = require('http');
-const { Server } = require('socket.io');
 const models = require('./models')
+const { createServer, getServer } = require('./socket');
 const logger = require('./utils/winston.logger');
 const express = require('express');
 const helmet = require('helmet');
@@ -10,7 +9,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const config = require('./config/config');
 const validateEnv = require('./middlewares/validateEnv');
-const jwt = require('jsonwebtoken');
 
 // routes
 
@@ -122,49 +120,12 @@ models.sequelize.authenticate()
     logger.api.error(err);
 });
 
-// Server with Socket.IO
+// Create HTTP server with Socket.IO
+const server = createServer(app);
 const PORT = process.env.PORT;
-const server = http.createServer(app);
-
-// Socket.IO setup
-const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins,
-    credentials: true,
-  },
+server.listen(PORT, () => {
+  console.log('sc-plat back working at ', PORT)
 });
-
-// Socket.IO authentication and connection handling
-io.use((socket, next) => {
-  const token = socket.handshake.auth.token;
-  if (!token) {
-    return next(new Error('Authentication error'));
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.JWTSECRET);
-    socket.user = decoded;
-    next();
-  } catch (err) {
-    next(new Error('Invalid token'));
-  }
-});
-
-io.on('connection', (socket) => {
-  const userId = socket.user.id;
-  logger.api.debug(`Socket connected: user ${userId} (${socket.id})`);
-
-  // Join user-specific room
-  socket.join(`user-${userId}`);
-
-  socket.on('disconnect', () => {
-    logger.api.debug(`Socket disconnected: user ${userId} (${socket.id})`);
-  });
-});
-
-// Export io for use in other modules
-module.exports.io = io;
-
-app.listen = (...args) => server.listen(...args);
 
 app.use('/user', userRoutes);
 app.use('/subjects', subjectRoutes);
