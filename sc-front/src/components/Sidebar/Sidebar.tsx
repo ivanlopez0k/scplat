@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import type { ReactElement } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 import type { SidebarConfig } from "./Sidebar.types";
 import "./Sidebar.css";
 
@@ -10,14 +11,19 @@ export interface SidebarProps {
 export default function Sidebar({ config }: SidebarProps): ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme } = useTheme();
+
+  const logoSrc = config.logo?.srcDark && theme === 'dark'
+    ? config.logo.srcDark
+    : config.logo?.src;
 
   return (
     <aside className="sidebar">
       {/* Logo */}
       {config.logo && (
         <div className="sidebar__logo">
-          {config.logo.src ? (
-            <img src={config.logo.src} alt={config.logo.alt} />
+          {logoSrc ? (
+            <img src={logoSrc} alt={config.logo.alt} />
           ) : (
             <span className="sidebar__logo-text">{config.logo.text}</span>
           )}

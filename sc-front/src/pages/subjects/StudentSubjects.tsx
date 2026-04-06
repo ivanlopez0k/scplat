@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
+import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import { getStudentSubjects, type StudentSubject } from "../../services/student.service";
 import "./StudentSubjects.css";
 
@@ -66,7 +67,7 @@ export default function StudentSubjects(): ReactElement {
           </div>
           <div className="subjects-header__actions">
             <button className="subjects-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
             <button className="subjects-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="subjects-header__avatar" />

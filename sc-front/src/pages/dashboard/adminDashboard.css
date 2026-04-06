@@ -591,6 +591,7 @@
 
 [data-theme="dark"] .admin-dash-search__input {
   color: #e8e8f0;
+  background: transparent;
 }
 
 [data-theme="dark"] .admin-dash-search__input::placeholder {

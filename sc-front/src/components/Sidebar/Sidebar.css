@@ -26,6 +26,11 @@
 .sidebar__logo img {
   height: 44px;
   width: auto;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .sidebar__logo img {
+  filter: brightness(0) invert(1);
 }
 
 .sidebar__logo-text {

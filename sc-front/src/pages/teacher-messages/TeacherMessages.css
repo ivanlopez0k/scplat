@@ -41,6 +41,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   height: calc(100vh - 128px);
   overflow: hidden;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ═══════════════════════════════════════
@@ -52,6 +53,7 @@
   border-right: 1px solid #e8e4dc;
   display: flex;
   flex-direction: column;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .teacher-msg-contacts__title {
@@ -131,6 +133,7 @@
   justify-content: center;
   flex-shrink: 0;
   text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .teacher-msg-contact__info {
@@ -192,6 +195,7 @@
   justify-content: center;
   flex-shrink: 0;
   text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .teacher-msg-chat__header-name {
@@ -273,6 +277,7 @@
   background: #1e3a6e;
   color: #fff;
   border-bottom-right-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .teacher-msg-chat__bubble--received {
@@ -280,6 +285,7 @@
   background: #f0ece5;
   color: #1a1a2e;
   border-bottom-left-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .teacher-msg-chat__bubble-text {
@@ -327,7 +333,7 @@
   font-weight: 600;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
-  transition: background 0.2s, transform 0.15s;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s;
 }
 
 .teacher-msg-chat__input-btn:hover:not(:disabled) {
@@ -355,6 +361,7 @@
 .teacher-msg-chat__placeholder-icon {
   font-size: 48px;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .teacher-msg-chat__placeholder h3 {
@@ -525,14 +532,4 @@
 
 [data-theme="dark"] .teacher-msg-chat__placeholder p {
   color: #9090a8;
-}
-
-[data-theme="dark"] .teacher-msg-contacts__list {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-[data-theme="dark"] .teacher-msg-contact {
-  min-width: 200px;
 }

@@ -19,6 +19,7 @@ export interface SidebarAction {
 export interface SidebarConfig {
   logo?: {
     src?: string;
+    srcDark?: string;
     text?: string;
     alt: string;
   };

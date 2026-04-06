@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
+import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import { getStudentsByParent, type ParentStudentLink } from "../../services/parent.service";
 import {
@@ -376,7 +377,7 @@ export default function Dashboard(): ReactElement {
           </div>
           <div className="dash-header__actions">
             <button className="dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
             <button className="dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="dash-header__avatar" />

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
+import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../services/teacher.service";
 import {
   createAnnouncement,
@@ -188,7 +189,7 @@ export default function TeacherAnnouncements(): ReactElement {
           <h1 className="teacher-announcements__title">Comunicados — {userName}</h1>
           <div className="teacher-announcements__actions">
             <button className="teacher-announcements__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
             <button className="teacher-announcements__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="teacher-announcements__avatar" />

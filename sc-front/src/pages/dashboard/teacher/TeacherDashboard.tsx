@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, checkAuth } from "../../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../../components/Sidebar";
 import { useTheme } from "../../../contexts/ThemeContext";
+import { MoonIcon, SunIcon } from "../../../components/Icons/ThemeIcons";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../../services/teacher.service";
 import { getExamsByCsId, deleteExam, type Exam as ExamType } from "../../../services/exam.service";
 import TeacherCourseCard from "../../../components/TeacherCourseCard/TeacherCourseCard";
@@ -194,7 +195,7 @@ export default function TeacherDashboard(): ReactElement {
             </div>
             <div className="teacher-dash-header__actions">
               <button className="teacher-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
-                {theme === 'light' ? '🌙' : '☀️'}
+                {theme === 'light' ? <MoonIcon /> : <SunIcon />}
               </button>
               <button className="teacher-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
               <div className="teacher-dash-header__avatar" />
@@ -270,7 +271,9 @@ export default function TeacherDashboard(): ReactElement {
             <h1 className="teacher-dash-header__greeting">Hola, {userName}</h1>
           </div>
           <div className="teacher-dash-header__actions">
-            <button className="teacher-dash-header__icon-btn" aria-label="Configuración">⚙</button>
+            <button className="teacher-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
+              {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+            </button>
             <button className="teacher-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
             <div className="teacher-dash-header__avatar" />
           </div>
