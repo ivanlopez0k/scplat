@@ -5,18 +5,36 @@ import './NotificationBell.css';
 export default function NotificationBell(): ReactElement {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
+        handleClose();
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 200);
+  };
+
+  const handleToggle = () => {
+    if (isOpen) {
+      handleClose();
+    } else {
+      setIsOpen(true);
+      setIsClosing(false);
+    }
+  };
 
   const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
@@ -39,11 +57,11 @@ export default function NotificationBell(): ReactElement {
   };
 
   return (
-    <div className="notification-bell" ref={ref}>
+    <div className={`notification-bell ${unreadCount > 0 ? 'notification-bell--has-unread' : ''}`} ref={ref}>
       <button
         className="notification-bell__btn"
         aria-label="Notificaciones"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -59,14 +77,17 @@ export default function NotificationBell(): ReactElement {
         )}
       </button>
 
-      {isOpen && (
-        <div className="notification-bell__dropdown">
+      {(isOpen || isClosing) && (
+        <div className={`notification-bell__dropdown ${isClosing ? 'notification-bell__dropdown--closing' : ''}`}>
           <div className="notification-bell__header">
             <h3>Notificaciones</h3>
             {unreadCount > 0 && (
               <button
                 className="notification-bell__mark-all"
-                onClick={() => markAllAsRead()}
+                onClick={() => {
+                  markAllAsRead();
+                  handleClose();
+                }}
               >
                 Marcar todas como leídas
               </button>
@@ -81,7 +102,10 @@ export default function NotificationBell(): ReactElement {
                 <button
                   key={notif.id}
                   className={`notification-bell__item ${!notif.is_read ? 'notification-bell__item--unread' : ''}`}
-                  onClick={() => handleNotificationClick(notif.id)}
+                  onClick={() => {
+                    handleNotificationClick(notif.id);
+                    handleClose();
+                  }}
                 >
                   <div className="notification-bell__item-icon">
                     {notif.type === 'grade_update' && (
