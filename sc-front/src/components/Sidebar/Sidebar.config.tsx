@@ -70,11 +70,6 @@ export const studentSidebarConfig: SidebarConfig = {
       label: "Mis notas",
       href: "/grades",
     },
-    {
-      icon: <CalendarIcon />,
-      label: "Calendario",
-      href: "/calendar",
-    },
   ],
   logout: {
     icon: <LogoutIcon />,
