@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     note: {
-      type: DataTypes.DECIMAL(3,1),
+      type: DataTypes.DECIMAL(4,1),
       allowNull: false,
       validate: {
         min: 0,
