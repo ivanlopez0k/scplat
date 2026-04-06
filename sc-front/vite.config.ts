@@ -22,12 +22,19 @@ export default defineConfig({
           proxy.on('proxyRes', (proxyRes) => {
             // Forward set-cookie headers
             if (proxyRes.headers['set-cookie']) {
-              proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map((cookie: string) => 
+              proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map((cookie: string) =>
                 cookie.replace(/; Secure/i, '')
               );
             }
           });
         },
+      },
+      // Socket.IO proxy
+      '/socket.io': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        ws: true, // Enable WebSocket proxying
+        secure: false,
       },
     },
   },

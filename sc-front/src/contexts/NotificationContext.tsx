@@ -50,12 +50,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         // Only connect for students
         if (auth.user.role !== 'student') return;
 
-        // Get token from cookie
-        const match = document.cookie.match(/token=([^;]+)/);
-        const token = match ? match[1] : '';
-        if (!token) return;
-
-        const newSocket = getSocket(token);
+        const newSocket = getSocket();
         if (mounted) {
           setSocket(newSocket);
 
