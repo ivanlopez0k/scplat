@@ -4,6 +4,7 @@ import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
+import NotificationBell from "../../components/NotificationBell/NotificationBell";
 import { getStudentSubjects, type StudentSubject } from "../../services/student.service";
 import "./StudentSubjects.css";
 
@@ -69,7 +70,7 @@ export default function StudentSubjects(): ReactElement {
             <button className="subjects-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
-            <button className="subjects-header__icon-btn" aria-label="Notificaciones">🔔</button>
+            <NotificationBell />
             <div className="subjects-header__avatar" />
           </div>
         </header>

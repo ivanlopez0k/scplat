@@ -1,4 +1,5 @@
 const { Grade, User, Exam, Cs, Enrollment, Subject, Course, Sequelize } = require('../models');
+const { createGradeUpdateNotification } = require('./notification.service');
 
 async function createGrade(exam_id, student_id, note) {
     const student = await User.findByPk(student_id);
@@ -146,6 +147,9 @@ async function bulkUpsertGrades(examId, grades) {
         } else {
             await Grade.create({ exam_id: examId, student_id, note });
         }
+
+        // Create and emit notification for this student
+        await createGradeUpdateNotification(student_id, examId);
     }
 
     return { message: `Se guardaron ${grades.length} notas correctamente` };

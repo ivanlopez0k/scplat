@@ -5,6 +5,7 @@ import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
+import NotificationBell from "../../components/NotificationBell/NotificationBell";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../services/teacher.service";
 import {
   createAnnouncement,
@@ -191,7 +192,7 @@ export default function TeacherAnnouncements(): ReactElement {
             <button className="teacher-announcements__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
-            <button className="teacher-announcements__icon-btn" aria-label="Notificaciones">🔔</button>
+            <NotificationBell />
             <div className="teacher-announcements__avatar" />
           </div>
         </header>

@@ -6,6 +6,7 @@ import { getUsersByRole, type User } from "../../services/user.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
+import NotificationBell from "../../components/NotificationBell/NotificationBell";
 import EditTeacherModal from "../../components/EditTeacherModal/EditTeacherModal";
 import ManageSubjectsModal from "../../components/ManageSubjectsModal/ManageSubjectsModal";
 import EditParentModal from "../../components/EditParentModal/EditParentModal";
@@ -152,7 +153,7 @@ export default function AdminDashboard(): ReactElement {
             <button className="admin-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
-            <button className="admin-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
+            <NotificationBell />
             <div className="admin-dash-header__avatar" />
           </div>
         </header>

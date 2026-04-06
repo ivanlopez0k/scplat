@@ -1,4 +1,6 @@
 require('dotenv').config();
+const http = require('http');
+const { Server } = require('socket.io');
 const models = require('./models')
 const logger = require('./utils/winston.logger');
 const express = require('express');
@@ -8,6 +10,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const config = require('./config/config');
 const validateEnv = require('./middlewares/validateEnv');
+const jwt = require('jsonwebtoken');
 
 // routes
 
@@ -22,6 +25,7 @@ const gradeRoutes = require('./routes/grade.routes');
 const messageRoutes = require('./routes/message.routes');
 const parentStudentsRoutes = require('./routes/parent_student.routes');
 const announcementRoutes = require('./routes/announcement.routes');
+const notificationRoutes = require('./routes/notification.routes');
 
 
 //app
@@ -118,11 +122,49 @@ models.sequelize.authenticate()
     logger.api.error(err);
 });
 
-// Server
+// Server with Socket.IO
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log('sc-plat back working at ', PORT)
+const server = http.createServer(app);
+
+// Socket.IO setup
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+  },
 });
+
+// Socket.IO authentication and connection handling
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  if (!token) {
+    return next(new Error('Authentication error'));
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWTSECRET);
+    socket.user = decoded;
+    next();
+  } catch (err) {
+    next(new Error('Invalid token'));
+  }
+});
+
+io.on('connection', (socket) => {
+  const userId = socket.user.id;
+  logger.api.debug(`Socket connected: user ${userId} (${socket.id})`);
+
+  // Join user-specific room
+  socket.join(`user-${userId}`);
+
+  socket.on('disconnect', () => {
+    logger.api.debug(`Socket disconnected: user ${userId} (${socket.id})`);
+  });
+});
+
+// Export io for use in other modules
+module.exports.io = io;
+
+app.listen = (...args) => server.listen(...args);
 
 app.use('/user', userRoutes);
 app.use('/subjects', subjectRoutes);
@@ -135,5 +177,6 @@ app.use('/grade', gradeRoutes);
 app.use('/message', messageRoutes);
 app.use('/ps', parentStudentsRoutes);
 app.use('/announcement', announcementRoutes);
+app.use('/notification', notificationRoutes);
 
 module.exports = app;
