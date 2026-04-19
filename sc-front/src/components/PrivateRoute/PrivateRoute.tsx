@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { ReactElement, ReactNode } from "react";
 
 interface PrivateRouteProps {
-  children: ReactElement;
+  children: ReactNode;
   adminOnly?: boolean;
   teacherOnly?: boolean;
 }

@@ -1,4 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/home/home";
 import Login from "./pages/login/login";
 import Register from "./pages/register/Register";
@@ -15,62 +17,119 @@ import TeacherMessages from "./pages/teacher-messages/TeacherMessages";
 import ParentMessages from "./pages/parent-messages/ParentMessages";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-function AppRoutes(){
-    return(
+// Page wrapper with animation
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Animated routes component
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+        <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+        <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
+        <Route path="/forgot-password" element={<PageWrapper><ForgotPassword /></PageWrapper>} />
+        <Route path="/new-password" element={<PageWrapper><NewPassword /></PageWrapper>} />
+        <Route path="/dashboard" element={
+          <PageWrapper>
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/grades" element={
+          <PageWrapper>
+            <PrivateRoute>
+              <StudentGrades />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/subjects" element={
+          <PageWrapper>
+            <PrivateRoute>
+              <StudentSubjects />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/teacher-students" element={
+          <PageWrapper>
+            <PrivateRoute teacherOnly>
+              <TeacherStudents />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/teacher-messages" element={
+          <PageWrapper>
+            <PrivateRoute teacherOnly>
+              <TeacherMessages />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/teacher-announcements" element={
+          <PageWrapper>
+            <PrivateRoute teacherOnly>
+              <TeacherAnnouncements />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/parent-messages" element={
+          <PageWrapper>
+            <PrivateRoute>
+              <ParentMessages />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/teacher-dashboard" element={
+          <PageWrapper>
+            <PrivateRoute teacherOnly>
+              <TeacherDashboard />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+        <Route path="/admin-dashboard" element={
+          <PageWrapper>
+            <PrivateRoute adminOnly>
+              <AdminDashboard />
+            </PrivateRoute>
+          </PageWrapper>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function AppRoutes() {
+  const location = useLocation();
+
+  // Delay first render to avoid hydration mismatch
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return (
     <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/forgot-password" element={<ForgotPassword/>}/>
-            <Route path="/new-password" element={<NewPassword/>}/>
-            <Route path="/dashboard" element={
-                <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
-            }/>
-            <Route path="/grades" element={
-                <PrivateRoute>
-                    <StudentGrades />
-                </PrivateRoute>
-            }/>
-            <Route path="/subjects" element={
-                <PrivateRoute>
-                    <StudentSubjects />
-                </PrivateRoute>
-            }/>
-            <Route path="/teacher-students" element={
-                <PrivateRoute teacherOnly>
-                    <TeacherStudents />
-                </PrivateRoute>
-            }/>
-            <Route path="/teacher-messages" element={
-                <PrivateRoute teacherOnly>
-                    <TeacherMessages />
-                </PrivateRoute>
-            }/>
-            <Route path="/teacher-announcements" element={
-                <PrivateRoute teacherOnly>
-                    <TeacherAnnouncements />
-                </PrivateRoute>
-            }/>
-            <Route path="/parent-messages" element={
-                <PrivateRoute>
-                    <ParentMessages />
-                </PrivateRoute>
-            }/>
-            <Route path="/teacher-dashboard" element={
-                <PrivateRoute teacherOnly>
-                    <TeacherDashboard />
-                </PrivateRoute>
-            }/>
-            <Route path="/admin-dashboard" element={
-                <PrivateRoute adminOnly>
-                    <AdminDashboard />
-                </PrivateRoute>
-            }/>
-        </Routes>
+      <AnimatedRoutes />
     </BrowserRouter>
-)}
+  );
+}
 
 export default AppRoutes;
