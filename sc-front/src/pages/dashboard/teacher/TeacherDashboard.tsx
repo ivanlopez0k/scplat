@@ -275,7 +275,7 @@ export default function TeacherDashboard(): ReactElement {
             <button className="teacher-dash-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
-            <button className="teacher-dash-header__icon-btn" aria-label="Notificaciones">🔔</button>
+            <NotificationBell />
             <div className="teacher-dash-header__avatar" />
           </div>
         </header>

@@ -68,8 +68,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  position: relative;
-  z-index: 200;
+  z-index: auto;
 }
 
 .teacher-dash-header__actions .notification-bell {
@@ -348,6 +347,16 @@
 
 [data-theme="dark"] .teacher-dash-header__icon-btn:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Notification bell dark mode */
+[data-theme="dark"] .notification-bell__btn {
+  background: transparent;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .notification-bell__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .teacher-dash-header__avatar {

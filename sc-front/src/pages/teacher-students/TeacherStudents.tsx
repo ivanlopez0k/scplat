@@ -125,7 +125,7 @@ export default function TeacherStudents(): ReactElement {
           <header className="teacher-students-header">
             <div>
               <button className="teacher-students-back-btn" onClick={handleBack}>
-                ‹ Volver a Cursos
+                ‹ Volver a Alumnos
               </button>
               <h1 className="teacher-students-header__title">{courseDetail.subject.name}</h1>
               <p className="teacher-students-header__subtitle">{courseName} — {courseDetail.students.length} alumnos</p>
@@ -134,7 +134,7 @@ export default function TeacherStudents(): ReactElement {
               <button className="teacher-students-header__icon-btn" aria-label="Cambiar tema" onClick={toggleTheme} title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}>
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
-              <button className="teacher-students-header__icon-btn" aria-label="Notificaciones">🔔</button>
+              <NotificationBell />
               <div className="teacher-students-header__avatar" />
             </div>
           </header>
