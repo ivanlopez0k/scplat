@@ -1,6 +1,5 @@
-import { useState } from "react";
-import type { ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { useState, type ReactElement } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { requestPasswordReset } from "../../services/auth.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
@@ -61,11 +60,14 @@ export default function ForgotPassword(): ReactElement {
                   Correo electrónico
                 </label>
                 <input
-                  className="forgot-input"
+                  className={`forgot-input ${error ? "forgot-input--error" : ""}`}
                   id="forgot-email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError("");
+                  }}
                   required
                 />
               </div>
