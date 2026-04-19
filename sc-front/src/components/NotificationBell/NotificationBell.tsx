@@ -6,10 +6,13 @@ export default function NotificationBell(): ReactElement {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [wasOpen, setWasOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click (only if open)
   useEffect(() => {
+    if (!isOpen) return;
+    
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         handleClose();
@@ -17,7 +20,7 @@ export default function NotificationBell(): ReactElement {
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -27,7 +30,8 @@ export default function NotificationBell(): ReactElement {
     }, 200);
   };
 
-  const handleToggle = () => {
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isOpen) {
       handleClose();
     } else {

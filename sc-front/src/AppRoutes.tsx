@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/home/home";
 import Login from "./pages/login/login";
@@ -112,19 +111,6 @@ function AnimatedRoutes() {
 }
 
 function AppRoutes() {
-  const location = useLocation();
-
-  // Delay first render to avoid hydration mismatch
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <BrowserRouter>
       <AnimatedRoutes />
