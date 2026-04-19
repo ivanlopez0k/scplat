@@ -2,19 +2,9 @@ import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login as loginApi } from "../../services/auth.service";
-import "./login.css";
+import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
-
-const GridBackground = (): ReactElement => (
-  <svg className="login-grid" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="login-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#b0b8c1" strokeWidth="0.7" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#login-grid)" />
-  </svg>
-);
+import "./login.css";
 
 export default function Login(): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);
@@ -75,7 +65,7 @@ export default function Login(): ReactElement {
 
   return (
     <div className="login-wrapper">
-      <GridBackground />
+      <GridBackground className="login-grid" />
 
       {/* Logo */}
       <div className="login-logo-container">

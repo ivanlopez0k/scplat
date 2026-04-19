@@ -2,22 +2,11 @@ import { useState, useEffect, type ReactElement, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../../services/auth.service";
 import { getCourses, type Course } from "../../services/course.service";
+import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
 import "./register.css";
 
 const API_URL = '/api';
-
-/* ── Grid background ── */
-const GridBackground = (): ReactElement => (
-  <svg className="reg-grid-bg" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="reg-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#b0b8c1" strokeWidth="0.7" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#reg-grid)" />
-  </svg>
-);
 
 type UserRole = 'student' | 'teacher' | 'parent';
 
@@ -169,7 +158,7 @@ export default function Register(): ReactElement {
 
   return (
     <div className="reg">
-      <GridBackground />
+      <GridBackground className="reg-grid-bg" />
 
       <div className="reg-container">
         {/* ── LOGO ── */}

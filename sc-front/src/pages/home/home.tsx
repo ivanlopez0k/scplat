@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
-
-const GridBackground = (): ReactElement => (
-  <svg className="home-grid" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#b0b8c1" strokeWidth="0.7" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#grid)" />
-  </svg>
-);
+import "./home.css";
 
 export default function Home(): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);
@@ -26,7 +16,7 @@ export default function Home(): ReactElement {
 
   return (
     <div className="home-wrapper">
-      <GridBackground />
+      <GridBackground className="home-grid" />
 
       <nav className="home-nav">
         <img src={logo} alt="EduCAR logo" />

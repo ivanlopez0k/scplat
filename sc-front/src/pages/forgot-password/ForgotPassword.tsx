@@ -1,20 +1,10 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { requestPasswordReset } from "../../services/auth.service";
-import "./forgot-password.css";
+import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
-
-const GridBackground = (): ReactElement => (
-  <svg className="forgot-grid" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="forgot-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#b0b8c1" strokeWidth="0.7" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#forgot-grid)" />
-  </svg>
-);
+import "./forgot-password.css";
 
 export default function ForgotPassword(): ReactElement {
   const navigate = useNavigate();
@@ -46,7 +36,7 @@ export default function ForgotPassword(): ReactElement {
 
   return (
     <div className="forgot-wrapper">
-      <GridBackground />
+      <GridBackground className="forgot-grid" />
 
       <div className="forgot-logo-container">
         <img className="forgot-logo" src={logo} alt="EducAR logo" />

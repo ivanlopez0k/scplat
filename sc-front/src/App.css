@@ -184,6 +184,17 @@
 }
 
 /* ═══════════════════════════════════════
+   REUSABLE PAGE GRID BACKGROUND
+   ═══════════════════════════════════════ */
+.page-grid-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+/* ═══════════════════════════════════════
    DARK MODE
    ═══════════════════════════════════════ */
 [data-theme="dark"] .counter {

@@ -2,19 +2,9 @@ import { useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { resetPassword } from "../../services/auth.service";
-import "./new-password.css";
+import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
-
-const GridBackground = (): ReactElement => (
-  <svg className="newpass-grid" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="newpass-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#b0b8c1" strokeWidth="0.7" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#newpass-grid)" />
-  </svg>
-);
+import "./new-password.css";
 
 export default function NewPassword(): ReactElement {
   const navigate = useNavigate();
@@ -79,7 +69,7 @@ export default function NewPassword(): ReactElement {
   if (!token) {
     return (
       <div className="newpass-wrapper">
-        <GridBackground />
+        <GridBackground className="newpass-grid" />
 
         <div className="newpass-logo-container">
           <img className="newpass-logo" src={logo} alt="EducAR logo" />
