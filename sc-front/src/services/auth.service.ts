@@ -93,3 +93,60 @@ export function isAuthenticated(): boolean {
   // This is a best-effort check that should be verified server-side
   return document.cookie.includes('token=');
 }
+
+// Password reset functions
+export interface ForgotPasswordResponse {
+  message: string;
+  resetToken?: string | null;
+}
+
+export async function requestPasswordReset(email: string): Promise<ForgotPasswordResponse> {
+  const response = await fetch(`${API_URL}/user/forgot-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Error al solicitar recuperación');
+  }
+
+  return data;
+}
+
+export async function verifyResetToken(token: string): Promise<boolean> {
+  const response = await fetch(`${API_URL}/user/verify-reset-token/${token}`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    return false;
+  }
+
+  const data = await response.json();
+  return data.valid === true;
+}
+
+export async function resetPassword(token: string, password: string): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/user/reset-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token, password }),
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Error al restablecer contraseña');
+  }
+
+  return data;
+}

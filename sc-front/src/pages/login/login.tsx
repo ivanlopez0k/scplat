@@ -140,6 +140,10 @@ export default function Login(): ReactElement {
           </button>
         </form>
 
+        <p className="login-forgot">
+          <Link to="/forgot-password" className="login-forgot-link">¿Olvidaste tu contraseña?</Link>
+        </p>
+
         <p className="login-register">
           ¿No tenés cuenta aún? Registrate <Link to="/register" className="login-register-link">aquí</Link>
         </p>

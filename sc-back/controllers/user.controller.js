@@ -132,4 +132,50 @@ async function getMyAssignments(req, res){
     }
 }
 
-module.exports = { regUser, login, logout, getCurrentUser, getAll, getByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse, findStudentByDni, getMyAssignments }
+async function requestPasswordReset(req, res){
+    const { email } = req.body;
+    try {
+        const result = await userService.requestPasswordReset(email);
+        res.status(200).json(result);
+    } catch (err) {
+        // Don't reveal if email exists
+        res.status(200).json({ message: 'Si el email existe, recibirás un enlace para restablecer tu contraseña' });
+    }
+}
+
+async function resetPassword(req, res){
+    const { token, password } = req.body;
+    try {
+        const result = await userService.resetPassword(token, password);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
+async function verifyResetToken(req, res){
+    const { token } = req.params;
+    try {
+        await userService.validateResetToken(token);
+        res.status(200).json({ valid: true });
+    } catch (err) {
+        res.status(400).json({ valid: false, message: err.message });
+    }
+}
+
+module.exports = {
+    regUser,
+    login,
+    logout,
+    getCurrentUser,
+    getAll,
+    getByRole,
+    getTeacherWithAssignments,
+    assignTeacherToCourse,
+    removeTeacherFromCourse,
+    findStudentByDni,
+    getMyAssignments,
+    requestPasswordReset,
+    resetPassword,
+    verifyResetToken
+}

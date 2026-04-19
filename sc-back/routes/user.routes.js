@@ -17,4 +17,10 @@ router.get('/teacher/me/assignments', authMiddleware, userController.getMyAssign
 router.post('/assign', authMiddleware, checkRole('admin'), userController.assignTeacherToCourse);
 router.delete('/assign/:id', authMiddleware, checkRole('admin'), userController.removeTeacherFromCourse);
 router.get('/student/by-dni/:dni', userController.findStudentByDni);
+
+// Password reset routes (public)
+router.post('/forgot-password', userController.requestPasswordReset);
+router.post('/reset-password', userController.resetPassword);
+router.get('/verify-reset-token/:token', userController.verifyResetToken);
+
 module.exports = router

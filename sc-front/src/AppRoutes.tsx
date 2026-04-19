@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
 import Login from "./pages/login/login";
 import Register from "./pages/register/Register";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
+import NewPassword from "./pages/new-password/NewPassword";
 import Dashboard from "./pages/dashboard/dashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import TeacherDashboard from "./pages/dashboard/teacher/TeacherDashboard";
@@ -20,6 +22,8 @@ function AppRoutes(){
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path="/new-password" element={<NewPassword/>}/>
             <Route path="/dashboard" element={
                 <PrivateRoute>
                     <Dashboard />

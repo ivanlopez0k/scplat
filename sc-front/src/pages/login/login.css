@@ -196,6 +196,26 @@
   text-decoration: underline;
 }
 
+/* ── Forgot password link ── */
+.login-forgot {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+.login-forgot-link {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.login-forgot-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* ── Hand illustration (decorative) ── */
 .login-hand {
   position: fixed;
@@ -288,5 +308,13 @@
 }
 
 [data-theme="dark"] .login-register-link {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .login-forgot {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] .login-forgot-link {
   color: #e8e8f0;
 }

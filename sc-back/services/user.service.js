@@ -171,4 +171,77 @@ async function findStudentByDni(dni) {
     return student;
 }
 
-module.exports = {register, login, getUsers, getUsersByRole, getTeacherWithAssignments, assignTeacherToCourse, removeTeacherFromCourse, findStudentByDni}
+// Password reset functions
+function generateResetToken() {
+    const crypto = require('crypto');
+    return crypto.randomBytes(32).toString('hex');
+}
+
+async function requestPasswordReset(email) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+        // Don't reveal if email exists or not
+        return { message: 'Si el email existe, recibirás un enlace para restablecer tu contraseña' };
+    }
+
+    const resetToken = generateResetToken();
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    await user.update({
+        reset_token: resetToken,
+        reset_token_expires: expires
+    });
+
+    // TODO: Send email with reset link (for now, return the token for dev)
+    console.log(`[PASSWORD RESET] Token for ${email}: ${resetToken}`);
+
+    return {
+        message: 'Si el email existe, recibirás un enlace para restablecer tu contraseña',
+        resetToken: process.env.NODE_ENV === 'development' ? resetToken : null
+    };
+}
+
+async function validateResetToken(token) {
+    const user = await User.findOne({
+        where: {
+            reset_token: token,
+            reset_token_expires: {
+                [Op.gt]: new Date()
+            }
+        }
+    });
+
+    if (!user) {
+        throw new Error('Token inválido o expirado');
+    }
+
+    return user;
+}
+
+async function resetPassword(token, newPassword) {
+    const user = await validateResetToken(token);
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await user.update({
+        password: hashedPassword,
+        reset_token: null,
+        reset_token_expires: null
+    });
+
+    return { message: 'Contraseña actualizada correctamente' };
+}
+
+module.exports = {
+    register,
+    login,
+    getUsers,
+    getUsersByRole,
+    getTeacherWithAssignments,
+    assignTeacherToCourse,
+    removeTeacherFromCourse,
+    findStudentByDni,
+    requestPasswordReset,
+    validateResetToken,
+    resetPassword
+}
