@@ -351,12 +351,12 @@
 
 /* Notification bell dark mode */
 [data-theme="dark"] .notification-bell__btn {
-  background: transparent;
-  color: #b0b0c0;
+  background: #1e3a6e;
+  color: #fff;
 }
 
 [data-theme="dark"] .notification-bell__btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #2a4a8e;
 }
 
 [data-theme="dark"] .teacher-dash-header__avatar {
