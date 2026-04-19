@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 
 const { User, Tc, Cs, Course, Subject, Enrollment, Ps } = require('../models');
+const { sendPasswordResetEmail } = require('./email.service');
 
 async function register(name, lastname, dni, email, password, role, courseId, childDni, parentId) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -192,8 +193,14 @@ async function requestPasswordReset(email) {
         reset_token_expires: expires
     });
 
-    // TODO: Send email with reset link (for now, return the token for dev)
-    console.log(`[PASSWORD RESET] Token for ${email}: ${resetToken}`);
+    // Send email with reset link
+    try {
+        await sendPasswordResetEmail(email, resetToken, user.name);
+    } catch (emailError) {
+        console.error(`[PASSWORD RESET] Email failed for ${email}:`, emailError.message);
+        // Log token for manual recovery if email fails
+        console.log(`[PASSWORD RESET] Token for ${email}: ${resetToken}`);
+    }
 
     return {
         message: 'Si el email existe, recibirás un enlace para restablecer tu contraseña',
