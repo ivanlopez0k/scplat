@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { requestPasswordReset } from "../../services/auth.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
@@ -22,6 +23,7 @@ export default function ForgotPassword(): ReactElement {
     try {
       const result = await requestPasswordReset(email);
       setSuccess(true);
+      toast.success('Si el email existe, recibirás un enlace');
 
       // Show token in dev mode
       if (result.resetToken) {
@@ -29,6 +31,7 @@ export default function ForgotPassword(): ReactElement {
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al procesar solicitud");
+      toast.error('Error al procesar solicitud');
     } finally {
       setLoading(false);
     }

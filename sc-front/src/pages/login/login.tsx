@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { login as loginApi } from "../../services/auth.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
@@ -55,9 +56,12 @@ export default function Login(): ReactElement {
 
     try {
       await loginApi(email, password);
+      toast.success('Bienvenido!');
       navigate("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Credenciales inválidas");
+      const msg = err instanceof Error ? err.message : "Credenciales inválidas";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

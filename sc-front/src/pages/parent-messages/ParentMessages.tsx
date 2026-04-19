@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { logout, checkAuth } from "../../services/auth.service";
 import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import {
@@ -100,8 +101,10 @@ export default function ParentMessages(): ReactElement {
       const msg = await sendMessage(userId, selectedContact.id, newMessage.trim());
       setMessages((prev) => [...prev, msg]);
       setNewMessage("");
+      toast.success('Mensaje enviado');
     } catch (err) {
       console.error("Error sending message:", err);
+      toast.error('Error al enviar mensaje');
     } finally {
       setSending(false);
     }
