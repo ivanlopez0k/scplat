@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 
 const { User, Tc, Cs, Course, Subject, Enrollment, Ps } = require('../models');
-const { sendPasswordResetEmail } = require('./email.service');
+const { sendPasswordResetEmail, sendWelcomeEmail } = require('./email.service');
 
 async function register(name, lastname, dni, email, password, role, courseId, childDni, parentId) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -76,6 +76,13 @@ async function register(name, lastname, dni, email, password, role, courseId, ch
                 });
             }
         }
+    }
+
+    // Send welcome email (non-blocking, don't fail registration if email fails)
+    try {
+        await sendWelcomeEmail(email, name, role);
+    } catch (emailError) {
+        console.error(`[WELCOME] Email failed for ${email}:`, emailError.message);
     }
 
     return user;
