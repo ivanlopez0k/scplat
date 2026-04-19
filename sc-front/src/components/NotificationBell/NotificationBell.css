@@ -5,16 +5,15 @@
 .notification-bell__btn {
   width: 38px;
   height: 38px;
-  border: none;
+  border: 2px solid #fff;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  color: #555;
+  background: transparent;
+  color: var(--text-primary, #1a1a2e);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: background-color 0.2s ease, transform 0.2s ease;
   position: relative;
 }
 
