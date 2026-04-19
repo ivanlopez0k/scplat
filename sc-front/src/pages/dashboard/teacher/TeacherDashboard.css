@@ -349,14 +349,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Notification bell dark mode */
+/* Notification bell dark mode - same as theme button */
 [data-theme="dark"] .notification-bell__btn {
-  background: #1e3a6e;
-  color: #fff;
+  background: #1e1e32;
+  color: #b0b0c0;
 }
 
 [data-theme="dark"] .notification-bell__btn:hover {
-  background: #2a4a8e;
+  background: #252542;
 }
 
 [data-theme="dark"] .teacher-dash-header__avatar {
