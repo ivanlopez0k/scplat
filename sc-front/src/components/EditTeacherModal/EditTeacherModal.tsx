@@ -64,8 +64,6 @@ export default function EditTeacherModal({
         getSubjects(),
         getCourseSubjects(),
       ]);
-      console.log('Teacher data:', teacherData);
-      console.log('Course subjects:', csData);
       setTeacher(teacherData);
       setCourses(coursesData);
       setSubjects(subjectsData);

@@ -183,10 +183,8 @@ export default function Dashboard(): ReactElement {
               }
 
               // Fetch exams for this student
-              console.log(`[Dashboard] Fetching exams for student id=${status.user.id}`);
               try {
                 const exams = await getExamsForStudent(status.user.id);
-                console.log(`[Dashboard] Received ${exams.length} exams:`, JSON.stringify(exams, null, 2));
                 setStudentExams(exams);
               } catch (examErr: any) {
                 const msg = examErr?.message || 'Error al cargar evaluaciones';

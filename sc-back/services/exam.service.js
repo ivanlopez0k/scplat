@@ -83,7 +83,6 @@ async function getExamsByCsId(csId) {
         ],
         order: [['exam_date', 'ASC']]
     });
-    console.log(`[getExamsByCsId] csId=${csId}, found ${exams.length} exams`);
     return exams;
 }
 
@@ -94,12 +93,9 @@ async function getExamsByStudentId(studentId) {
         attributes: ['course_id']
     });
 
-    console.log(`[getExamsByStudentId] studentId=${studentId}, enrollments=${enrollments.length}`);
-
     if (enrollments.length === 0) return [];
 
     const courseIds = enrollments.map(e => e.course_id);
-    console.log(`[getExamsByStudentId] courseIds=${JSON.stringify(courseIds)}`);
 
     // Ahora obtenemos los examenes de esos cursos
     // Necesitamos encontrar los cs_id que pertenecen a estos courses
@@ -108,12 +104,9 @@ async function getExamsByStudentId(studentId) {
         attributes: ['id']
     });
 
-    console.log(`[getExamsByStudentId] courseSubjects=${courseSubjects.length}`);
-
     if (courseSubjects.length === 0) return [];
 
     const csIds = courseSubjects.map(cs => cs.id);
-    console.log(`[getExamsByStudentId] csIds=${JSON.stringify(csIds)}`);
 
     // Finalmente obtenemos los examenes de esos cs_id
     const exams = await Exam.findAll({
@@ -132,7 +125,6 @@ async function getExamsByStudentId(studentId) {
         order: [['exam_date', 'ASC']]
     });
 
-    console.log(`[getExamsByStudentId] found ${exams.length} exams`);
     return exams;
 }
 

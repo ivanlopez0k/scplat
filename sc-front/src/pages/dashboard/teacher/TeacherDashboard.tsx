@@ -78,9 +78,7 @@ export default function TeacherDashboard(): ReactElement {
     setExamsLoading(true);
     setExamsError(null);
     try {
-      console.log(`[TeacherDashboard] Fetching exams for csId=${csId}`);
       const exams = await getExamsByCsId(csId);
-      console.log(`[TeacherDashboard] Received ${exams.length} exams:`, JSON.stringify(exams, null, 2));
       setCsExams(exams);
     } catch (err: any) {
       const msg = err?.message || 'Error al cargar evaluaciones';
@@ -110,9 +108,7 @@ export default function TeacherDashboard(): ReactElement {
       setExamsLoading(true);
       setExamsError(null);
       try {
-        console.log(`[TeacherDashboard] Refreshing exams for csId=${selectedCsId}`);
         const exams = await getExamsByCsId(selectedCsId);
-        console.log(`[TeacherDashboard] After create: ${exams.length} exams`);
         setCsExams(exams);
       } catch (err: any) {
         const msg = err?.message || 'Error al refrescar evaluaciones';

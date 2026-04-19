@@ -118,14 +118,11 @@ async function getTeacherContacts(teacherId) {
 }
 
 async function getParentContacts(parentId) {
-    console.log(`[getParentContacts] parentId=${parentId}`);
-
     // Get all students linked to this parent
     const parentStudents = await Ps.findAll({
         where: { parent_id: parentId },
         attributes: ['student_id']
     });
-    console.log(`[getParentContacts] parentStudents count=${parentStudents.length}`, parentStudents.map(ps => ps.student_id));
 
     if (parentStudents.length === 0) return [];
 
@@ -136,7 +133,6 @@ async function getParentContacts(parentId) {
         where: { student_id: studentIds },
         attributes: ['course_id']
     });
-    console.log(`[getParentContacts] enrollments count=${enrollments.length}`, enrollments.map(e => e.course_id));
 
     if (enrollments.length === 0) return [];
 
@@ -147,12 +143,10 @@ async function getParentContacts(parentId) {
         where: { course_id: courseIds },
         attributes: ['id']
     });
-    console.log(`[getParentContacts] courseSubjects count=${courseSubjects.length}`, courseSubjects.map(cs => cs.id));
 
     if (courseSubjects.length === 0) return [];
 
     const csIds = courseSubjects.map(cs => cs.id);
-    console.log(`[getParentContacts] csIds=${JSON.stringify(csIds)}`);
 
     // Get all teachers for these course_subjects
     try {
@@ -169,7 +163,6 @@ async function getParentContacts(parentId) {
                 }
             ]
         });
-        console.log(`[getParentContacts] teacherCourses count=${teacherCourses.length}`, teacherCourses.map(tc => tc.teacher?.lastname));
 
         // Build unique teacher list with their subject(s)
         const teacherMap = {};
@@ -194,12 +187,9 @@ async function getParentContacts(parentId) {
         const teachers = Object.values(teacherMap);
         teachers.sort((a, b) => a.lastname.localeCompare(b.lastname));
 
-        console.log(`[getParentContacts] final teachers count=${teachers.length}`, teachers.map(t => t.lastname));
-
         return teachers;
     } catch (err) {
         console.error('[getParentContacts] Error fetching teachers:', err.message);
-        console.error('[getParentContacts] Error stack:', err.stack);
         return [];
     }
 }
