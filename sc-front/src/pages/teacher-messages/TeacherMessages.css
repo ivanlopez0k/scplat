@@ -248,6 +248,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: flex-start;
+}
+
+.teacher-msg-chat__messages-list .teacher-msg-chat__bubble--sent {
+  align-self: flex-end;
+}
+
+.teacher-msg-chat__messages-list .teacher-msg-chat__bubble--received {
+  align-self: flex-start;
 }
 
 /* Date divider */

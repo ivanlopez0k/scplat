@@ -248,6 +248,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: flex-start;
+}
+
+.parent-msg-chat__messages-list .parent-msg-chat__bubble--sent {
+  align-self: flex-end;
+}
+
+.parent-msg-chat__messages-list .parent-msg-chat__bubble--received {
+  align-self: flex-start;
 }
 
 /* Date divider */
