@@ -91,6 +91,36 @@
   transform: translateY(-1px);
 }
 
+/* Notification bell specific styles for teacher dashboard */
+.teacher-dash-header .notification-bell {
+  position: relative;
+  z-index: 1000;
+}
+
+.teacher-dash-header .notification-bell__btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.teacher-dash-header .notification-bell__btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.teacher-dash-header .notification-bell__dropdown {
+  z-index: 1000;
+}
+
 .teacher-dash-header__avatar {
   width: 40px;
   height: 40px;
