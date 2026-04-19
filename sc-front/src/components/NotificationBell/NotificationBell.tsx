@@ -6,7 +6,6 @@ export default function NotificationBell(): ReactElement {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [wasOpen, setWasOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click (only if open)

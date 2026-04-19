@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { checkAuth } from "../../services/auth.service";
 import { useEffect, useState } from "react";
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface PrivateRouteProps {
   children: ReactNode;

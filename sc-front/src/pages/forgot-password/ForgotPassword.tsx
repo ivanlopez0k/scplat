@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { requestPasswordReset } from "../../services/auth.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
@@ -7,7 +7,6 @@ import logo from "/Group_17.png";
 import "./forgot-password.css";
 
 export default function ForgotPassword(): ReactElement {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
