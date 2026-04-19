@@ -1,0 +1,313 @@
+.edit-parent-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-parent-modal__description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.edit-parent-modal__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.edit-parent-modal__search-icon {
+  position: absolute;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  color: #888;
+  pointer-events: none;
+}
+
+.edit-parent-modal__search-input {
+  width: 100%;
+  padding: 8px 12px 8px 34px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #f9fafb;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.edit-parent-modal__search-input:focus {
+  border-color: #1e3a6e;
+  box-shadow: 0 0 0 2px rgba(30, 58, 110, 0.1);
+  background-color: #fff;
+}
+
+.edit-parent-modal__search-input::placeholder {
+  color: #aaa;
+}
+
+.edit-parent-modal__select-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.edit-parent-modal__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.edit-parent-modal__checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #1e3a6e;
+  cursor: pointer;
+}
+
+.edit-parent-modal__count {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.edit-parent-modal__students {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+}
+
+.edit-parent-modal__student-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-parent-modal__student-item:last-child {
+  border-bottom: none;
+}
+
+.edit-parent-modal__student-item:hover {
+  background-color: #f5f7fa;
+}
+
+.edit-parent-modal__student-item--selected {
+  background-color: #e8f0fe;
+}
+
+.edit-parent-modal__student-item--selected:hover {
+  background-color: #d5e5fc;
+}
+
+.edit-parent-modal__checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.edit-parent-modal__checkbox-wrapper input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #1e3a6e;
+  cursor: pointer;
+}
+
+.edit-parent-modal__checkbox-wrapper label {
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  flex: 1;
+}
+
+.edit-parent-modal__student-dni {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+}
+
+.edit-parent-modal__loading {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.edit-parent-modal__empty {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.edit-parent-modal__message {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.edit-parent-modal__message--error {
+  background-color: #fde8e8;
+  color: #c53030;
+  border: 1px solid #fbb6b6;
+}
+
+.edit-parent-modal__message--success {
+  background-color: #e6f9ed;
+  color: #276749;
+  border: 1px solid #b6e3c9;
+}
+
+/* Buttons in modal footer */
+.edit-parent-modal-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.edit-parent-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit-parent-modal-btn--secondary {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.edit-parent-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #cbd5e0;
+}
+
+.edit-parent-modal-btn--primary {
+  background-color: #1e3a6e;
+  color: #fff;
+}
+
+.edit-parent-modal-btn--primary:hover:not(:disabled) {
+  background-color: #17305d;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .edit-parent-modal__description {
+  color: #b0b0c0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .edit-parent-modal__search-icon {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-parent-modal__search-input {
+  border-color: #555;
+  color: #e8e8f0;
+  background-color: #2a2a48;
+}
+
+[data-theme="dark"] .edit-parent-modal__search-input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+  background-color: #333355;
+}
+
+[data-theme="dark"] .edit-parent-modal__search-input::placeholder {
+  color: #808098;
+}
+
+[data-theme="dark"] .edit-parent-modal__select-all {
+  border-bottom-color: #333355;
+}
+
+[data-theme="dark"] .edit-parent-modal__checkbox-label {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .edit-parent-modal__count {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-parent-modal__students {
+  border-color: #333355;
+}
+
+[data-theme="dark"] .edit-parent-modal__student-item {
+  border-bottom-color: #2a2a48;
+}
+
+[data-theme="dark"] .edit-parent-modal__student-item:hover {
+  background-color: #2a2a48;
+}
+
+[data-theme="dark"] .edit-parent-modal__student-item--selected {
+  background-color: rgba(74, 111, 165, 0.15);
+}
+
+[data-theme="dark"] .edit-parent-modal__student-item--selected:hover {
+  background-color: rgba(74, 111, 165, 0.25);
+}
+
+[data-theme="dark"] .edit-parent-modal__checkbox-wrapper label {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .edit-parent-modal__student-dni {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-parent-modal__loading {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-parent-modal__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .edit-parent-modal__message--error {
+  background-color: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .edit-parent-modal__message--success {
+  background-color: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .edit-parent-modal-btn--secondary {
+  background-color: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .edit-parent-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #333355;
+}
+
+[data-theme="dark"] .edit-parent-modal-btn--primary {
+  background-color: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .edit-parent-modal-btn--primary:hover:not(:disabled) {
+  background-color: #5a7fb5;
+}

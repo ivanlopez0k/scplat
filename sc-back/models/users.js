@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Grade, {foreignKey: 'student_id'});
       User.hasMany(models.Exam, { foreignKey: 'teacher_id'});
       User.hasMany(models.Enrollment, { foreignKey: 'student_id' });
-      User.hasMany(models.Tc, { foreignKey: 'teacher_id'});
+      User.hasMany(models.Tc, { foreignKey: 'teacher_id', as: 'teacher_courses'});
     }
   }
   User.init({
@@ -54,19 +54,32 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('student','teacher','parent','admin'),
       allowNull:false,
     },
+    reset_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    reset_token_expires: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     created_at: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
-  }, 
-  {    
+    updated_at: {
+      allowNull: true,
+      type: DataTypes.DATE,
+      defaultValue: null
+    },
+  },
+  {
     sequelize: sequelize,
     modelName: 'User',
     tableName: 'users',
     timestamps: true,
     createdAt: 'created_at',
-    updatedAt: false
+    updatedAt: 'updated_at'
 }
   );
 

@@ -1,4 +1,4 @@
-const { createCourseSubject, getCourseSubjects, getCourseSubjectById, deleteCourseSubject } = require('../services/course_subject.service');
+const { createCourseSubject, getCourseSubjects, getCourseSubjectById, deleteCourseSubject, getCourseSubjectsByCourse } = require('../services/course_subject.service');
 
 async function create(req, res) {
     try {
@@ -39,4 +39,14 @@ async function remove(req, res) {
     }
 }
 
-module.exports = { create, getAll, getById, remove };
+async function getByCourse(req, res) {
+    try {
+        const { course_id } = req.params;
+        const csList = await getCourseSubjectsByCourse(course_id);
+        res.status(200).json(csList);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, remove, getByCourse };

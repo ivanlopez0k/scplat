@@ -1,4 +1,4 @@
-const { createMessage, getMessagesBetweenUsers, markAsRead, getUnreadMessages } = require('../services/message.service');
+const { createMessage, getMessagesBetweenUsers, markAsRead, getUnreadMessages, getTeacherContacts, getParentContacts } = require('../services/message.service');
 
 async function create(req, res) {
     try {
@@ -41,4 +41,24 @@ async function getUnread(req, res) {
     }
 }
 
-module.exports = { create, getConversation, readMessage, getUnread };
+async function getTeacherContactsController(req, res) {
+    try {
+        const { teacherId } = req.params;
+        const contacts = await getTeacherContacts(teacherId);
+        res.status(200).json(contacts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getParentContactsController(req, res) {
+    try {
+        const { parentId } = req.params;
+        const contacts = await getParentContacts(parentId);
+        res.status(200).json(contacts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getConversation, readMessage, getUnread, getTeacherContactsController, getParentContactsController };

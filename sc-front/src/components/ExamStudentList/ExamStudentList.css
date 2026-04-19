@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════
+   EXAM STUDENT LIST
+   ═══════════════════════════════════════ */
+.exam-student-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.exam-student-list__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.exam-student-list__skeleton {
+  height: 40px;
+  background: linear-gradient(90deg, #f0ece5 25%, #e8e4dc 50%, #f0ece5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.exam-student-list__error {
+  font-size: 14px;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 0;
+  border: 1px solid #fecaca;
+}
+
+.exam-student-list__empty {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* Header row */
+.exam-student-list__header {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 2px solid #e8e4dc;
+  margin-bottom: 4px;
+}
+
+.exam-student-list__col {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.exam-student-list__col--grade {
+  text-align: center;
+}
+
+/* Body rows */
+.exam-student-list__body {
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.exam-student-list__row {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ece5;
+  align-items: center;
+}
+
+.exam-student-list__row:last-child {
+  border-bottom: none;
+}
+
+.exam-student-list__row .exam-student-list__col--name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+.exam-student-list__row .exam-student-list__col--dni {
+  font-size: 13px;
+  color: #888;
+  font-family: 'Poppins', monospace;
+}
+
+/* Grade input */
+.exam-student-list__input {
+  width: 64px;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: #1a1a2e;
+  background: #fafaf9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.exam-student-list__input:focus {
+  border-color: #1e3a6e;
+  box-shadow: 0 0 0 3px rgba(30, 58, 110, 0.1);
+  background: #fff;
+}
+
+.exam-student-list__input::placeholder {
+  color: #c4b8a8;
+  font-weight: 400;
+}
+
+.exam-student-list__input::-webkit-outer-spin-button,
+.exam-student-list__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.exam-student-list__input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Success message */
+.exam-student-list__success {
+  font-size: 14px;
+  color: #16a34a;
+  background: #f0fdf4;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border: 1px solid #bbf7d0;
+  text-align: center;
+}
+
+/* Footer */
+.exam-student-list__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f0ece5;
+  margin-top: 8px;
+}
+
+.btn-cancel,
+.btn-save {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.btn-save {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #17305d;
+  transform: translateY(-1px);
+}
+
+.btn-save:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 500px) {
+  .exam-student-list__header,
+  .exam-student-list__row {
+    grid-template-columns: 1fr 70px;
+  }
+
+  .exam-student-list__col--dni {
+    display: none;
+  }
+
+  .exam-student-list__footer {
+    flex-direction: column-reverse;
+  }
+
+  .btn-cancel,
+  .btn-save {
+    width: 100%;
+  }
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .exam-student-list__skeleton {
+  background: linear-gradient(90deg, #2a2a48 25%, #333355 50%, #2a2a48 75%);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .exam-student-list__error {
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.1);
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .exam-student-list__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__header {
+  border-bottom-color: #333355;
+}
+
+[data-theme="dark"] .exam-student-list__col {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__row {
+  border-bottom-color: #2a2a48;
+}
+
+[data-theme="dark"] .exam-student-list__row .exam-student-list__col--name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .exam-student-list__row .exam-student-list__col--dni {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .exam-student-list__input {
+  border-color: #555;
+  color: #e8e8f0;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .exam-student-list__input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+  background: #333355;
+}
+
+[data-theme="dark"] .exam-student-list__input::placeholder {
+  color: #606080;
+}
+
+[data-theme="dark"] .exam-student-list__success {
+  color: #3dd68c;
+  background: rgba(61, 214, 140, 0.1);
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .exam-student-list__footer {
+  border-top-color: #2a2a48;
+}
+
+[data-theme="dark"] .btn-cancel {
+  background: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+  background: #333355;
+}
+
+[data-theme="dark"] .btn-save {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-save:hover:not(:disabled) {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .btn-save:disabled {
+  background: #555;
+}

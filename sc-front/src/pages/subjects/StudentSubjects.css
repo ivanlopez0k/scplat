@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
+
+/* ═══════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════ */
+.subjects-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f3ee;
+  position: relative;
+}
+
+.subjects-grid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   MAIN AREA
+   ═══════════════════════════════════════ */
+.subjects-main {
+  margin-left: 260px;
+  flex: 1;
+  padding: 32px 40px;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════ */
+.subjects-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.subjects-header__greeting {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.subjects-header__subtitle {
+  font-size: 15px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.subjects-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.subjects-header__icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  color: #555;
+}
+
+.subjects-header__icon-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.subjects-header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1e3a6e;
+}
+
+/* ═══════════════════════════════════════
+   CONTENT
+   ═══════════════════════════════════════ */
+.subjects-content {
+  position: relative;
+  z-index: 1;
+}
+
+.subjects-content__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subjects-skeleton {
+  height: 120px;
+  background: linear-gradient(90deg, #f0ece5 25%, #e8e4dc 50%, #f0ece5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 18px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.subjects-content__empty {
+  text-align: center;
+  padding: 80px 20px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.subjects-content__empty-icon {
+  font-size: 48px;
+  margin: 0 0 16px;
+}
+
+.subjects-content__empty h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.subjects-content__empty p {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   SUBJECTS GRID
+   ═══════════════════════════════════════ */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.subject-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.subject-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.subject-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.subject-card__icon {
+  font-size: 28px;
+}
+
+.subject-card__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   TEACHERS
+   ═══════════════════════════════════════ */
+.subject-card__teachers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subject-card__teachers-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.subject-card__teacher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #fafaf9;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+
+.subject-card__teacher:hover {
+  background: #f0f0ff;
+}
+
+.subject-card__teacher-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #6366f1;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.subject-card__teacher-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.subject-card__teacher-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subject-card__teacher-email {
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .subjects-main {
+    padding: 24px 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .subjects-main {
+    margin-left: 72px;
+  }
+}
+
+@media (max-width: 600px) {
+  .subjects-main {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .subjects-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .subjects-header__greeting {
+    font-size: 22px;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .subjects-page {
+  background: #16162a;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .subjects-header__greeting {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .subjects-header__subtitle {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .subjects-header__icon-btn {
+  background: #1e1e32;
+  color: #b0b0c0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .subjects-header__icon-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subjects-header__avatar {
+  background: #4a6fa5;
+}
+
+[data-theme="dark"] .subjects-skeleton {
+  background: linear-gradient(90deg, #2a2a48 25%, #333355 50%, #2a2a48 75%);
+}
+
+[data-theme="dark"] .subjects-content__empty {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .subjects-content__empty h2 {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .subjects-content__empty p {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .subject-card {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .subject-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subject-card__title {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .subject-card__teachers-label {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .subject-card__teacher {
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .subject-card__teacher:hover {
+  background: #333355;
+}
+
+[data-theme="dark"] .subject-card__teacher-name {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .subject-card__teacher-email {
+  color: #9090a8;
+}

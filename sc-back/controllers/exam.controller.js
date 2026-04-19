@@ -1,4 +1,4 @@
-const { createExam, getExams, getExamById, updateExam, deleteExam } = require('../services/exam.service');
+const { createExam, getExams, getExamById, updateExam, deleteExam, getExamsByStudentId, getExamsByCsId } = require('../services/exam.service');
 
 async function create(req, res) {
     try {
@@ -43,11 +43,32 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         const { id } = req.params;
-        const result = await deleteExam(id);
+        const teacherId = req.user.id;
+        const result = await deleteExam(id, teacherId);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-module.exports = { create, getAll, getById, update, remove };
+async function getByStudent(req, res) {
+    try {
+        const { studentId } = req.params;
+        const exams = await getExamsByStudentId(studentId);
+        res.status(200).json(exams);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getByCsId(req, res) {
+    try {
+        const { csId } = req.params;
+        const exams = await getExamsByCsId(csId);
+        res.status(200).json(exams);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { create, getAll, getById, update, remove, getByStudent, getByCsId };

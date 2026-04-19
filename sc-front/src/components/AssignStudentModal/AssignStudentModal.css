@@ -1,0 +1,245 @@
+.assign-student-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.assign-student-modal__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assign-student-modal__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.assign-student-modal__hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+}
+
+.assign-student-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.assign-student-modal__field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.assign-student-modal__loading {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.assign-student-modal__empty {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.assign-student-modal__enrollments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.assign-student-modal__enrollment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.assign-student-modal__enrollment-item:last-child {
+  border-bottom: none;
+}
+
+.assign-student-modal__enrollment-item:hover {
+  background-color: #f5f7fa;
+}
+
+.assign-student-modal__enrollment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.assign-student-modal__enrollment-course {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.assign-student-modal__enrollment-year {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.assign-student-modal__remove-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.assign-student-modal__remove-btn:hover:not(:disabled) {
+  background-color: #fde8e8;
+}
+
+.assign-student-modal__remove-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.assign-student-modal__message {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.assign-student-modal__message--error {
+  background-color: #fde8e8;
+  color: #c53030;
+  border: 1px solid #fbb6b6;
+}
+
+.assign-student-modal__message--success {
+  background-color: #e6f9ed;
+  color: #276749;
+  border: 1px solid #b6e3c9;
+}
+
+/* Buttons */
+.assign-student-modal-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.assign-student-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.assign-student-modal-btn--secondary {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.assign-student-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #cbd5e0;
+}
+
+.assign-student-modal-btn--primary {
+  background-color: #1e3a6e;
+  color: #fff;
+}
+
+.assign-student-modal-btn--primary:hover:not(:disabled) {
+  background-color: #17305d;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .assign-student-modal__section-title {
+  color: #e8e8f0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .assign-student-modal__hint {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__field-label {
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .assign-student-modal__loading {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__empty {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollments {
+  border-color: #333355;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-item {
+  border-bottom-color: #2a2a48;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-item:hover {
+  background-color: #2a2a48;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-course {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .assign-student-modal__enrollment-year {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .assign-student-modal__remove-btn:hover:not(:disabled) {
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
+[data-theme="dark"] .assign-student-modal__message--error {
+  background-color: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+[data-theme="dark"] .assign-student-modal__message--success {
+  background-color: rgba(61, 214, 140, 0.1);
+  color: #3dd68c;
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+[data-theme="dark"] .assign-student-modal-btn--secondary {
+  background-color: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--secondary:hover:not(:disabled) {
+  background-color: #333355;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--primary {
+  background-color: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .assign-student-modal-btn--primary:hover:not(:disabled) {
+  background-color: #5a7fb5;
+}

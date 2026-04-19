@@ -1,0 +1,87 @@
+/* ── Teacher Course Card ── */
+.teacher-course-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  min-width: 240px;
+  max-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid #1e3a6e;
+}
+
+.teacher-course-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-course-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.teacher-course-card__subject {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teacher-course-card__course {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+.teacher-course-card__arrow {
+  font-size: 28px;
+  color: #ccc;
+  flex-shrink: 0;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.teacher-course-card:hover .teacher-course-card__arrow {
+  color: #1e3a6e;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .teacher-course-card {
+  background: #1e1e32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-left-color: #4a6fa5;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .teacher-course-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .teacher-course-card__subject {
+  color: #e8e8f0;
+}
+
+[data-theme="dark"] .teacher-course-card__course {
+  color: #9090a8;
+}
+
+[data-theme="dark"] .teacher-course-card__arrow {
+  color: #555;
+}
+
+[data-theme="dark"] .teacher-course-card:hover .teacher-course-card__arrow {
+  color: #4a6fa5;
+}

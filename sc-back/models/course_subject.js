@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        Cs.belongsTo(models.Course, {foreignKey: 'course_id'});
-        Cs.belongsTo(models.Subject, {foreignKey: 'subject_id'});
+        Cs.belongsTo(models.Course, {foreignKey: 'course_id', as: 'course'});
+        Cs.belongsTo(models.Subject, {foreignKey: 'subject_id', as: 'subject'});
         Cs.hasMany(models.Exam, { foreignKey: 'cs_id' });
-        Cs.hasMany(models.Tc, { foreignKey: 'cs_id' });
+        Cs.hasMany(models.Tc, { foreignKey: 'cs_id', as: 'teacher_courses' });
     }
   }
   Cs.init({

@@ -1,0 +1,161 @@
+/* ═══════════════════════════════════════
+   EDIT EXAM FORM
+   ═══════════════════════════════════════ */
+.edit-exam-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-exam-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-exam-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.edit-exam-form .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.edit-exam-form .form-input,
+.edit-exam-form .form-select {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+
+.edit-exam-form .form-input:focus,
+.edit-exam-form .form-select:focus {
+  border-color: #1e3a6e;
+  box-shadow: 0 0 0 3px rgba(30, 58, 110, 0.1);
+}
+
+.edit-exam-form .form-error {
+  font-size: 14px;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.edit-exam-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.edit-exam-form .btn-cancel,
+.edit-exam-form .btn-submit {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+
+.edit-exam-form .btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.edit-exam-form .btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.edit-exam-form .btn-submit {
+  background: #1e3a6e;
+  color: #fff;
+}
+
+.edit-exam-form .btn-submit:hover:not(:disabled) {
+  background: #17305d;
+  transform: translateY(-1px);
+}
+
+.edit-exam-form .btn-submit:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 500px) {
+  .edit-exam-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-exam-form .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .edit-exam-form .btn-cancel,
+  .edit-exam-form .btn-submit {
+    width: 100%;
+  }
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .edit-exam-form .form-label {
+  color: #b0b0c0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .edit-exam-form .form-input,
+[data-theme="dark"] .edit-exam-form .form-select {
+  border-color: #555;
+  color: #e8e8f0;
+  background: #2a2a48;
+}
+
+[data-theme="dark"] .edit-exam-form .form-input:focus,
+[data-theme="dark"] .edit-exam-form .form-select:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+[data-theme="dark"] .edit-exam-form .form-error {
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.1);
+}
+
+[data-theme="dark"] .edit-exam-form .btn-cancel {
+  background: #2a2a48;
+  color: #b0b0c0;
+}
+
+[data-theme="dark"] .edit-exam-form .btn-cancel:hover {
+  background: #333355;
+}
+
+[data-theme="dark"] .edit-exam-form .btn-submit {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+[data-theme="dark"] .edit-exam-form .btn-submit:hover:not(:disabled) {
+  background: #5a7fb5;
+}
+
+[data-theme="dark"] .edit-exam-form .btn-submit:disabled {
+  background: #555;
+}
