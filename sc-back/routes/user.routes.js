@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware');
 const checkRole = require('../middlewares/role.middleware');
-const { loginValidation, registerValidation, validateFields } = require('../middlewares/validation');
+const { loginValidation, registerValidation, changePasswordValidation, validateFields } = require('../middlewares/validation');
+const { loginLimiter, registerLimiter, dniSearchLimiter } = require('../middlewares/rateLimiter');
 const userController = require('../controllers/user.controller');
 // const {sanitizeFields} = require('../middlewares/sanitize.middleware');
 
-router.post('/register', registerValidation, validateFields, userController.regUser); // solo admin crea usuarios
-router.post('/login', loginValidation, validateFields, userController.login); // pública, no necesita middleware
+router.post('/register', registerLimiter, registerValidation, validateFields, userController.regUser);
+router.post('/login', loginLimiter, loginValidation, validateFields, userController.login);
 router.post('/logout', authMiddleware, userController.logout);
 router.get('/me', authMiddleware, userController.getCurrentUser);
 router.get('/getall', authMiddleware, checkRole('admin'), userController.getAll);
@@ -16,11 +17,12 @@ router.get('/teacher/:id', authMiddleware, checkRole('admin'), userController.ge
 router.get('/teacher/me/assignments', authMiddleware, userController.getMyAssignments);
 router.post('/assign', authMiddleware, checkRole('admin'), userController.assignTeacherToCourse);
 router.delete('/assign/:id', authMiddleware, checkRole('admin'), userController.removeTeacherFromCourse);
-router.get('/student/by-dni/:dni', userController.findStudentByDni);
+router.get('/student/by-dni/:dni', dniSearchLimiter, userController.findStudentByDni);
 
 // Password reset routes (public)
 router.post('/forgot-password', userController.requestPasswordReset);
 router.post('/reset-password', userController.resetPassword);
 router.get('/verify-reset-token/:token', userController.verifyResetToken);
+router.post('/change-password', authMiddleware, changePasswordValidation, validateFields, userController.changePassword);
 
 module.exports = router

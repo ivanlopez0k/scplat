@@ -6,6 +6,7 @@ import { Sidebar, useSidebarConfig } from "../../../components/Sidebar";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../../components/Icons/ThemeIcons";
 import NotificationBell from "../../../components/NotificationBell/NotificationBell";
+import UserMenu from "../../../components/UserMenu/UserMenu";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../../services/teacher.service";
 import { getExamsByCsId, deleteExam, type Exam as ExamType } from "../../../services/exam.service";
 import TeacherCourseCard from "../../../components/TeacherCourseCard/TeacherCourseCard";
@@ -195,7 +196,7 @@ export default function TeacherDashboard(): ReactElement {
                 {theme === 'light' ? <MoonIcon /> : <SunIcon />}
               </button>
               <NotificationBell />
-              <div className="teacher-dash-header__avatar" />
+              <UserMenu onLogout={handleLogout} />
             </div>
           </header>
 

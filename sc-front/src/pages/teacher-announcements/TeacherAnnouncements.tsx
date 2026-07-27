@@ -6,6 +6,7 @@ import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import NotificationBell from "../../components/NotificationBell/NotificationBell";
+import UserMenu from "../../components/UserMenu/UserMenu";
 import { getMyAssignments, type Teacher, type TeacherAssignment } from "../../services/teacher.service";
 import {
   createAnnouncement,
@@ -193,7 +194,7 @@ export default function TeacherAnnouncements(): ReactElement {
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
             <NotificationBell />
-            <div className="teacher-announcements__avatar" />
+            <UserMenu onLogout={handleLogout} />
           </div>
         </header>
 

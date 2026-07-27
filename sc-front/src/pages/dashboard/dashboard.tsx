@@ -6,6 +6,7 @@ import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import NotificationBell from "../../components/NotificationBell/NotificationBell";
+import UserMenu from "../../components/UserMenu/UserMenu";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import { getStudentsByParent, type ParentStudentLink } from "../../services/parent.service";
 import {
@@ -379,7 +380,7 @@ export default function Dashboard(): ReactElement {
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
             <NotificationBell />
-            <div className="dash-header__avatar" />
+            <UserMenu onLogout={handleLogout} />
           </div>
         </header>
 
@@ -502,7 +503,9 @@ export default function Dashboard(): ReactElement {
                 <p className="dash-exams__error">Error: {parentChildExamsError}</p>
               )}
               <ExamListCard
-                exams={userRole === 'student' ? studentExams : parentChildExams}
+                exams={(userRole === 'student' ? studentExams : parentChildExams).filter(
+                  (e) => new Date(e.exam_date) >= new Date(new Date().toDateString())
+                )}
                 loading={false}
                 title="Próximas evaluaciones"
                 emptyMessage="No hay evaluaciones próximas"

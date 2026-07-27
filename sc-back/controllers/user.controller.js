@@ -1,9 +1,9 @@
 const userService = require('../services/user.service');
 
 async function regUser(req, res){
-    const { name, lastname, dni, email, password, role, courseId, childDni } = req.body;
+    const { name, lastname, dni, email, password, role, courseId, childDni, parentId } = req.body;
     try{
-        const user = await userService.register(name, lastname, dni, email, password, role, courseId, childDni)
+        const user = await userService.register(name, lastname, dni, email, password, role, courseId, childDni, parentId)
         res.status(200).send(user)
     }
     catch (error){
@@ -163,6 +163,16 @@ async function verifyResetToken(req, res){
     }
 }
 
+async function changePassword(req, res){
+    const { currentPassword, newPassword } = req.body;
+    try {
+        const result = await userService.changePassword(req.user.id, currentPassword, newPassword);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
 module.exports = {
     regUser,
     login,
@@ -177,5 +187,6 @@ module.exports = {
     getMyAssignments,
     requestPasswordReset,
     resetPassword,
-    verifyResetToken
+    verifyResetToken,
+    changePassword
 }

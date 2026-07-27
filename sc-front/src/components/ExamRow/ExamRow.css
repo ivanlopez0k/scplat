@@ -37,6 +37,35 @@
   white-space: nowrap;
 }
 
+.exam-row__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exam-row__countdown {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.exam-row__countdown--urgent {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.exam-row__countdown--soon {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.exam-row__countdown--normal {
+  color: #065f46;
+  background: #d1fae5;
+}
+
 /* ═══════════════════════════════════════
    DARK MODE
    ═══════════════════════════════════════ */
@@ -56,4 +85,19 @@
 [data-theme="dark"] .exam-row__date {
   color: #e8e8f0;
   background: #555;
+}
+
+[data-theme="dark"] .exam-row__countdown--urgent {
+  color: #fca5a5;
+  background: #7f1d1d;
+}
+
+[data-theme="dark"] .exam-row__countdown--soon {
+  color: #fcd34d;
+  background: #78350f;
+}
+
+[data-theme="dark"] .exam-row__countdown--normal {
+  color: #6ee7b7;
+  background: #064e3b;
 }

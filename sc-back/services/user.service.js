@@ -246,6 +246,19 @@ async function resetPassword(token, newPassword) {
     return { message: 'Contraseña actualizada correctamente' };
 }
 
+async function changePassword(userId, currentPassword, newPassword) {
+    const user = await User.findByPk(userId);
+    if (!user) throw new Error('Usuario no encontrado');
+
+    const valid = await bcrypt.compare(currentPassword, user.password);
+    if (!valid) throw new Error('La contraseña actual es incorrecta');
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashed });
+
+    return { message: 'Contraseña actualizada correctamente' };
+}
+
 module.exports = {
     register,
     login,
@@ -257,5 +270,6 @@ module.exports = {
     findStudentByDni,
     requestPasswordReset,
     validateResetToken,
-    resetPassword
+    resetPassword,
+    changePassword
 }

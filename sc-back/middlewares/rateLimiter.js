@@ -9,6 +9,24 @@ const loginLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+// Register limiter - prevent mass account creation
+const registerLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 registrations per windowMs
+  message: 'Demasiados registros desde esta IP. Por favor, intentá de nuevo en 15 minutos.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// DNI search limiter - prevent student enumeration
+const dniSearchLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 DNI searches per windowMs
+  message: 'Demasiadas búsquedas. Por favor, intentá de nuevo en 15 minutos.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // General API limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -18,4 +36,4 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-module.exports = { loginLimiter, apiLimiter };
+module.exports = { loginLimiter, registerLimiter, dniSearchLimiter, apiLimiter };
