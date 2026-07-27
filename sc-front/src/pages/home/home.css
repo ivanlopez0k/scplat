@@ -30,11 +30,34 @@
   position: relative;
   z-index: 10;
   padding: 28px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .home-nav img {
   height: 48px;
   width: auto;
+}
+
+.home-theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.home-theme-toggle:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  transform: translateY(-1px);
 }
 
 /* Main hero */
@@ -138,4 +161,14 @@
 [data-theme="dark"] .home-btn:hover {
   background-color: #5a7fb5;
   box-shadow: 0 8px 24px rgba(90, 127, 181, 0.35);
+}
+
+[data-theme="dark"] .home-theme-toggle {
+  background: #1e1e32;
+  color: #b0b0c0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .home-theme-toggle:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }

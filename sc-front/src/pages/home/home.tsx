@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
+import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
 import "./home.css";
@@ -8,6 +10,7 @@ import "./home.css";
 export default function Home(): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
@@ -20,6 +23,14 @@ export default function Home(): ReactElement {
 
       <nav className="home-nav">
         <img src={logo} alt="EduCAR logo" />
+        <button
+          className="home-theme-toggle"
+          aria-label="Cambiar tema"
+          onClick={toggleTheme}
+          title={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}
+        >
+          {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+        </button>
       </nav>
 
       <main className="home-main">
