@@ -150,3 +150,22 @@ export async function resetPassword(token: string, password: string): Promise<{ 
 
   return data;
 }
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/user/change-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ currentPassword, newPassword }),
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Error al cambiar contraseña');
+  }
+
+  return data;
+}

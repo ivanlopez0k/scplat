@@ -91,9 +91,24 @@ const validateFields = (req, res, next) => {
   next();
 };
 
+// Validation rules for change password
+const changePasswordValidation = [
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('La contraseña actual es requerida'),
+  body('newPassword')
+    .notEmpty()
+    .withMessage('La nueva contraseña es requerida')
+    .isLength({ min: 8, max: 128 })
+    .withMessage('La nueva contraseña debe tener entre 8 y 128 caracteres')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('La nueva contraseña debe contener al menos una mayúscula, una minúscula y un número'),
+];
+
 module.exports = {
   loginValidation,
   registerValidation,
+  changePasswordValidation,
   validateFields,
   courseIdValidation: body('courseId').optional().isInt({ min: 1 }).withMessage('El curso debe ser un número entero válido'),
 };

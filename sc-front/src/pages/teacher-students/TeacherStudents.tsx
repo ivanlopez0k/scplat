@@ -5,6 +5,7 @@ import { Sidebar, useSidebarConfig } from "../../components/Sidebar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "../../components/Icons/ThemeIcons";
 import NotificationBell from "../../components/NotificationBell/NotificationBell";
+import UserMenu from "../../components/UserMenu/UserMenu";
 import {
   getMyAssignments,
   type Teacher,
@@ -135,7 +136,7 @@ export default function TeacherStudents(): ReactElement {
               {theme === 'light' ? <MoonIcon /> : <SunIcon />}
             </button>
               <NotificationBell />
-              <div className="teacher-students-header__avatar" />
+              <UserMenu onLogout={handleLogout} />
             </div>
           </header>
 
