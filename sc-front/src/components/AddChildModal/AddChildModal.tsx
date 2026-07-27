@@ -118,8 +118,12 @@ export default function AddChildModal({
       setRegisterError('Seleccioná un curso para tu hijo');
       return;
     }
-    if (childPassword.length < 6) {
-      setRegisterError('La contraseña debe tener al menos 6 caracteres');
+    if (childPassword.length < 8) {
+      setRegisterError('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
+    if (!/[a-z]/.test(childPassword) || !/[A-Z]/.test(childPassword) || !/\d/.test(childPassword)) {
+      setRegisterError('La contraseña debe contener al menos una mayúscula, una minúscula y un número');
       return;
     }
 
@@ -390,7 +394,7 @@ export default function AddChildModal({
                     setChildPassword(e.target.value);
                     setRegisterError(null);
                   }}
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número"
                   disabled={registerLoading}
                 />
               </div>

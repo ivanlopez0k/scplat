@@ -71,6 +71,10 @@ const registerValidation = [
     .withMessage('El DNI del hijo debe tener entre 6 y 20 caracteres')
     .matches(/^[a-zA-Z0-9]+$/)
     .withMessage('El DNI del hijo solo puede contener letras y números'),
+  body('parentId')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('El ID del padre debe ser un número entero válido'),
 ];
 
 // Middleware to check validation results
