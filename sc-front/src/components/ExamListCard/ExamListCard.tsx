@@ -58,6 +58,18 @@ export default function ExamListCard({
     (a, b) => new Date(a.exam_date).getTime() - new Date(b.exam_date).getTime()
   );
 
+  function getExamCountdown(examDate: string, index: number): string | undefined {
+    if (index !== 0) return undefined;
+    const now = new Date();
+    const today = new Date(now.toDateString());
+    const target = new Date(new Date(examDate).toDateString());
+    const diffMs = target.getTime() - today.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return "Hoy";
+    if (diffDays === 1) return "Mañana";
+    return `Faltan ${diffDays} días`;
+  }
+
   return (
     <div className="exam-list-card">
       <h2 className="dash-section-title">{title}</h2>
@@ -72,7 +84,7 @@ export default function ExamListCard({
         <p className="exam-list-card__empty">{emptyMessage}</p>
       ) : (
         <div className="exam-list-card__list">
-          {sortedExams.map((exam) => (
+          {sortedExams.map((exam, index) => (
             <div
               className={`exam-list-card__row ${onSelectExam ? "exam-list-card__row--clickable" : ""}`}
               key={exam.id}
@@ -82,6 +94,7 @@ export default function ExamListCard({
                 subject={exam.title}
                 detail={formatExamDetail(exam)}
                 dateLabel={formatDateLabel(exam.exam_date)}
+                countdown={getExamCountdown(exam.exam_date, index)}
               />
               {(onEdit || onDelete) && (
                 <div className="exam-list-card__actions" onClick={(e) => e.stopPropagation()}>
