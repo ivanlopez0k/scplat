@@ -502,7 +502,9 @@ export default function Dashboard(): ReactElement {
                 <p className="dash-exams__error">Error: {parentChildExamsError}</p>
               )}
               <ExamListCard
-                exams={userRole === 'student' ? studentExams : parentChildExams}
+                exams={(userRole === 'student' ? studentExams : parentChildExams).filter(
+                  (e) => new Date(e.exam_date) >= new Date(new Date().toDateString())
+                )}
                 loading={false}
                 title="Próximas evaluaciones"
                 emptyMessage="No hay evaluaciones próximas"
