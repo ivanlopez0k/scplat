@@ -78,8 +78,8 @@ const { apiLimiter } = require('./middlewares/rateLimiter');
 app.use('/api', apiLimiter);
 
 // CORS
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',') 
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',') 
   : ['http://localhost:5173', 'http://localhost:3000'];
 
 app.use(cors({ 
@@ -105,8 +105,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    sameSite: 'strict',
-    secure: config.environment === 'production',
+    sameSite: 'none',
+    secure: true,
   },
 }));
 
