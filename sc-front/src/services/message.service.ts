@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface TeacherContact {
   id: number;
@@ -30,7 +30,7 @@ export interface Message {
 }
 
 export async function getTeacherContacts(teacherId: number): Promise<TeacherContact[]> {
-  const response = await fetch(`${API_URL}/message/teacher/${teacherId}/contacts`, {
+  const response = await fetch(`${API_BASE_URL}/message/teacher/${teacherId}/contacts`, {
     credentials: 'include',
   });
 
@@ -42,7 +42,7 @@ export async function getTeacherContacts(teacherId: number): Promise<TeacherCont
 }
 
 export async function getConversation(user1Id: number, user2Id: number): Promise<Message[]> {
-  const response = await fetch(`${API_URL}/message/conversation/${user1Id}/${user2Id}`, {
+  const response = await fetch(`${API_BASE_URL}/message/conversation/${user1Id}/${user2Id}`, {
     credentials: 'include',
   });
 
@@ -54,7 +54,7 @@ export async function getConversation(user1Id: number, user2Id: number): Promise
 }
 
 export async function sendMessage(sender: number, receiver: number, content: string): Promise<Message> {
-  const response = await fetch(`${API_URL}/message/`, {
+  const response = await fetch(`${API_BASE_URL}/message/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export async function sendMessage(sender: number, receiver: number, content: str
 }
 
 export async function markAsRead(messageId: number, userId: number): Promise<Message> {
-  const response = await fetch(`${API_URL}/message/read/${messageId}`, {
+  const response = await fetch(`${API_BASE_URL}/message/read/${messageId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export async function markAsRead(messageId: number, userId: number): Promise<Mes
 }
 
 export async function getUnreadMessages(userId: number): Promise<Message[]> {
-  const response = await fetch(`${API_URL}/message/unread/${userId}`, {
+  const response = await fetch(`${API_BASE_URL}/message/unread/${userId}`, {
     credentials: 'include',
   });
 
@@ -110,7 +110,7 @@ export interface ParentContact {
 }
 
 export async function getParentContacts(parentId: number): Promise<ParentContact[]> {
-  const response = await fetch(`${API_URL}/message/parent/${parentId}/contacts`, {
+  const response = await fetch(`${API_BASE_URL}/message/parent/${parentId}/contacts`, {
     credentials: 'include',
   });
 

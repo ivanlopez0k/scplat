@@ -4,10 +4,10 @@ export interface Course {
   year: number;
 }
 
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export async function getCourses(): Promise<Course[]> {
-  const response = await fetch(`${API_URL}/courses/public`);
+  const response = await fetch(`${API_BASE_URL}/courses/public`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch courses');

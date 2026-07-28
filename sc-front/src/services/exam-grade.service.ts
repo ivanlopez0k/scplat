@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface ExamStudent {
   student_id: number;
@@ -17,7 +17,7 @@ export interface GradeEntry {
 }
 
 export async function getStudentsForExam(examId: number): Promise<ExamStudent[]> {
-  const response = await fetch(`${API_URL}/grade/exam/${examId}/students`, {
+  const response = await fetch(`${API_BASE_URL}/grade/exam/${examId}/students`, {
     credentials: 'include',
   });
 
@@ -30,7 +30,7 @@ export async function getStudentsForExam(examId: number): Promise<ExamStudent[]>
 }
 
 export async function bulkSaveGrades(examId: number, grades: GradeEntry[]): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/grade/exam/${examId}/bulk`, {
+  const response = await fetch(`${API_BASE_URL}/grade/exam/${examId}/bulk`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

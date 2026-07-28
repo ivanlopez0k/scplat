@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface Enrollment {
   id: number;
@@ -42,7 +42,7 @@ export interface Grade {
 }
 
 export async function getStudentEnrollment(studentId: number): Promise<Enrollment[]> {
-  const response = await fetch(`${API_URL}/enrollment/student/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/student/${studentId}`, {
     credentials: 'include',
   });
 
@@ -54,7 +54,7 @@ export async function getStudentEnrollment(studentId: number): Promise<Enrollmen
 }
 
 export async function getCourseSubjects(courseId: number): Promise<CourseSubject[]> {
-  const response = await fetch(`${API_URL}/cs/course/${courseId}`, {
+  const response = await fetch(`${API_BASE_URL}/cs/course/${courseId}`, {
     credentials: 'include',
   });
 
@@ -66,7 +66,7 @@ export async function getCourseSubjects(courseId: number): Promise<CourseSubject
 }
 
 export async function getStudentGrades(studentId: number): Promise<Grade[]> {
-  const response = await fetch(`${API_URL}/grade/student/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/grade/student/${studentId}`, {
     credentials: 'include',
   });
 
@@ -89,7 +89,7 @@ export interface StudentSubject {
 }
 
 export async function getStudentSubjects(studentId: number): Promise<StudentSubject[]> {
-  const response = await fetch(`${API_URL}/enrollment/student/${studentId}/subjects`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/student/${studentId}/subjects`, {
     credentials: 'include',
   });
 
@@ -146,7 +146,7 @@ export interface LeaderboardData {
 }
 
 export async function getStudentsByCsId(csId: number): Promise<CourseSubjectDetail> {
-  const response = await fetch(`${API_URL}/enrollment/cs/${csId}/students`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/cs/${csId}/students`, {
     credentials: 'include',
   });
 
@@ -158,7 +158,7 @@ export async function getStudentsByCsId(csId: number): Promise<CourseSubjectDeta
 }
 
 export async function getCourseLeaderboard(studentId: number): Promise<LeaderboardData> {
-  const response = await fetch(`${API_URL}/grade/leaderboard/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/grade/leaderboard/${studentId}`, {
     credentials: 'include',
   });
 

@@ -24,10 +24,10 @@ export interface CreateAnnouncementData {
   teacher_id: number;
 }
 
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export async function createAnnouncement(data: CreateAnnouncementData): Promise<Announcement> {
-  const response = await fetch(`${API_URL}/announcement`, {
+  const response = await fetch(`${API_BASE_URL}/announcement`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function createAnnouncement(data: CreateAnnouncementData): Promise<
 }
 
 export async function getTeacherAnnouncements(teacherId: number): Promise<Announcement[]> {
-  const response = await fetch(`${API_URL}/announcement/teacher/${teacherId}`, {
+  const response = await fetch(`${API_BASE_URL}/announcement/teacher/${teacherId}`, {
     credentials: 'include',
   });
 
@@ -59,7 +59,7 @@ export async function getTeacherAnnouncements(teacherId: number): Promise<Announ
 }
 
 export async function deleteAnnouncement(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/announcement/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/announcement/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -74,7 +74,7 @@ export async function deleteAnnouncement(id: number): Promise<{ message: string 
 }
 
 export async function getStudentAnnouncements(studentId: number): Promise<Announcement[]> {
-  const response = await fetch(`${API_URL}/announcement/student/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/announcement/student/${studentId}`, {
     credentials: 'include',
   });
 
@@ -87,7 +87,7 @@ export async function getStudentAnnouncements(studentId: number): Promise<Announ
 }
 
 export async function getParentAnnouncements(parentId: number): Promise<Announcement[]> {
-  const response = await fetch(`${API_URL}/announcement/parent/${parentId}`, {
+  const response = await fetch(`${API_BASE_URL}/announcement/parent/${parentId}`, {
     credentials: 'include',
   });
 

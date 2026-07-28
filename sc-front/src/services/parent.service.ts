@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface ParentStudentLink {
   id: number;
@@ -11,7 +11,7 @@ export interface ParentStudentLink {
 }
 
 export async function getStudentsByParent(parentId: number): Promise<ParentStudentLink[]> {
-  const response = await fetch(`${API_URL}/ps/${parentId}`, {
+  const response = await fetch(`${API_BASE_URL}/ps/${parentId}`, {
     credentials: 'include',
   });
 
@@ -23,7 +23,7 @@ export async function getStudentsByParent(parentId: number): Promise<ParentStude
 }
 
 export async function updateParentStudents(parentId: number, studentIds: number[]): Promise<ParentStudentLink[]> {
-  const response = await fetch(`${API_URL}/ps/${parentId}`, {
+  const response = await fetch(`${API_BASE_URL}/ps/${parentId}`, {
     method: 'PUT',
     credentials: 'include',
     headers: {
@@ -41,7 +41,7 @@ export async function updateParentStudents(parentId: number, studentIds: number[
 }
 
 export async function deleteParentStudentLink(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/ps/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/ps/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -55,7 +55,7 @@ export async function deleteParentStudentLink(id: number): Promise<{ message: st
 }
 
 export async function createParentStudentLink(parentId: number, studentId: number): Promise<ParentStudentLink> {
-  const response = await fetch(`${API_URL}/ps/`, {
+  const response = await fetch(`${API_BASE_URL}/ps/`, {
     method: 'POST',
     credentials: 'include',
     headers: {

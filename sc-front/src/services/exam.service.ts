@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface Exam {
   id: number;
@@ -34,7 +34,7 @@ export interface CreateExamData {
 }
 
 export async function getExamsForStudent(studentId: number): Promise<Exam[]> {
-  const response = await fetch(`${API_URL}/exam/student/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/exam/student/${studentId}`, {
     credentials: 'include',
   });
 
@@ -46,7 +46,7 @@ export async function getExamsForStudent(studentId: number): Promise<Exam[]> {
 }
 
 export async function createExam(data: CreateExamData): Promise<Exam> {
-  const response = await fetch(`${API_URL}/exam/`, {
+  const response = await fetch(`${API_BASE_URL}/exam/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export async function createExam(data: CreateExamData): Promise<Exam> {
 }
 
 export async function getAllExams(): Promise<Exam[]> {
-  const response = await fetch(`${API_URL}/exam/`, {
+  const response = await fetch(`${API_BASE_URL}/exam/`, {
     credentials: 'include',
   });
 
@@ -76,7 +76,7 @@ export async function getAllExams(): Promise<Exam[]> {
 }
 
 export async function getExamsByCsId(csId: number): Promise<Exam[]> {
-  const response = await fetch(`${API_URL}/exam/cs/${csId}`, {
+  const response = await fetch(`${API_BASE_URL}/exam/cs/${csId}`, {
     credentials: 'include',
   });
 
@@ -88,7 +88,7 @@ export async function getExamsByCsId(csId: number): Promise<Exam[]> {
 }
 
 export async function updateExam(id: number, data: Partial<CreateExamData>): Promise<Exam> {
-  const response = await fetch(`${API_URL}/exam/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/exam/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export async function updateExam(id: number, data: Partial<CreateExamData>): Pro
 }
 
 export async function deleteExam(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/exam/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/exam/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });

@@ -1,4 +1,4 @@
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export interface Enrollment {
   id: number;
@@ -17,7 +17,7 @@ export async function createEnrollment(
   course_id: number,
   school_year: number
 ): Promise<Enrollment> {
-  const response = await fetch(`${API_URL}/enrollment/`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -35,7 +35,7 @@ export async function createEnrollment(
 }
 
 export async function getStudentEnrollments(studentId: number): Promise<Enrollment[]> {
-  const response = await fetch(`${API_URL}/enrollment/student/${studentId}`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/student/${studentId}`, {
     credentials: 'include',
   });
 
@@ -47,7 +47,7 @@ export async function getStudentEnrollments(studentId: number): Promise<Enrollme
 }
 
 export async function deleteEnrollment(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/enrollment/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/enrollment/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });

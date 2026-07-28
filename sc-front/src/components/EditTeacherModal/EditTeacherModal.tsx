@@ -16,9 +16,9 @@ import {
   type Course,
   type Subject,
 } from "../../services/teacher.service";
+import { API_BASE_URL } from "../../config/api";
 import "./EditTeacherModal.css";
 
-const API_URL = '/api';
 const NEW_OPTION_VALUE = "__NEW__";
 
 export interface EditTeacherModalProps {
@@ -86,7 +86,7 @@ export default function EditTeacherModal({
         return;
       }
       try {
-        const response = await fetch(`${API_URL}/courses`, {
+        const response = await fetch(`${API_BASE_URL}/courses`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export default function EditTeacherModal({
         return;
       }
       try {
-        const response = await fetch(`${API_URL}/subjects`, {
+        const response = await fetch(`${API_BASE_URL}/subjects`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
