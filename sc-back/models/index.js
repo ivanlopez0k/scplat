@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const mysql2 = require('mysql2');   // 👈 agregado
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.ENVIRONMENT || 'development';
@@ -11,9 +12,9 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize(process.env[config.use_env_variable], { ...config, dialectModule: mysql2 });
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.database, config.username, config.password, { ...config, dialectModule: mysql2 });
 }
 
 fs
