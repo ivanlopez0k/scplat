@@ -79,8 +79,11 @@ app.use('/api', apiLimiter);
 
 // CORS
 const allowedOrigins = process.env.FRONTEND_URL 
-  ? process.env.FRONTEND_URL.split(',') 
+  ? [process.env.FRONTEND_URL] 
   : ['http://localhost:5173', 'http://localhost:3000'];
+
+console.log('FRONTEND_URL raw:', JSON.stringify(process.env.FRONTEND_URL));
+console.log('allowedOrigins array:', allowedOrigins);
 
 app.use(cors({ 
   credentials: true, 
