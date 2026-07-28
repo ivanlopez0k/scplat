@@ -24,10 +24,10 @@ export interface RegisterData {
   childDni?: string;
 }
 
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
-  const response = await fetch(`${API_URL}/user/login`, {
+  const response = await fetch(`${API_BASE_URL}/user/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
 }
 
 export async function register(data: RegisterData): Promise<LoginResponse> {
-  const response = await fetch(`${API_URL}/user/register`, {
+  const response = await fetch(`${API_BASE_URL}/user/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export async function register(data: RegisterData): Promise<LoginResponse> {
 }
 
 export async function logout(): Promise<void> {
-  await fetch(`${API_URL}/user/logout`, {
+  await fetch(`${API_BASE_URL}/user/logout`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -73,7 +73,7 @@ export async function logout(): Promise<void> {
 
 export async function checkAuth(): Promise<AuthStatus> {
   try {
-    const response = await fetch(`${API_URL}/user/me`, {
+    const response = await fetch(`${API_BASE_URL}/user/me`, {
       credentials: 'include',
     });
 
@@ -101,7 +101,7 @@ export interface ForgotPasswordResponse {
 }
 
 export async function requestPasswordReset(email: string): Promise<ForgotPasswordResponse> {
-  const response = await fetch(`${API_URL}/user/forgot-password`, {
+  const response = await fetch(`${API_BASE_URL}/user/forgot-password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export async function requestPasswordReset(email: string): Promise<ForgotPasswor
 }
 
 export async function verifyResetToken(token: string): Promise<boolean> {
-  const response = await fetch(`${API_URL}/user/verify-reset-token/${token}`, {
+  const response = await fetch(`${API_BASE_URL}/user/verify-reset-token/${token}`, {
     credentials: 'include',
   });
 
@@ -133,7 +133,7 @@ export async function verifyResetToken(token: string): Promise<boolean> {
 }
 
 export async function resetPassword(token: string, password: string): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/user/reset-password`, {
+  const response = await fetch(`${API_BASE_URL}/user/reset-password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ export async function resetPassword(token: string, password: string): Promise<{ 
 }
 
 export async function changePassword(currentPassword: string, newPassword: string): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/user/change-password`, {
+  const response = await fetch(`${API_BASE_URL}/user/change-password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

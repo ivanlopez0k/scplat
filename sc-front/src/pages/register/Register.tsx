@@ -4,9 +4,8 @@ import { register } from "../../services/auth.service";
 import { getCourses, type Course } from "../../services/course.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
+import { API_BASE_URL } from "../../config/api";
 import "./register.css";
-
-const API_URL = '/api';
 
 type UserRole = 'student' | 'teacher' | 'parent';
 
@@ -75,7 +74,7 @@ export default function Register(): ReactElement {
     setChildDniError(null);
     setChildDniVerified(false);
     try {
-      const response = await fetch(`${API_URL}/user/student/by-dni/${childDni.trim()}`);
+      const response = await fetch(`${API_BASE_URL}/user/student/by-dni/${childDni.trim()}`);
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Estudiante no encontrado');

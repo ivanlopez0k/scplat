@@ -7,10 +7,10 @@ export interface User {
   role: 'student' | 'teacher' | 'parent' | 'admin';
 }
 
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export async function getUsersByRole(role: string): Promise<User[]> {
-  const response = await fetch(`${API_URL}/user/by-role/${role}`, {
+  const response = await fetch(`${API_BASE_URL}/user/by-role/${role}`, {
     credentials: 'include',
   });
 

@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import type { ReactElement } from "react";
 import Modal from "../Modal/Modal";
 import { createParentStudentLink } from "../../services/parent.service";
-
-const API_URL = '/api';
+import { API_BASE_URL } from "../../config/api";
 
 export interface AddChildModalProps {
   isOpen: boolean;
@@ -51,7 +50,7 @@ export default function AddChildModal({
   // Fetch courses when switching to register mode
   useEffect(() => {
     if (mode === 'register' && isOpen) {
-      fetch(`${API_URL}/courses/public`, {
+      fetch(`${API_BASE_URL}/courses/public`, {
         credentials: 'include',
       })
         .then(res => res.json())
@@ -70,7 +69,7 @@ export default function AddChildModal({
     setSearchedStudent(null);
     setSuccess(null);
     try {
-      const response = await fetch(`${API_URL}/user/student/by-dni/${childDni.trim()}`);
+      const response = await fetch(`${API_BASE_URL}/user/student/by-dni/${childDni.trim()}`);
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Estudiante no encontrado');
@@ -132,7 +131,7 @@ export default function AddChildModal({
     setRegisterSuccess(null);
 
     try {
-      const response = await fetch(`${API_URL}/user/register`, {
+      const response = await fetch(`${API_BASE_URL}/user/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {

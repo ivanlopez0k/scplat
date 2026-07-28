@@ -2,7 +2,7 @@ import { io, type Socket } from 'socket.io-client';
 
 export type { Socket };
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+import { API_BASE_URL } from '../config/api';
 
 export interface Notification {
   id: number;
@@ -21,7 +21,7 @@ export function getSocket(): Socket {
 
   // Connect to the backend server - cookies (httpOnly) will be sent automatically
   // Socket.IO will use the /socket.io path which is proxied by Vite
-  socket = io(API_URL, {
+  socket = io(API_BASE_URL, {
     withCredentials: true,
     transports: ['polling', 'websocket'],
   });
@@ -37,7 +37,7 @@ export function disconnectSocket() {
 }
 
 export async function getNotifications(): Promise<Notification[]> {
-  const response = await fetch(`${API_URL}/notification`, {
+  const response = await fetch(`${API_BASE_URL}/notification`, {
     credentials: 'include',
   });
   if (!response.ok) throw new Error('Error al obtener notificaciones');
@@ -45,7 +45,7 @@ export async function getNotifications(): Promise<Notification[]> {
 }
 
 export async function getUnreadCount(): Promise<number> {
-  const response = await fetch(`${API_URL}/notification/unread-count`, {
+  const response = await fetch(`${API_BASE_URL}/notification/unread-count`, {
     credentials: 'include',
   });
   if (!response.ok) throw new Error('Error al obtener contador');
@@ -54,7 +54,7 @@ export async function getUnreadCount(): Promise<number> {
 }
 
 export async function markAsRead(id: number): Promise<Notification> {
-  const response = await fetch(`${API_URL}/notification/${id}/read`, {
+  const response = await fetch(`${API_BASE_URL}/notification/${id}/read`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -63,7 +63,7 @@ export async function markAsRead(id: number): Promise<Notification> {
 }
 
 export async function markAllAsRead(): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/notification/read-all`, {
+  const response = await fetch(`${API_BASE_URL}/notification/read-all`, {
     method: 'POST',
     credentials: 'include',
   });

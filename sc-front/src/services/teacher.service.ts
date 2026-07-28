@@ -34,10 +34,10 @@ export interface Teacher {
   teacher_courses?: TeacherAssignment[];
 }
 
-const API_URL = '/api';
+import { API_BASE_URL } from '../config/api';
 
 export async function getCourses(): Promise<Course[]> {
-  const response = await fetch(`${API_URL}/courses`, {
+  const response = await fetch(`${API_BASE_URL}/courses`, {
     credentials: 'include',
   });
 
@@ -50,7 +50,7 @@ export async function getCourses(): Promise<Course[]> {
 }
 
 export async function getSubjects(): Promise<Subject[]> {
-  const response = await fetch(`${API_URL}/subjects`, {
+  const response = await fetch(`${API_BASE_URL}/subjects`, {
     credentials: 'include',
   });
 
@@ -63,7 +63,7 @@ export async function getSubjects(): Promise<Subject[]> {
 }
 
 export async function getCourseSubjects(): Promise<CourseSubject[]> {
-  const response = await fetch(`${API_URL}/cs`, {
+  const response = await fetch(`${API_BASE_URL}/cs`, {
     credentials: 'include',
   });
 
@@ -76,7 +76,7 @@ export async function getCourseSubjects(): Promise<CourseSubject[]> {
 }
 
 export async function createCourseSubject(course_id: number, subject_id: number): Promise<CourseSubject> {
-  const response = await fetch(`${API_URL}/cs`, {
+  const response = await fetch(`${API_BASE_URL}/cs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export async function createCourseSubject(course_id: number, subject_id: number)
 }
 
 export async function getTeacherWithAssignments(teacherId: number): Promise<Teacher> {
-  const response = await fetch(`${API_URL}/user/teacher/${teacherId}`, {
+  const response = await fetch(`${API_BASE_URL}/user/teacher/${teacherId}`, {
     credentials: 'include',
   });
 
@@ -108,7 +108,7 @@ export async function getTeacherWithAssignments(teacherId: number): Promise<Teac
 }
 
 export async function getMyAssignments(): Promise<Teacher> {
-  const response = await fetch(`${API_URL}/user/teacher/me/assignments`, {
+  const response = await fetch(`${API_BASE_URL}/user/teacher/me/assignments`, {
     credentials: 'include',
   });
 
@@ -121,7 +121,7 @@ export async function getMyAssignments(): Promise<Teacher> {
 }
 
 export async function assignTeacherToCourse(teacher_id: number, cs_id: number): Promise<TeacherAssignment> {
-  const response = await fetch(`${API_URL}/user/assign`, {
+  const response = await fetch(`${API_BASE_URL}/user/assign`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export async function assignTeacherToCourse(teacher_id: number, cs_id: number): 
 }
 
 export async function removeTeacherFromCourse(tcId: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/user/assign/${tcId}`, {
+  const response = await fetch(`${API_BASE_URL}/user/assign/${tcId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -155,7 +155,7 @@ export async function removeTeacherFromCourse(tcId: number): Promise<{ message: 
 }
 
 export async function deleteSubject(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/subjects/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/subjects/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -170,7 +170,7 @@ export async function deleteSubject(id: number): Promise<{ message: string }> {
 }
 
 export async function deleteCourse(id: number): Promise<{ message: string }> {
-  const response = await fetch(`${API_URL}/courses/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });
