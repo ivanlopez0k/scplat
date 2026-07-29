@@ -21,9 +21,9 @@ async function login(req, res){
         // Set token in httpOnly cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.ENVIRONMENT === 'production',
-            sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
-            maxAge: 8 * 60 * 60 * 1000, // 8 hours
+            secure: process.env.ENVIRONMENT === 'development',
+            sameSite: process.env.ENVIRONMENT === 'development' ? 'none' : 'lax',
+            maxAge: 8 * 60 * 60 * 1000, 
             path: '/'
         });
 
