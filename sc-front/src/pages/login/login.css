@@ -103,6 +103,39 @@
   margin-bottom: 16px;
 }
 
+/* ── Password wrapper & toggle ── */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper .login-input {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: color 0.2s;
+  line-height: 1;
+  z-index: 2;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
 /* ── Input validation error ── */
 .login-input-error {
   color: #ff8a8a;
@@ -290,6 +323,14 @@
 
 [data-theme="dark"] .login-input:focus {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .password-toggle {
+  color: #808098;
+}
+
+[data-theme="dark"] .password-toggle:hover {
+  color: #e8e8f0;
 }
 
 [data-theme="dark"] .login-submit {
