@@ -143,6 +143,7 @@ DB_DATABASE=scplat
 JWTSECRET=your_secret
 GOOGLE_EMAIL=your_email@gmail.com
 GOOGLE_APP_PASSWORD=your_app_password
+FRONTEND_URL=https://scplat-front.vercel.app  # Base URL for password-reset links (required, absolute URL, no trailing slash)
 ```
 
 ### Running

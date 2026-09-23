@@ -16,7 +16,10 @@ const transporter = nodemailer.createTransport({
  * @param {string} userName - User's name for personalization
  */
 async function sendPasswordResetEmail(email, resetToken, userName) {
-  const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/new-password?token=${resetToken}`;
+  // FRONTEND_URL is validated as required at startup (validateEnv.js);
+  // strip trailing slashes so the link joins as a single "/new-password".
+  const baseUrl = process.env.FRONTEND_URL.replace(/\/+$/, '');
+  const resetLink = `${baseUrl}/new-password?token=${resetToken}`;
 
   const mailOptions = {
     from: `"EducAR" <${process.env.GOOGLE_EMAIL}>`,

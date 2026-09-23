@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
-import { resetPassword } from "../../services/auth.service";
+import { resetPassword, verifyResetToken } from "../../services/auth.service";
 import GridBackground from "../../components/GridBackground/GridBackground";
 import logo from "/Group_17.png";
 import "./new-password.css";
+
+type Verification = "checking" | "valid" | "invalid";
 
 export default function NewPassword(): ReactElement {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+
+  const [verification, setVerification] = useState<Verification>(() =>
+    token ? "checking" : "invalid",
+  );
+
+  useEffect(() => {
+    if (!token) return;
+    let cancelled = false;
+    verifyResetToken(token)
+      .then((ok) => {
+        if (!cancelled) setVerification(ok ? "valid" : "invalid");
+      })
+      .catch(() => {
+        if (!cancelled) setVerification("invalid");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -66,7 +87,26 @@ export default function NewPassword(): ReactElement {
     }
   };
 
-  if (!token) {
+  if (verification === "checking") {
+    return (
+      <div className="newpass-wrapper">
+        <GridBackground className="newpass-grid" />
+
+        <div className="newpass-logo-container">
+          <img className="newpass-logo" src={logo} alt="EducAR logo" />
+        </div>
+
+        <div className="newpass-card">
+          <h1 className="newpass-title">Verificando enlace...</h1>
+          <p className="newpass-subtitle">
+            Estamos comprobando la validez del enlace de recuperación.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (verification === "invalid") {
     return (
       <div className="newpass-wrapper">
         <GridBackground className="newpass-grid" />

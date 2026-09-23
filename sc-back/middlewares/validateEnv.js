@@ -11,7 +11,8 @@ module.exports= {
             DB_PASSWORD: envalid.str(),
             DB_DATABASE: envalid.str(),
             DB_DIALECT: envalid.str(),
-            LOG_LEVEL: envalid.str({ choices: ['debug', 'info', 'error'] })
+            LOG_LEVEL: envalid.str({ choices: ['debug', 'info', 'error'] }),
+            FRONTEND_URL: envalid.url()
         })
     }
 }
